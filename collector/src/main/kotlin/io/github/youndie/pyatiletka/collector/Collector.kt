@@ -2,6 +2,7 @@ package io.github.youndie.pyatiletka.collector
 
 import io.github.youndie.pyatiletka.core.SCHEMA_VERSION
 import io.github.youndie.pyatiletka.core.Snapshot
+import io.github.youndie.pyatiletka.core.Visibility
 import io.ktor.client.HttpClient
 import io.ktor.client.request.header
 import io.ktor.client.request.post
@@ -40,14 +41,9 @@ class Collector(
         val takenAt: Instant = clock.now()
         val repos = owners.flatMap { owner -> fetchOwner(owner, publicOnly) }.map(::toRepo)
         if (publicOnly) {
-            val leaked = repos.count { it.visibility != io.github.youndie.pyatiletka.core.Visibility.Public }
-            if (leaked >
-                0
-            ) {
-                throw CollectException(
-                    CollectFailure.PublicModeViolation,
-                    "$leaked repositories that are not public in a public snapshot",
-                )
+            val leaked = repos.count { it.visibility != Visibility.Public }
+            if (leaked > 0) {
+                throw CollectException(CollectFailure.PublicModeViolation, "$leaked not public in a public snapshot")
             }
         }
         return Snapshot(SCHEMA_VERSION, takenAt, owners, repos)
