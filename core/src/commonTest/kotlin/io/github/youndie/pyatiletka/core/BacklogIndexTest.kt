@@ -61,6 +61,23 @@ class BacklogIndexTest {
         )
     }
 
+    // docs-bootstrap never puts a closed mark in the open table, but a hand-edited index can: such a
+    // row is counted where its mark says and never listed as unclosed.
+    @Test
+    fun aClosedMarkInTheOpenTableIsCountedNotListed() {
+        val text =
+            """
+            <!-- BEGIN INDEX -->
+            | [B-01](docs/backlog/B-01-a.md) `[-]` | Refused | P2 | S | - |
+            | [B-02](docs/backlog/B-02-b.md) `[x]` | Done | P2 | S | - |
+            | [B-03](docs/backlog/B-03-c.md) `[ ]` | Open | P2 | S | - |
+            <!-- END INDEX -->
+            """.trimIndent()
+        val plan = parseBacklogIndex(text)!!
+        assertEquals(PlanCounts(done = 1, open = 1, wip = 0, question = 0, dropped = 1), plan.counts)
+        assertEquals(listOf("B-03"), plan.items.map { it.id })
+    }
+
     @Test
     fun aFileWithoutTheMarkersIsNotAnIndex() {
         assertNull(parseBacklogIndex("# Backlog\n\n- [ ] M-01 something\n"))
