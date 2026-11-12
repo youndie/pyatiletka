@@ -37,7 +37,7 @@
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[ ]` | Страница: сборка в gh-pages, снимок раз в час | P1 | M | B-03, B-07, B-11 |
+| [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[~]` | Страница: сборка в gh-pages, снимок раз в час | P1 | M | B-03, B-07, B-11 |
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
 | [B-04](docs/backlog/B-04-measure-wasm-page-weight.md) `[?]` | Замер: вес и первая отрисовка wasm-страницы с двумя китами | P2 | S | B-01 |
 | [B-18](docs/backlog/B-18-desktop-installed-app.md) `[ ]` | Десктоп: установленное приложение на машине владельца | P2 | S | B-12, B-13 |
