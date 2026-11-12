@@ -1,7 +1,7 @@
 ---
 id: B-03
 title: "Замер: токен workflow читает чужие публичные репозитории"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-0-risks
