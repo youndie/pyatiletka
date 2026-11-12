@@ -24,13 +24,15 @@ design:
 Только десктоп. Фича — [feature-settings](../features/feature-settings.md). API нет; проверка
 логина владельца идёт через [collector](../services/collector.md).
 
-Кода ещё нет: все пути — *целевые*, состояния — задуманные.
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладки скинов — *целевые*.
 
 ## 0a. Якоря кода
 
 | Что | Файл |
 |---|---|
-| Состояние, `settings.json`, источник токена | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` |
+| Состояние, `settings.json`, источник токена | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/SettingsModel.kt` — `SettingsState.ui` |
+| Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/SettingsUi.kt` — `SettingsScreenState`, `SettingsUiState` |
+| Тест состояний | `app/src/desktopTest/kotlin/io/github/youndie/pyatiletka/app/desktop/SettingsModelTest.kt` — `SettingsStatesTest` |
 | Проверка логина | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` |
 | Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
 | Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |

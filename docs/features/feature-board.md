@@ -72,7 +72,7 @@ tags: []
 * **Given:** тот же снимок.
 * **When:** в поиске набрано `zzz`.
 * **Then:** доска показывает состояние `NoMatches` с кнопкой сброса; сводка не меняется.
-* **Automated:** `BoardTest.aSearchThatFindsNothingLeavesTheSummaryAlone` — правило `core`; состояние `NoMatches` — B-09
+* **Automated:** `BoardTest.aSearchThatFindsNothingLeavesTheSummaryAlone`, `ScreenStatesTest.noMatchesKeepsTheSummaryAndTheFilter` — состояние `NoMatches`; раскладка — B-11, B-14
 
 ### Scenario: The plan is not quite done
 * **Given:** репозиторий с `done = 179`, `open = 1`.

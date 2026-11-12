@@ -26,14 +26,15 @@ design:
 [feature-repo-detail](../features/feature-repo-detail.md). API нет: данные из того же снимка, что и
 [screen-board](screen-board.md).
 
-Кода ещё нет: все пути — *целевые*, состояния — задуманные.
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладки скинов — *целевые*.
 
 ## 0a. Якоря кода
 
 | Что | Файл |
 |---|---|
-| Состояние и навигация | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` |
-| Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` |
+| Состояние и навигация | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/BoardModel.kt` — `BoardModel.card`, `open`, `closeCard` |
+| Тест состояний | `app/src/commonTest/kotlin/io/github/youndie/pyatiletka/app/ScreenStatesTest.kt` — `theFourCards` |
+| Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/RepoUi.kt` — `RepoScreenState`, `repoUiState` |
 | Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
 | Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
 | Эталоны холста | `skin-plakat/src/desktopTest/snapshots/design/` |

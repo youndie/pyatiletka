@@ -33,14 +33,15 @@ design:
 [feature-settings](../features/feature-settings.md) (`NoToken`). На вебе читает
 [endpoint-snapshot](../api/endpoint-snapshot.md), на десктопе API нет.
 
-Кода ещё нет: все пути — *целевые*, состояния — задуманные.
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладки скинов — *целевые*.
 
 ## 0a. Якоря кода
 
 | Что | Файл |
 |---|---|
-| Состояние и навигация | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` |
-| Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` |
+| Состояние и навигация | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/BoardModel.kt` — `boardUiState`, `BoardModel`; `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Navigation.kt` |
+| Тест состояний | `app/src/commonTest/kotlin/io/github/youndie/pyatiletka/app/ScreenStatesTest.kt` |
+| Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/BoardUi.kt` — `BoardScreenState`, `BoardUiState` |
 | Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
 | Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
 | Эталоны холста | `skin-plakat/src/desktopTest/snapshots/design/` |
@@ -63,6 +64,12 @@ design:
 - [ ] **NoToken:** только desktop, только 1280×800: «нет токена GitHub» и кнопка «Настройки».
 - [ ] **AppearanceSheet:** поверх Content выбор скина (Плакат, Мультфильм) и темы; на широком —
   диалог, на узком — нижняя шторка.
+
+Состояние одно на кадр (`BoardScreenState`), остальное едет в `BoardUiState` рядом: открытая
+шторка рисуется поверх того, что под ней; поиск без результатов на устаревшем снимке остаётся
+`NoMatches`, а полоса устаревания — в `stale`. Порядок выбора — `Empty`, `AppearanceSheet`,
+`NoMatches`, `Stale`, `Content` (`boardUiState`). Без токена и без снимка — `NoToken`; без токена,
+но со снимком в кэше — `Stale` с причиной «нет токена».
 
 ### 1.1 Артборды и эталоны
 

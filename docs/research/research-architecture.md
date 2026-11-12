@@ -354,7 +354,10 @@ WSL-машине, окно `:app:run` на маке, страница из `app/
    экранов — в `core`, логика их получения — в `app`**; если владелец решит иначе (отдельный
    модуль `ui-state`), меняются [core](../services/core.md) и [app](../services/app.md). В
    [B-01](../backlog/B-01-skeleton-five-modules.md) граф собран так: скины зависят от `core` и своего
-   кита, `app` — от всех четырёх; слово, которое рисуют оба скина, лежит в `core` (§1.7).
+   кита, `app` — от всех четырёх; слово, которое рисуют оба скина, лежит в `core` (§1.7). В
+   [B-09](../backlog/B-09-app-screen-state-and-navigation.md) туда же легли типы состояний экранов
+   (`core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/`), а их получение — в `app`
+   (`BoardModel`, `SettingsModel`). Отдельный модуль `ui-state` не понадобился.
 2. **Порядок по времени push не назван по направлению** и не сказано, применяется ли он внутри
    групп. Принято: новее выше, внутри каждой группы — так и сделано в `boardOrder`
    ([B-06](../backlog/B-06-core-model-and-rules.md)). Фикстура §5a должна задать `pushedAt` так,

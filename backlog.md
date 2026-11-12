@@ -33,11 +33,10 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (12)
+## Open (11)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-09](docs/backlog/B-09-app-screen-state-and-navigation.md) `[ ]` | app: состояние и навигация экранов Board, Repo, Settings | P1 | M | B-08 |
 | [B-11](docs/backlog/B-11-plakat-board.md) `[ ]` | plakat: доска, все состояния, оба размера | P1 | L | B-09, B-10 |
 | [B-12](docs/backlog/B-12-plakat-repo-card.md) `[ ]` | plakat: карточка репозитория | P1 | M | B-11 |
 | [B-13](docs/backlog/B-13-plakat-settings.md) `[ ]` | plakat: настройки | P1 | S | B-11 |
@@ -50,7 +49,7 @@
 | [B-18](docs/backlog/B-18-desktop-installed-app.md) `[ ]` | Десктоп: установленное приложение на машине владельца | P2 | S | B-12, B-13 |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
-## Closed (8)
+## Closed (9)
 
 **Риски**
 
@@ -64,6 +63,7 @@
 - [B-06](docs/backlog/B-06-core-model-and-rules.md) `[x]` - core: модель, схема snapshot.json, разбор индекса, выполнение и порядок
 - [B-07](docs/backlog/B-07-collector-query-and-cli.md) `[x]` - collector: запрос → Snapshot, публичный режим, CLI
 - [B-08](docs/backlog/B-08-app-snapshot-sources.md) `[x]` - app: источники снимка, кэш, таймер, токен, настройки
+- [B-09](docs/backlog/B-09-app-screen-state-and-navigation.md) `[x]` - app: состояние и навигация экранов Board, Repo, Settings
 
 **Скин plakat**
 

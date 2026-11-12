@@ -55,7 +55,7 @@ tags: []
 ### Scenario: Nothing to do
 * **Given:** `youndie/plakat-ui` — 73 из 73, PR нет, `Green`.
 * **Then:** карточка показывает состояние `Quiet`.
-* **Automated:** `RepoCardTest.plakatUiIsQuiet` — признак `isQuiet`; состояние `Quiet` — B-09
+* **Automated:** `RepoCardTest.plakatUiIsQuiet`, `ScreenStatesTest.theFourCards` — состояние `Quiet`; раскладка — B-12, B-15
 
 ### Scenario: No plan in the repository
 * **Given:** `youndie/proba` — `Plan.None`.
