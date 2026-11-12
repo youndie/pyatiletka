@@ -15,5 +15,6 @@ blocked_by: [B-11]
 
 - **Решение и причина.** После доски: панель стоит рядом с доской, и артборд широкого размера включает её.
 
-- AC: `viddikDesignParity` в допуске для каждого `Repo_*`; эталоны записаны.
+- AC: для каждого `Repo_*` измерен `viddikDesignParity`, остаток выше допуска разобран по областям с
+  причиной (вид кита принят владельцем, [B-11](B-11-plakat-board.md)); голдены записаны.
 - Якоря: `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/`.
