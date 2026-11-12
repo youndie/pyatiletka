@@ -1,7 +1,7 @@
 ---
 id: B-14
 title: "toon: доска, все состояния, оба размера"
-status: open
+status: wip
 priority: P1
 size: L
 stage: stage-3-toon
