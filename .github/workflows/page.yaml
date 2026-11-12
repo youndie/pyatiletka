@@ -6,7 +6,7 @@ name: page
 
 on:
   push:
-    branches: [main, feat/b-17-publish-page-and-hourly-snapshot] # TRY-ON-BRANCH, removed before the merge
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
