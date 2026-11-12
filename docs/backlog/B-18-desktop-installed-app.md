@@ -1,7 +1,7 @@
 ---
 id: B-18
 title: "Десктоп: установленное приложение на машине владельца"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-4-daily-use
