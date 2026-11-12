@@ -1,7 +1,7 @@
 ---
 id: B-04
 title: "Замер: вес и первая отрисовка wasm-страницы с двумя китами"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-0-risks
