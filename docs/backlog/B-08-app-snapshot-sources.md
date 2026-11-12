@@ -1,7 +1,7 @@
 ---
 id: B-08
 title: "app: источники снимка, кэш, таймер, токен, настройки"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-data
