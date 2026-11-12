@@ -141,6 +141,18 @@ class TextsTest {
     }
 
     @Test
+    fun theSettingsWordsAsTheCanvasWritesThem() {
+        val t = io.github.youndie.pyatiletka.core.screen.Texts
+        assertEquals(
+            "Токен найден через gh",
+            t.tokenFoundLine(
+                io.github.youndie.pyatiletka.core.screen.TokenSource.GhCli,
+            ),
+        )
+        assertEquals("15\u00A0мин", t.periodShort(15))
+    }
+
+    @Test
     fun theCardsAges() {
         val t = io.github.youndie.pyatiletka.core.screen.Texts
         assertEquals("2 дня", t.age(kotlin.time.Duration.parse("2d 3h")))

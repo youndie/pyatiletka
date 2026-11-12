@@ -24,7 +24,7 @@ design:
 Только десктоп. Фича — [feature-settings](../features/feature-settings.md). API нет; проверка
 логина владельца идёт через [collector](../services/collector.md).
 
-Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка toon — в коде и голденах ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)), раскладка plakat — *целевая* ([B-13](../backlog/B-13-plakat-settings.md)).
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка toon — в коде и голденах ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)), раскладка plakat — в коде и голденах ([B-13](../backlog/B-13-plakat-settings.md)).
 
 ## 0a. Якоря кода
 
@@ -34,7 +34,9 @@ design:
 | Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/SettingsUi.kt` — `SettingsScreenState`, `SettingsUiState` |
 | Тест состояний | `app/src/desktopTest/kotlin/io/github/youndie/pyatiletka/app/desktop/SettingsModelTest.kt` — `SettingsStatesTest` |
 | Проверка логина | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` |
-| Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
+| Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatSettings.kt` — `PlakatSettings`, `SettingsActions` |
+| В окне десктопа | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/DesktopSettings.kt` — поверх `SettingsModel`; переход — `Navigator` в `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt` |
+| Фикстуры plakat | `skin-plakat/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/plakat/SettingsFixtures.kt` |
 | Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonSettings.kt` — `ToonSettings`, `ToonSettingsActions` |
 | Примерные состояния | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleCardStates.kt` — `SampleSettingsStates` |
 | Фикстуры toon | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/SettingsFixtures.kt` |
@@ -87,7 +89,24 @@ design:
   `OwnerNotFound` появляется после «Добавить» и уходит при правке поля;
 - команда и имя переменной набраны Golos Text 600 на плашке: моноширинного шрифта в ките нет.
 
-### 4.5. Как это сделано в toon
+### 4.5. Как это сделано в plakat
+
+По холсту, с видом компонентов кита ([B-11](../backlog/B-11-plakat-board.md), [B-13](../backlog/B-13-plakat-settings.md)):
+
+- раздел — название и пояснение слева (320), управление справа (560), линия 1 dp под разделом;
+- способ получить токен — `PlakatRadioButton`, команда или переменная — на бетонной плашке; «Проверить
+  снова» — `PlakatButton` в `TokenMissing` и `PlakatOutlinedButton` в `TokenRejected`; полоса
+  «Внимание» в `TokenMissing` нарисована сама ([plakat-ui#25](https://github.com/youndie/plakat-ui/issues/25));
+- владелец — строка с ✕ (`PlakatIconButton`), поле — `PlakatTextField` с ошибкой кита под ним,
+  «Добавить» — `PlakatOutlinedButton`; период — `PlakatSegmentedButton`; в `TokenMissing` всё это
+  недоступно;
+- **без числа репозиториев у владельца.** На холсте у строки «12 репозиториев», а в
+  `SettingsUiState` такого числа нет. Чтобы оно появилось, нужен счётчик по владельцу в состоянии, и
+  это за рамками пункта;
+- свои слова кита (префикс ошибки поля, подписи загрузки) идут по-русски через `PlakatStrings` в
+  `PlakatSkin` — по умолчанию у кита английские.
+
+### 4.6. Как это сделано в toon
 
 Из компонентов кита ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)): состояние токена —
 `ToonListItem` с галочкой или предупреждением, способ — `ToonRadioGroup`, «Проверить снова» —

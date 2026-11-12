@@ -20,7 +20,12 @@ private val Moscow = UtcOffset(hours = 3).asTimeZone()
 private fun Card(
     card: RepoUiState,
     colors: PlakatColors = PlakatPalettes.Paper,
-) = PlakatTheme(colors = colors, reduceMotion = true, print = PlakatPrintSwitches(texture = false)) {
+) = PlakatTheme(
+    colors = colors,
+    reduceMotion = true,
+    print = PlakatPrintSwitches(texture = false),
+    strings = RussianStrings,
+) {
     PlakatBoard(SampleBoardStates.content.copy(selected = card.repo.fullName), Moscow, card = card)
 }
 

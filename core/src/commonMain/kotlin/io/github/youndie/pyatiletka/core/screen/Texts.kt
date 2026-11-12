@@ -31,6 +31,7 @@ object Texts {
     const val PRS_OPEN: String = "PR открыто"
     const val WAITING_ME: String = "ждут меня"
     const val REFRESH: String = "Обновить"
+    const val LOADING: String = "Загрузка"
     const val MENU: String = "Меню"
     const val SETTINGS: String = "Настройки"
     const val RETRY: String = "Повторить"
@@ -318,6 +319,28 @@ object Texts {
             TokenSource.GhCli -> GH_LOGIN
             TokenSource.EnvVar -> TOKEN_VARIABLE
         }
+
+    // screen-settings on plakat: the canvas's section notes and words (B-13)
+
+    const val TOKEN_ABOUT: String = "Пятилетка читает GitHub от вашего имени.\nПоля для ввода токена нет."
+    const val OWNERS_ABOUT: String = "Чьи репозитории попадают на доску."
+    const val PERIOD_ABOUT: String = "Как часто брать новый снимок."
+    const val SOURCE: String = "Источник"
+    const val GH_CLI: String = "GitHub CLI"
+    const val GH_CLI_LOGIN: String = "Войти через GitHub CLI"
+    const val ENV_VAR: String = "Переменная окружения"
+    const val GH_TOKEN_COMMAND: String = "gh auth token"
+    const val OWNER_PLACEHOLDER: String = "Логин или организация"
+    const val TOKEN_MISSING_LINE: String = "Токена нет. Дайте его одним из двух способов."
+
+    /** `Токен найден через gh`. */
+    fun tokenFoundLine(source: TokenSource): String = "$TOKEN_FOUND ${tokenFoundAt(source)}"
+
+    /** What ✕ next to an owner says to a screen reader. */
+    fun removeOwner(login: String): String = "Убрать $login"
+
+    /** A period on a segment: `15 мин`. */
+    fun periodShort(minutes: Int): String = "$minutes\u00A0мин"
 
     fun ownerNotFound(login: String): String = "На GitHub нет пользователя или организации $login"
 
