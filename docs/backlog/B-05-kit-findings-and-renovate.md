@@ -29,3 +29,12 @@ blocked_by: [B-01]
   изменения; этот PR вливается в рамках пункта, и пункт закрывается вторым PR с доказательством.
 - `docs/kit-findings.md` с первой находкой ([toon-ui#30](https://github.com/youndie/toon-ui/issues/30))
   заведён ещё в B-01.
+
+## Iteration 2 (12.11.2026)
+
+- Контроль сработал как отрицательный результат: Renovate нашёл киты в `gradle/libs.versions.toml`,
+  но написал в Dependency Dashboard (#9) `Failed to look up maven package io.github.youndie:plakat-core:
+  no-result` — и так же для toon-core. Репозиторий снапшотов объявляет settings-плагин sborka во
+  время сборки, Renovate его не видит и ищет киты на Maven Central.
+- Лечение — `registryUrls` с `https://reposilite.kotlin.website/snapshots` в правиле китов
+  `renovate.json`. Конфиг проверен `renovate-config-validator`.

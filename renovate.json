@@ -10,13 +10,16 @@
   ],
   "packageRules": [
     {
-      "description": "The kits, from reposilite's snapshots: every published build, the same day, one pull request per kit.",
+      "description": "The kits, from reposilite's snapshots: every published build, the same day, one pull request per kit. The registry is named here because Renovate cannot see it otherwise: sborka's settings plugin declares the snapshot repository at build time, and without this line Renovate looks the kits up on Maven Central and reports `no-result` (B-05's positive control, Dependency Dashboard #9).",
       "matchPackageNames": [
         "io.github.youndie:plakat-core",
         "io.github.youndie:toon-core"
       ],
       "schedule": [
         "at any time"
+      ],
+      "registryUrls": [
+        "https://reposilite.kotlin.website/snapshots"
       ]
     }
   ]
