@@ -1,7 +1,7 @@
 ---
 id: B-05
 title: "Учёт находок по китам и Renovate на снапшоты китов"
-status: wip
+status: done
 priority: P1
 size: S
 stage: stage-0-risks
@@ -38,3 +38,13 @@ blocked_by: [B-01]
   время сборки, Renovate его не видит и ищет киты на Maven Central.
 - Лечение — `registryUrls` с `https://reposilite.kotlin.website/snapshots` в правиле китов
   `renovate.json`. Конфиг проверен `renovate-config-validator`.
+
+## Итог (12.11.2026)
+
+- После `registryUrls` Renovate сам открыл [#11](https://github.com/youndie/pyatiletka/pull/11)
+  `toon-core 0.1.0.12 → 0.1.0.13`; влит по зелёному, контроль снят.
+- Учёт находок — `docs/kit-findings.md`, первая находка заведена issue
+  ([toon-ui#30](https://github.com/youndie/toon-ui/issues/30)) и видна там.
+- Гипотеза о Renovate и снапшотах китов — факт с оговоркой (исследование, риск 7): без явного
+  реестра Renovate снапшоты китов не находит. Та же оговорка касается любого потребителя, который
+  берёт снапшоты `io.github.youndie` только через settings-плагин sborka.
