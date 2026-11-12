@@ -24,7 +24,7 @@ design:
 Только десктоп. Фича — [feature-settings](../features/feature-settings.md). API нет; проверка
 логина владельца идёт через [collector](../services/collector.md).
 
-Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладки скинов — *целевые*.
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка toon — в коде и голденах ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)), раскладка plakat — *целевая* ([B-13](../backlog/B-13-plakat-settings.md)).
 
 ## 0a. Якоря кода
 
@@ -35,7 +35,9 @@ design:
 | Тест состояний | `app/src/desktopTest/kotlin/io/github/youndie/pyatiletka/app/desktop/SettingsModelTest.kt` — `SettingsStatesTest` |
 | Проверка логина | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` |
 | Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
-| Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
+| Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonSettings.kt` — `ToonSettings`, `ToonSettingsActions` |
+| Примерные состояния | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleCardStates.kt` — `SampleSettingsStates` |
+| Фикстуры toon | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/SettingsFixtures.kt` |
 
 ## 0. Вход и видимость
 
@@ -84,6 +86,16 @@ design:
 - владелец добавляется полем по Enter или «Добавить», убирается ✕ в строке; ошибка
   `OwnerNotFound` появляется после «Добавить» и уходит при правке поля;
 - команда и имя переменной набраны Golos Text 600 на плашке: моноширинного шрифта в ките нет.
+
+### 4.5. Как это сделано в toon
+
+Из компонентов кита ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)): состояние токена —
+`ToonListItem` с галочкой или предупреждением, способ — `ToonRadioGroup`, «Проверить снова» —
+`ToonButton` `Outlined` (в `TokenMissing` и `TokenRejected`), владельцы — `ToonTextField` с ошибкой
+под полем, `ToonButton` «Добавить» и `ToonChip` `Input` с ✕ на каждого, период — `ToonSegmented`.
+В `TokenMissing` поле, кнопка, чипы и период недоступны. Команда или переменная — на плашке
+цветов кита стилем `Title`: моноширинного шрифта нет и в toon. Заголовки разделов идут мимо
+кириллического резерва кита ([toon-ui#31](https://github.com/youndie/toon-ui/issues/31)).
 
 ## 5. Навигация
 
