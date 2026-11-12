@@ -1,7 +1,7 @@
 ---
 id: B-18
 title: "Десктоп: установленное приложение на машине владельца"
-status: open
+status: question
 priority: P2
 size: S
 stage: stage-4-daily-use
@@ -17,3 +17,43 @@ blocked_by: [B-12, B-13]
 
 - AC: приложение запускается из системы, не из Gradle.
 - Якоря: `app/build.gradle.kts`.
+
+## Iteration 1 (12.11.2026)
+
+Сделано:
+
+- `nativeDistributions` в `app/build.gradle.kts`: `Pyatiletka.app` и `.dmg`, `bundleID`
+  `io.github.youndie.pyatiletka`, версия `1.0.0`. Модули урезанной JDK — по `suggestRuntimeModules`.
+- **`gh` вне урезанного `PATH`.** Запущенное системой приложение получает `PATH`
+  `/usr/bin:/bin:/usr/sbin:/sbin`, где `gh` нет (проверено: `env -i PATH=… sh -c 'command -v gh'`
+  ничего не нашёл). `ProcessBuilder("gh")` поэтому не находил его, и установленная доска всегда
+  показывала бы «Токена нет». `ghExecutable` ищет сначала по `PATH`, затем в `/opt/homebrew/bin`,
+  `/usr/local/bin` и путях Linuxbrew (`GhExecutableTest`).
+- **Рамка окна в бумаге кита** (`FrameTheme`): у appframe заголовок был в цветах Material по
+  умолчанию.
+
+Проверено на маке. Собранное `Pyatiletka.app` запущено так, как его запускает система: голый
+`PATH` из Finder, настоящий `HOME` для `gh` и отдельный `user.home`, чтобы прогон не тронул настройки
+и кэш владельца.
+
+| Факт | Где проверено |
+|---|---|
+| За 21 с приложение нашло `gh`, собрало снимок и положило его в кэш | `snapshot.json` в `Library/Caches/pyatiletka` временного `user.home` |
+| Окно: рамка в бумаге доски, доска на живых данных | снимок окна |
+
+Первый запуск с подменённым `HOME` снимка не собрал: `gh` ищет вход в `~/.config/gh`. При запуске
+из системы `HOME` настоящий, так что это особенность пробы, а не приложения.
+
+## Вопрос владельцу
+
+Осталось поставить приложение. Это изменение на машине владельца, поэтому цикл остановился перед ним
+(CLAUDE.md). Варианты:
+
+1. **Поставить самим:** `LOCAL=1 ./gradlew :app:createDistributable`, затем перетащить
+   `app/build/compose/binaries/main/app/Pyatiletka.app` в «Программы». Или `LOCAL=1 ./gradlew
+   :app:packageDmg` и открыть `.dmg` из `app/build/compose/binaries/main/dmg/`. Приложение не
+   подписано, поэтому первый запуск — через «Открыть» в контекстном меню.
+2. **Разрешить циклу** скопировать `.app` в `/Applications` и запустить его оттуда.
+
+После установки приёмка — запуск из Dock или Launchpad. Пункт закрывает следующая итерация.
+

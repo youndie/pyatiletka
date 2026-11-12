@@ -78,3 +78,6 @@ tags: []
   машине, в `settings.json`, который не коммитится.
 * Читает ли десктоп `GITHUB_TOKEN`, бриф не говорит; принято — нет, это переменная workflow
   ([исследование §3.1, п. 5](../research/research-architecture.md)).
+* Приложение, запущенное из Finder или Dock, не получает переменных оболочки: способ
+  `PYATILETKA_GITHUB_TOKEN` работает только при запуске из терминала, а `gh auth token` — всегда:
+  `gh` ищется и вне урезанного `PATH` такого приложения ([B-18](../backlog/B-18-desktop-installed-app.md)).
