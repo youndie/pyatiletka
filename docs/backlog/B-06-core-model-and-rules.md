@@ -1,7 +1,7 @@
 ---
 id: B-06
 title: "core: модель, схема snapshot.json, разбор индекса, выполнение и порядок"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-data
