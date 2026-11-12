@@ -16,7 +16,7 @@ publishes:
 
 Запрос, публичный режим и CLI — [B-07](../backlog/B-07-collector-query-and-cli.md). Вызов из
 десктопа — *целевой*, [B-08](../backlog/B-08-app-snapshot-sources.md); из workflow —
-[B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md).
+[B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md), workflow `snapshot`.
 
 ## 1. Ответственность
 
@@ -78,9 +78,12 @@ publishes:
 
 ## 5. Инфраструктура и выкладка
 
-- Workflow по расписанию, раз в час, запускает CLI и кладёт `snapshot.json` в `gh-pages`
-  ([B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)). Общая группа `concurrency` со
-  сборкой страницы — *гипотеза* против гонки двух workflow.
+- Workflow `snapshot` (`.github/workflows/snapshot.yaml`) раз в час, в :17, запускает CLI с
+  `--public-only` под `GITHUB_TOKEN` репозитория и кладёт `snapshot.json` в `gh-pages`
+  ([B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)). Ветка — один коммит без истории:
+  каждый прогон берёт её дерево и заменяет только своё. С workflow страницы у него общая группа
+  `concurrency: gh-pages`; запущенные одним push оба отработали по очереди, и ни один файл не
+  потерялся (прогоны 43313517100 и 43313517076).
 
 ## 6. Локальный запуск
 

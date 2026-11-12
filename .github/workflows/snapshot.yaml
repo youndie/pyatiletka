@@ -1,0 +1,36 @@
+# B-17: the page's snapshot, once an hour. The collector reads the owner's public repositories with
+# this repository's own GITHUB_TOKEN, which sees no private ones (B-03), and drops anything that is not
+# public itself (--public-only): two locks on what the page shows (research D5). It shares the
+# gh-pages concurrency group with the page workflow (research, risk 6).
+name: snapshot
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  OWNER: youndie
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.135
+
+      - run: ./gradlew :collector:installDist --no-daemon
+
+      - run: collector/build/install/collector/bin/collector --owner "$OWNER" --public-only --out "$RUNNER_TEMP/snapshot.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: .github/scripts/publish-to-pages.sh snapshot "$RUNNER_TEMP/snapshot.json"

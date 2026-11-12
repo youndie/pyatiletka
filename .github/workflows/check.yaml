@@ -23,6 +23,8 @@ name: check
 # Sixty documents are checked in seconds. There is nothing here worth economising on.
 on:
   push:
+    # gh-pages holds the built page and the hourly snapshot, not the source (B-17).
+    branches-ignore: [gh-pages]
   pull_request:
   schedule:
     - cron: "0 6 * * 1"          # Monday morning, for the anchors job below
