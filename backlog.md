@@ -23,7 +23,7 @@
 |---|---|---|
 | `stage-0-risks` | Риски | оба кита и appframe живут в одной сборке на двух таргетах; цена запроса, право токена и вес страницы измерены |
 | `stage-1-data` | Данные | снимок собирается, разбирается и кэшируется; состояние всех экранов покрыто тестами без UI |
-| `stage-2-plakat` | Скин plakat | все состояния экранов в plakat-ui в пределах допуска паритета |
+| `stage-2-plakat` | Скин plakat | все состояния экранов в plakat-ui; паритет измерен, остаток выше допуска разобран по областям (вид кита принят, [B-11](docs/backlog/B-11-plakat-board.md)) |
 | `stage-3-toon` | Скин toon | те же состояния в toon-ui с эталонами; скин меняется на ходу |
 | `stage-4-daily-use` | Ежедневное использование | страница опубликована и обновляется, десктоп стоит у владельца, находки по китам подсчитаны |
 
@@ -33,11 +33,10 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (9)
+## Open (8)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-11](docs/backlog/B-11-plakat-board.md) `[?]` | plakat: доска, все состояния, оба размера | P1 | L | B-09, B-10 |
 | [B-12](docs/backlog/B-12-plakat-repo-card.md) `[ ]` | plakat: карточка репозитория | P1 | M | B-11 |
 | [B-13](docs/backlog/B-13-plakat-settings.md) `[ ]` | plakat: настройки | P1 | S | B-11 |
 | [B-16](docs/backlog/B-16-live-skin-switch-and-url.md) `[ ]` | Смена скина на ходу и по адресу | P1 | S | B-11, B-14 |
@@ -47,7 +46,7 @@
 | [B-18](docs/backlog/B-18-desktop-installed-app.md) `[ ]` | Десктоп: установленное приложение на машине владельца | P2 | S | B-12, B-13 |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
-## Closed (12)
+## Closed (13)
 
 **Риски**
 
@@ -66,6 +65,7 @@
 **Скин plakat**
 
 - [B-10](docs/backlog/B-10-design-canvas-and-references.md) `[x]` - Дизайн: холст по брифу, эталонные PNG в skin-plakat
+- [B-11](docs/backlog/B-11-plakat-board.md) `[x]` - plakat: доска, все состояния, оба размера
 
 **Скин toon**
 

@@ -33,7 +33,7 @@ design:
 [feature-settings](../features/feature-settings.md) (`NoToken`). На вебе читает
 [endpoint-snapshot](../api/endpoint-snapshot.md), на десктопе API нет.
 
-Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка plakat — [B-11](../backlog/B-11-plakat-board.md) (паритет с холстом — вопрос владельцу), раскладка toon — [B-14](../backlog/B-14-toon-board.md) (голдены `Board_*_Toon`).
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка plakat — [B-11](../backlog/B-11-plakat-board.md) (вид кита принят владельцем: холст — эталон раскладки, остаток паритета разобран по областям), раскладка toon — [B-14](../backlog/B-14-toon-board.md) (голдены `Board_*_Toon`).
 
 ## 0a. Якоря кода
 
