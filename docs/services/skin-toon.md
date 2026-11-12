@@ -13,7 +13,8 @@ publishes: []
 
 # skin-toon
 
-Модуля ещё нет, пути — *целевые* ([B-14](../backlog/B-14-toon-board.md),
+Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md) (`ToonTitleScreen` — название на
+`ToonTitleCard`); экраны — *целевые* ([B-14](../backlog/B-14-toon-board.md),
 [B-15](../backlog/B-15-toon-repo-card-and-settings.md)).
 
 ## 1. Ответственность
@@ -32,7 +33,8 @@ publishes: []
 
 | Файл | Что там |
 |---|---|
-| `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` | экраны (*целевой*) |
+| `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` | `ToonTitleScreen`; экраны — *целевые* |
+| `skin-toon/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и toon-core, больше ни от чего |
 | `skin-toon/src/desktopTest/` | фикстуры viddik и голдены `_Toon` (*целевой*) |
 
 ## 3. Как устроено
@@ -40,9 +42,13 @@ publishes: []
 - **Первые находки известны заранее.** В toon-ui нет скелета, пустого состояния, счётчика и плаката
   ([исследование §1.3](../research/research-architecture.md)); доска использует все четыре. Каждый
   обход — issue в `youndie/toon-ui` и комментарий `// kit: <ссылка>`.
-- **Кириллица в заголовках** — *гипотеза*: заголовочные шрифты toon-ui её не держат, текст уйдёт на
-  шрифты-спутники; проверка в [B-01](../backlog/B-01-skeleton-five-modules.md) на строке
-  «ПЯТИЛЕТКА».
+- **Кириллица.** Ни одна гарнитура toon-ui её не держит; компоненты кита рисуют её резервными
+  гарнитурами — проверено в [B-01](../backlog/B-01-skeleton-five-modules.md) на «ПЯТИЛЕТКА»
+  ([исследование §1.7](../research/research-architecture.md)). Свой текст через публичный
+  `ToonTypeSpec.textStyle` резерва не получает — *гипотеза* до [B-14](../backlog/B-14-toon-board.md).
+- **`ToonTitleCard`**: пустой `sub` — подзаголовка нет, `null` — демонстрационная строка кита;
+  плашка фиксированной ширины, длинный заголовок выходит за край
+  ([toon-ui#30](https://github.com/youndie/toon-ui/issues/30), [учёт находок](../kit-findings.md)).
 
 ## 4. Зависимости
 

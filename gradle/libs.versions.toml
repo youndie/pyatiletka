@@ -1,0 +1,20 @@
+# The compiler, AGP and Compose Multiplatform are NOT here: they come from `wip`, the catalog a sborka
+# release publishes, so the board compiles with what the kits compile with (research §1.2).
+[versions]
+sborka = "0.5.0.135"
+# The kits, from reposilite's snapshots until they reach Maven Central — which is what this product
+# is for (research §1.1). Renovate moves them (B-05).
+plakat = "0.1.0.15"
+toon = "0.1.0.13"
+# The desktop window frame, from Maven Central.
+appframe = "0.3.0"
+
+[libraries]
+plakat-core = { module = "io.github.youndie:plakat-core", version.ref = "plakat" }
+toon-core = { module = "io.github.youndie:toon-core", version.ref = "toon" }
+appframe = { module = "io.github.youndie:appframe", version.ref = "appframe" }
+
+[plugins]
+sborkaKmp = { id = "io.github.youndie.sborka.kmp", version.ref = "sborka" }
+sborkaJvm = { id = "io.github.youndie.sborka.jvm", version.ref = "sborka" }
+sborkaLint = { id = "io.github.youndie.sborka.lint", version.ref = "sborka" }

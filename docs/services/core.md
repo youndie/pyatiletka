@@ -11,8 +11,8 @@ publishes: []
 
 # core
 
-Модуля ещё нет, все пути ниже — *целевые* и появятся в
-[B-01](../backlog/B-01-skeleton-five-modules.md) и [B-06](../backlog/B-06-core-model-and-rules.md).
+Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md): таргеты и одно слово — название
+продукта, которое рисуют оба скина. Модель и правила — *целевые*, [B-06](../backlog/B-06-core-model-and-rules.md).
 
 ## 1. Ответственность
 
@@ -41,9 +41,9 @@ publishes: []
 
 | Файл | Что там |
 |---|---|
-| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` | модель, схема, правила (*целевой*) |
-| `core/src/commonTest/` | тесты правил §4 и разбора индексов (*целевой*) |
-| `core/build.gradle.kts` | таргеты `jvm("desktop")` и `wasmJs` (*целевой*) |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` | `Product.TITLE`; модель, схема, правила — *целевые* |
+| `core/src/commonTest/` | тесты на обоих таргетах; правила и разбор индексов — *целевые* |
+| `core/build.gradle.kts` | таргеты `jvm("desktop")` и `wasmJs` |
 
 ## 3. Модель (из брифа §3, целевая)
 
@@ -81,8 +81,14 @@ publishes: []
 
 ## 6. Локальный запуск
 
-Сборка и тесты — через `~/.claude/bin/wsl-run`, если проект есть в `mutagen sync list`, иначе
-локально. Команды появятся в [B-01](../backlog/B-01-skeleton-five-modules.md).
+```bash
+~/.claude/bin/wsl-run ./gradlew check                       # тесты desktop и wasmJs, ktlint
+~/.claude/bin/wsl-run ./gradlew :app:wasmJsBrowserDistribution
+LOCAL=1 ./gradlew :app:run                                  # окно — на маке, где есть экран
+```
+
+wasmJs-тестам на WSL нужен Chrome: `CHROME_BIN` указывает на Chrome for Testing из кэша
+playwright. CI делает то же на `ubuntu-latest` (`.github/workflows/check.yaml`, джоба `gradle`).
 
 ## 7. Конфигурация
 

@@ -140,6 +140,30 @@ docs/bootstrap, удалённые до её вливания; прочитат�
 моноширинного шрифта нет, срез `cut 46×14` не применён. Учёт — в
 [B-05](../backlog/B-05-kit-findings-and-renovate.md).
 
+### 1.7 Оба кита и appframe в одной сборке ([B-01](../backlog/B-01-skeleton-five-modules.md))
+
+Проверено сборкой 12.11.2026: `./gradlew check :app:wasmJsBrowserDistribution :app:desktopJar` на
+WSL-машине, окно `:app:run` на маке, страница из `app/build/dist/wasmJs/productionExecutable` в
+браузере.
+
+| Факт | Где проверено |
+|---|---|
+| plakat-core `0.1.0.15`, toon-core `0.1.0.13` и appframe `0.3.0` резолвятся и линкуются в одной сборке на `desktop` и `wasmJs` | `gradle/libs.versions.toml`, `app/build.gradle.kts` |
+| Тесты `core` идут на обоих таргетах: `desktopTest` и `wasmJsBrowserTest` (headless Chrome) | `core/src/commonTest/kotlin/io/github/youndie/pyatiletka/core/ProductTest.kt` |
+| Скину для wasm-тестов нужен `binaries.executable()`, иначе проверка Compose (CMP-4906) роняет `check` | `skin-plakat/build.gradle.kts` |
+| sborka требует `.editorconfig` в корне (`checkEditorconfig`); взят тот же, что у китов | `.editorconfig` |
+| Ни одна гарнитура toon-ui кириллицы не держит; компоненты кита рисуют её резервными (Rubik Italic 900 и Onest у Ink & Gouache, Nunito у Bright Cel) | `youndie/toon-ui@e61604e1!/toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` — `ToonFontFamilies`, `withBacking` |
+| `ToonTitleCard` рисует «ПЯТИЛЕТКА» резервной гарнитурой, но плашка у него фиксированной ширины (280), и девять кириллических прописных выходят за её края | там же, `…/toon/component/ToonTitleCard.kt` — `pw`; на странице — глазами |
+| `withBacking` — `internal`; публичный `ToonTypeSpec.textStyle` даёт гарнитуру дизайна без резерва | `…/toon/type/ToonFontFamilies.kt`, `…/toon/theme/ToonTypography.kt` |
+| wasm-дистрибутив с двумя китами — 14 МБ (две `.wasm`: 8,6 и 2,0 МБ, плюс ресурсы и шрифты) | `app/build/dist/wasmJs/productionExecutable` на WSL; замер с первым кадром — [B-04](../backlog/B-04-measure-wasm-page-weight.md) |
+
+**Следствие 1.** Кириллица в toon-ui — забота кита, пока текст рисует его компонент. Собственный
+текст доски поверх toon (заголовок колонки, строка таблицы) пойдёт мимо резерва; если в
+[B-14](../backlog/B-14-toon-board.md) это подтвердится, нужен публичный путь в ките, а не копия
+`withBacking` в доске.
+
+**Следствие 2.** Первая находка — плашка `ToonTitleCard` ([учёт находок](../kit-findings.md)).
+
 ---
 
 ## 2. Решения
@@ -239,9 +263,11 @@ REST по репозиторию — сотня запросов на снимо
 могут потребовать страниц. Смягчение: замер цены, времени и числа страниц до кода `collector`
 ([B-02](../backlog/B-02-measure-full-graphql-query.md)); `collector` блокирован этим замером.
 
-**Риск 4. Заголовочные шрифты toon-ui не держат кириллицу.** Тогда русские заголовки уйдут на
-шрифты-спутники, и скин toon будет выглядеть иначе, чем задумано китом. *Гипотеза* — проверить в
-[B-01](../backlog/B-01-skeleton-five-modules.md) на строке «ПЯТИЛЕТКА». Находка — issue в toon-ui.
+**Риск 4. Заголовочные шрифты toon-ui не держат кириллицу.** Подтверждено в
+[B-01](../backlog/B-01-skeleton-five-modules.md) (§1.7): ни одна гарнитура toon-ui кириллицы не
+держит, и компоненты кита сами рисуют её резервными гарнитурами. Остаток риска — собственные
+заголовки доски, набранные через публичный `ToonTypeSpec.textStyle`: этот путь резерва не знает
+(*гипотеза*, проверяется в [B-14](../backlog/B-14-toon-board.md), где такие заголовки появятся).
 
 **Риск 5. Первая загрузка wasm-страницы с двумя китами тяжела для витрины.** Смягчение: вес и
 время до первого кадра измеряются в [B-04](../backlog/B-04-measure-wasm-page-weight.md); порог
@@ -268,8 +294,9 @@ REST по репозиторию — сотня запросов на снимо
    Значит, типы, которые скин рисует (`BoardUiState` и т. п.), не могут жить в `app` — иначе скин
    зависит от `app`, и граф зацикливается. В документах слоёв принято следствие: **типы состояний
    экранов — в `core`, логика их получения — в `app`**; если владелец решит иначе (отдельный
-   модуль `ui-state`), меняются [core](../services/core.md) и [app](../services/app.md). Решается в
-   [B-01](../backlog/B-01-skeleton-five-modules.md).
+   модуль `ui-state`), меняются [core](../services/core.md) и [app](../services/app.md). В
+   [B-01](../backlog/B-01-skeleton-five-modules.md) граф собран так: скины зависят от `core` и своего
+   кита, `app` — от всех четырёх; слово, которое рисуют оба скина, лежит в `core` (§1.7).
 2. **Порядок по времени push не назван по направлению** и не сказано, применяется ли он внутри
    групп. Принято: новее выше, внутри каждой группы. Фикстура §5a должна задать `pushedAt` так,
    чтобы порядок строк вышел ровно как в таблице.
@@ -321,7 +348,8 @@ REST по репозиторию — сотня запросов на снимо
 | Токен workflow читает чужие публичные и не видит приватных | [B-03](../backlog/B-03-measure-workflow-token-scope.md) |
 | Первая загрузка wasm-страницы приемлема | [B-04](../backlog/B-04-measure-wasm-page-weight.md) |
 | Renovate поднимает снапшоты китов с номером прогона | [B-05](../backlog/B-05-kit-findings-and-renovate.md) |
-| Заголовочные шрифты toon-ui не держат кириллицу | [B-01](../backlog/B-01-skeleton-five-modules.md) |
+| ~~Заголовочные шрифты toon-ui не держат кириллицу~~ — подтверждено, кит рисует её резервными гарнитурами (§1.7) | [B-01](../backlog/B-01-skeleton-five-modules.md) |
+| Публичный `ToonTypeSpec.textStyle` не подставляет резервную гарнитуру для кириллицы | [B-14](../backlog/B-14-toon-board.md) |
 | Два workflow пишут в `gh-pages` без гонки | [B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md) |
 | Раз в час достаточно, три часа — верный порог | неделя после [B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md) |
 
