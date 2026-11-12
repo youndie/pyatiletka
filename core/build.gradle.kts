@@ -17,6 +17,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(wip.kotlinx.serialization.json)
+            api(wip.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

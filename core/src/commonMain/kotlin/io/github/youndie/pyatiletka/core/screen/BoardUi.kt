@@ -25,6 +25,12 @@ data class BoardUiState(
     val refreshing: Boolean = false,
     /** The repository whose card is open: a panel beside the board when wide, its own screen when narrow. */
     val selected: String? = null,
+    /** The owners whose repositories these are, for the header. */
+    val owners: List<String> = emptyList(),
+    /** What the appearance sheet shows as chosen. */
+    val appearance: Appearance = Appearance(),
+    /** The desktop has settings to go to; the web does not. */
+    val hasSettings: Boolean = true,
 )
 
 /** The bar under the header: the snapshot's moment and why it is not fresh. */

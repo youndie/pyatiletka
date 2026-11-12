@@ -1,6 +1,7 @@
 package io.github.youndie.pyatiletka.core
 
 import io.github.youndie.pyatiletka.core.sample.SampleSnapshot
+import kotlinx.datetime.asTimeZone
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -95,5 +96,31 @@ class BoardTest {
         assertEquals(PlanForm.Flat, bochka.plan.form)
         assertEquals(summarize(repos - bochka - SampleSnapshot.repo("proba")).percent, summarize(repos).percent)
         assertTrue(summarize(repos).plan == 728)
+    }
+}
+
+class TextsTest {
+    @Test
+    fun theSnapshotsMomentInMoscow() {
+        val moscow = kotlinx.datetime.UtcOffset(hours = 3).asTimeZone()
+        assertEquals(
+            "Снимок 12 ноября 2026, 09:17",
+            io.github.youndie.pyatiletka.core.screen.Texts
+                .takenAt(SampleSnapshot.TAKEN_AT, moscow),
+        )
+        assertEquals(
+            "11 ноября 2026, 21:17",
+            io.github.youndie.pyatiletka.core.screen.Texts
+                .moment(SampleSnapshot.STALE_TAKEN_AT, moscow),
+        )
+    }
+
+    @Test
+    fun plurals() {
+        val t = io.github.youndie.pyatiletka.core.screen.Texts
+        assertEquals("youndie · 12 репозиториев", t.owners(listOf("youndie"), 12))
+        assertEquals("youndie · 21 репозиторий", t.owners(listOf("youndie"), 21))
+        assertEquals("youndie · 3 репозитория", t.owners(listOf("youndie"), 3))
+        assertEquals("1 падает", t.failingPullRequests(1))
     }
 }
