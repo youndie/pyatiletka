@@ -69,6 +69,21 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
+      # Goldens are a claim about the rasteriser that recorded them: the toon kit's textured stage differs
+      # by a channel step or two between the WSL box and this runner (B-14). When verification fails, the
+      # same runner records the goldens, and they are offered for review as an artifact — what is committed
+      # is what this runner draws. Nothing is committed from here, and no tolerance is raised.
+      - if: failure()
+        run: ./gradlew viddikRecord --no-daemon --continue || true
+
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recorded-goldens
+          path: "*/src/desktopTest/snapshots/*.png"
+          retention-days: 7
+          if-no-files-found: ignore
+
   # Separate from the gate, and on a schedule rather than on a pull request, because an anchor rots
   # when somebody refactors a **different** repository. A pull request here is the least likely
   # moment for one to break, and running it there trains people to ignore a red build they did not

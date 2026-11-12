@@ -5,6 +5,7 @@ import io.github.youndie.plakat.theme.PlakatPrintSwitches
 import io.github.youndie.plakat.theme.PlakatTheme
 import io.github.youndie.plakat.tokens.PlakatColors
 import io.github.youndie.plakat.tokens.PlakatPalettes
+import io.github.youndie.pyatiletka.core.sample.SampleBoardStates
 import io.github.youndie.pyatiletka.core.screen.BoardUiState
 import io.github.youndie.viddik.annotations.ViddikScreenshot
 import kotlinx.datetime.UtcOffset
@@ -25,68 +26,68 @@ private fun Screen(
 
 @ViddikScreenshot(group = "Board", name = "Loading", width = 1280, height = 800)
 @Composable
-fun BoardLoading() = Screen(state = BoardStates.loading)
+fun BoardLoading() = Screen(state = SampleBoardStates.loading)
 
 @ViddikScreenshot(group = "Board", name = "Empty", width = 1280, height = 800)
 @Composable
-fun BoardEmpty() = Screen(state = BoardStates.empty)
+fun BoardEmpty() = Screen(state = SampleBoardStates.empty)
 
 @ViddikScreenshot(group = "Board", name = "Content", width = 1280, height = 800)
 @Composable
-fun BoardContent() = Screen(state = BoardStates.content)
+fun BoardContent() = Screen(state = SampleBoardStates.content)
 
 @ViddikScreenshot(group = "Board", name = "NoMatches", width = 1280, height = 800)
 @Composable
-fun BoardNoMatches() = Screen(state = BoardStates.noMatches)
+fun BoardNoMatches() = Screen(state = SampleBoardStates.noMatches)
 
 @ViddikScreenshot(group = "Board", name = "Stale", width = 1280, height = 800)
 @Composable
-fun BoardStale() = Screen(state = BoardStates.stale)
+fun BoardStale() = Screen(state = SampleBoardStates.stale)
 
 @ViddikScreenshot(group = "Board", name = "Error", width = 1280, height = 800)
 @Composable
-fun BoardError() = Screen(state = BoardStates.error)
+fun BoardError() = Screen(state = SampleBoardStates.error)
 
 @ViddikScreenshot(group = "Board", name = "NoToken", width = 1280, height = 800)
 @Composable
-fun BoardNoToken() = Screen(state = BoardStates.noToken)
+fun BoardNoToken() = Screen(state = SampleBoardStates.noToken)
 
 @ViddikScreenshot(group = "Board", name = "AppearanceSheet", width = 1280, height = 800)
 @Composable
-fun BoardAppearanceSheet() = Screen(state = BoardStates.appearanceSheet)
+fun BoardAppearanceSheet() = Screen(state = SampleBoardStates.appearanceSheet)
 
 @ViddikScreenshot(group = "Board", name = "Content_Dark", width = 1280, height = 800)
 @Composable
-fun BoardContentDark() = Screen(PlakatPalettes.BlackPaper, BoardStates.content)
+fun BoardContentDark() = Screen(PlakatPalettes.BlackPaper, SampleBoardStates.content)
 
 @ViddikScreenshot(group = "Board", name = "Loading_Phone", width = 390, height = 844)
 @Composable
-fun BoardLoadingPhone() = Screen(state = BoardStates.loading)
+fun BoardLoadingPhone() = Screen(state = SampleBoardStates.loading)
 
 @ViddikScreenshot(group = "Board", name = "Empty_Phone", width = 390, height = 844)
 @Composable
-fun BoardEmptyPhone() = Screen(state = BoardStates.empty)
+fun BoardEmptyPhone() = Screen(state = SampleBoardStates.empty)
 
 @ViddikScreenshot(group = "Board", name = "Content_Phone", width = 390, height = 844)
 @Composable
-fun BoardContentPhone() = Screen(state = BoardStates.content)
+fun BoardContentPhone() = Screen(state = SampleBoardStates.content)
 
 @ViddikScreenshot(group = "Board", name = "NoMatches_Phone", width = 390, height = 844)
 @Composable
-fun BoardNoMatchesPhone() = Screen(state = BoardStates.noMatches)
+fun BoardNoMatchesPhone() = Screen(state = SampleBoardStates.noMatches)
 
 @ViddikScreenshot(group = "Board", name = "Stale_Phone", width = 390, height = 844)
 @Composable
-fun BoardStalePhone() = Screen(state = BoardStates.stale)
+fun BoardStalePhone() = Screen(state = SampleBoardStates.stale)
 
 @ViddikScreenshot(group = "Board", name = "Error_Phone", width = 390, height = 844)
 @Composable
-fun BoardErrorPhone() = Screen(state = BoardStates.error)
+fun BoardErrorPhone() = Screen(state = SampleBoardStates.error)
 
 @ViddikScreenshot(group = "Board", name = "AppearanceSheet_Phone", width = 390, height = 844)
 @Composable
-fun BoardAppearanceSheetPhone() = Screen(state = BoardStates.appearanceSheet)
+fun BoardAppearanceSheetPhone() = Screen(state = SampleBoardStates.appearanceSheet)
 
 @ViddikScreenshot(group = "Board", name = "Content_Phone_Dark", width = 390, height = 844)
 @Composable
-fun BoardContentPhoneDark() = Screen(PlakatPalettes.BlackPaper, BoardStates.content)
+fun BoardContentPhoneDark() = Screen(PlakatPalettes.BlackPaper, SampleBoardStates.content)

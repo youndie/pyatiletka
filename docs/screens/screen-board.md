@@ -33,7 +33,7 @@ design:
 [feature-settings](../features/feature-settings.md) (`NoToken`). На вебе читает
 [endpoint-snapshot](../api/endpoint-snapshot.md), на десктопе API нет.
 
-Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка plakat — [B-11](../backlog/B-11-plakat-board.md) (паритет с холстом — вопрос владельцу), раскладка toon — *целевая*.
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка plakat — [B-11](../backlog/B-11-plakat-board.md) (паритет с холстом — вопрос владельцу), раскладка toon — [B-14](../backlog/B-14-toon-board.md) (голдены `Board_*_Toon`).
 
 ## 0a. Якоря кода
 
@@ -45,7 +45,8 @@ design:
 | Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatBoard.kt` (широкая), `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PhoneBoard.kt` (узкая), `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/BoardBlocks.kt` |
 | Фикстуры и голдены plakat | `skin-plakat/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/plakat/BoardFixtures.kt`, `skin-plakat/src/desktopTest/snapshots/` |
 | Окно и страница | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Shell.kt` |
-| Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
+| Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonBoard.kt` |
+| Голдены toon | `skin-toon/src/desktopTest/snapshots/` |
 | Эталоны холста | `skin-plakat/src/desktopTest/snapshots/design/` |
 
 ## 0. Вход и видимость

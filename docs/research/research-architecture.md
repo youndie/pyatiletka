@@ -144,6 +144,19 @@ docs/bootstrap, удалённые до её вливания; прочитат�
 **Следствие.** Форма `Flat` — не только «восемь `BACKLOG.md`» брифа (§10, последний вопрос), но и
 семь `backlog.md` без индекса: вопрос «считать ли плоские планы» касается 15 репозиториев, а не 8.
 
+### 1.9 Доска в toon-ui ([B-14](../backlog/B-14-toon-board.md))
+
+| Факт | Где проверено |
+|---|---|
+| Доска собирается из компонентов кита почти без своего текста: шапка — `ToonTopAppBar`, сводка — `ToonCard`, полоса устаревания — `ToonSnackbar` в потоке, фильтр — `ToonSegmented`, поиск — `ToonTextField`, строки — `ToonListItem` с иконкой статуса main, пустые и ошибочные экраны — `ToonTitleCard` `Empty` и `ToonButton`, загрузка — `ToonProgress` | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonBoard.kt` |
+| Свой русский текст стилями кита идёт системным шрифтом | `Board_AppearanceSheet_Toon` — «Вид», «Скин», «Тема»; [toon-ui#31](https://github.com/youndie/toon-ui/issues/31) |
+| Компоненты кита — порт движка с фиксированными размерами: бейдж времени карточки, плашка заголовочной карточки, строки без многоточия; длинный русский текст вылезает | [toon-ui#30](https://github.com/youndie/toon-ui/issues/30), [#32](https://github.com/youndie/toon-ui/issues/32), [#33](https://github.com/youndie/toon-ui/issues/33) |
+| 15 голденов `Board_*_Toon` записаны на Linux и проходят CI на `ubuntu-latest` | `skin-toon/src/desktopTest/snapshots/` |
+
+**Следствие.** Toon-ui готов к доске хуже, чем plakat-ui, по другой причине: не холст против кита, а
+размеры, заданные под английский демо-текст движка. Пока #30, #32, #33 открыты, русский интерфейс в
+toon держится на сокращённых строках.
+
 ### 1.6 Холст plakat-ui от дизайнера ([B-10](../backlog/B-10-design-canvas-and-references.md))
 
 Проверено по экспорту холста 12.11.2026: исходники — `design/canvas/`, эталоны —
@@ -333,7 +346,10 @@ plakat упирается в разницу холста и кита, а не в
 снимка растёт с числом репозиториев, и `collector` должен показывать отказ страницы как неудачу
 снимка (`Stale`), а не собирать неполный снимок молча.
 
-**Риск 4. Заголовочные шрифты toon-ui не держат кириллицу.** Подтверждено в
+**Риск 4. Заголовочные шрифты toon-ui не держат кириллицу.** Подтверждено целиком: в
+[B-14](../backlog/B-14-toon-board.md) свой текст доски стилями кита вышел системным шрифтом
+([toon-ui#31](https://github.com/youndie/toon-ui/issues/31)); доска в toon поэтому почти весь текст
+отдаёт компонентам кита. Было: подтверждено в
 [B-01](../backlog/B-01-skeleton-five-modules.md) (§1.7): ни одна гарнитура toon-ui кириллицы не
 держит, и компоненты кита сами рисуют её резервными гарнитурами. Остаток риска — собственные
 заголовки доски, набранные через публичный `ToonTypeSpec.textStyle`: этот путь резерва не знает
@@ -428,7 +444,7 @@ plakat упирается в разницу холста и кита, а не в
 | Первая загрузка wasm-страницы приемлема | [B-04](../backlog/B-04-measure-wasm-page-weight.md) |
 | ~~Renovate поднимает снапшоты китов с номером прогона~~ — подтверждено, но только с `registryUrls` в `renovate.json`; без него `no-result` | [B-05](../backlog/B-05-kit-findings-and-renovate.md) |
 | ~~Заголовочные шрифты toon-ui не держат кириллицу~~ — подтверждено, кит рисует её резервными гарнитурами (§1.7) | [B-01](../backlog/B-01-skeleton-five-modules.md) |
-| Публичный `ToonTypeSpec.textStyle` не подставляет резервную гарнитуру для кириллицы | [B-14](../backlog/B-14-toon-board.md) |
+| ~~Публичный `ToonTypeSpec.textStyle` не подставляет резервную гарнитуру для кириллицы~~ — подтверждено: свой текст идёт системным шрифтом ([toon-ui#31](https://github.com/youndie/toon-ui/issues/31)) | [B-14](../backlog/B-14-toon-board.md) |
 | Холст plakat-ui можно принять эталоном экранов, не перерисовав его по компонентам кита | вопрос владельцу в [B-11](../backlog/B-11-plakat-board.md) (§1.8) |
 | Два workflow пишут в `gh-pages` без гонки | [B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md) |
 | Раз в час достаточно, три часа — верный порог | неделя после [B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md) |

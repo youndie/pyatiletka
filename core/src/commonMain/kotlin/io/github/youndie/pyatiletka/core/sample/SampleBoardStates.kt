@@ -1,8 +1,7 @@
-package io.github.youndie.pyatiletka.skin.plakat
+package io.github.youndie.pyatiletka.core.sample
 
 import io.github.youndie.pyatiletka.core.BoardFilter
 import io.github.youndie.pyatiletka.core.boardRows
-import io.github.youndie.pyatiletka.core.sample.SampleSnapshot
 import io.github.youndie.pyatiletka.core.screen.BoardScreenState
 import io.github.youndie.pyatiletka.core.screen.BoardUiState
 import io.github.youndie.pyatiletka.core.screen.Problem
@@ -10,11 +9,11 @@ import io.github.youndie.pyatiletka.core.screen.StaleNotice
 import io.github.youndie.pyatiletka.core.summarize
 
 /**
- * The board's states on the sample data, built from core as the app's `boardUiState` builds them — the
- * skin depends on core and its kit only (research D3), so it cannot borrow the app's mapping. Each is
- * the artboard of the same name (screen-board, section 1.1).
+ * The board's states on the sample data, built from core as the app's `boardUiState` builds them, for
+ * both skins' goldens: a skin depends on core and its kit only (research D3), so it cannot borrow the
+ * app's mapping. Each is the artboard of the same name (screen-board, section 1.1).
  */
-object BoardStates {
+object SampleBoardStates {
     private val snapshot = SampleSnapshot.snapshot
     private val owners = listOf("youndie")
 
