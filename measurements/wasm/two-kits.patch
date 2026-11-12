@@ -1,0 +1,52 @@
+diff --git a/app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Shell.kt b/app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Shell.kt
+index 7ad3c5a..eb9f0db 100644
+--- a/app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Shell.kt
++++ b/app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Shell.kt
+@@ -7,6 +7,8 @@ import io.github.youndie.pyatiletka.core.screen.Skin
+ import io.github.youndie.pyatiletka.skin.plakat.BoardActions
+ import io.github.youndie.pyatiletka.skin.plakat.PlakatBoard
+ import io.github.youndie.pyatiletka.skin.plakat.PlakatSkin
++import io.github.youndie.pyatiletka.skin.toon.ToonBoard
++import io.github.youndie.pyatiletka.skin.toon.ToonSkin
+ import kotlinx.datetime.TimeZone
+ 
+ /**
+@@ -37,5 +39,9 @@ fun Shell(
+     val theme =
+         state.appearance.theme.takeIf { state.appearance.skin == Skin.Plakat }
+             ?: io.github.youndie.pyatiletka.core.screen.Theme.Paper
+-    PlakatSkin(theme) { PlakatBoard(state, zone, actions = actions) }
++    if (state.appearance.skin == Skin.Toon) {
++        ToonSkin(state.appearance.theme) { ToonBoard(state, zone) }
++    } else {
++        PlakatSkin(theme) { PlakatBoard(state, zone, actions = actions) }
++    }
+ }
+diff --git a/app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt b/app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt
+index 6a8a212..14418cc 100644
+--- a/app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt
++++ b/app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt
+@@ -5,7 +5,11 @@ import androidx.compose.ui.window.ComposeViewport
+ import io.github.youndie.pyatiletka.app.data.NoCache
+ import io.github.youndie.pyatiletka.app.data.SnapshotStore
+ import io.github.youndie.pyatiletka.app.data.WEB_STALE_AFTER
++import io.github.youndie.pyatiletka.core.screen.Appearance
++import io.github.youndie.pyatiletka.core.screen.Skin
++import io.github.youndie.pyatiletka.core.screen.Theme
+ import kotlinx.browser.document
++import kotlinx.browser.window
+ import kotlinx.coroutines.MainScope
+ import kotlinx.coroutines.flow.distinctUntilChangedBy
+ import kotlinx.coroutines.launch
+@@ -18,7 +22,10 @@ import kotlinx.coroutines.launch
+ fun main() {
+     val scope = MainScope()
+     val store = SnapshotStore(browserSnapshotSource(), NoCache, scope, WEB_STALE_AFTER)
+-    val board = BoardModel(store.data, scope, BoardFlags(hasSettings = false), store::refresh)
++    // B-04 measurement only: `?skin=toon` opens the board in the cartoon kit, for its first frame.
++    val toon = window.location.search.contains("skin=toon")
++    val appearance = if (toon) Appearance(Skin.Toon, Theme.InkGouacheLight) else Appearance()
++    val board = BoardModel(store.data, scope, BoardFlags(hasSettings = false, appearance = appearance), store::refresh)
+     store.start()
+     scope.launch {
+         board.state.distinctUntilChangedBy { it.screen to it.rows.size }.collect { state ->

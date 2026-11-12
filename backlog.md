@@ -43,7 +43,7 @@
 | [B-16](docs/backlog/B-16-live-skin-switch-and-url.md) `[ ]` | Смена скина на ходу и по адресу | P1 | S | B-11, B-14 |
 | [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[ ]` | Страница: сборка в gh-pages, снимок раз в час | P1 | M | B-03, B-07, B-11 |
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
-| [B-04](docs/backlog/B-04-measure-wasm-page-weight.md) `[ ]` | Замер: вес и первая отрисовка wasm-страницы с двумя китами | P2 | S | B-01 |
+| [B-04](docs/backlog/B-04-measure-wasm-page-weight.md) `[?]` | Замер: вес и первая отрисовка wasm-страницы с двумя китами | P2 | S | B-01 |
 | [B-18](docs/backlog/B-18-desktop-installed-app.md) `[ ]` | Десктоп: установленное приложение на машине владельца | P2 | S | B-12, B-13 |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
