@@ -12,7 +12,7 @@ every screen is built twice, once per kit, over the same state.
 
 There is no server. The board only reads; it never merges or re-runs anything.
 
-Status: not built yet.
+Status: not built yet. Documentation (in Russian): [docs/](docs/README.md).
 
 ## License
 
