@@ -33,14 +33,13 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (11)
+## Open (10)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-11](docs/backlog/B-11-plakat-board.md) `[?]` | plakat: доска, все состояния, оба размера | P1 | L | B-09, B-10 |
 | [B-12](docs/backlog/B-12-plakat-repo-card.md) `[ ]` | plakat: карточка репозитория | P1 | M | B-11 |
 | [B-13](docs/backlog/B-13-plakat-settings.md) `[ ]` | plakat: настройки | P1 | S | B-11 |
-| [B-14](docs/backlog/B-14-toon-board.md) `[~]` | toon: доска, все состояния, оба размера | P1 | L | B-09 |
 | [B-15](docs/backlog/B-15-toon-repo-card-and-settings.md) `[ ]` | toon: карточка и настройки | P1 | M | B-14 |
 | [B-16](docs/backlog/B-16-live-skin-switch-and-url.md) `[ ]` | Смена скина на ходу и по адресу | P1 | S | B-11, B-14 |
 | [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[ ]` | Страница: сборка в gh-pages, снимок раз в час | P1 | M | B-03, B-07, B-11 |
@@ -49,7 +48,7 @@
 | [B-18](docs/backlog/B-18-desktop-installed-app.md) `[ ]` | Десктоп: установленное приложение на машине владельца | P2 | S | B-12, B-13 |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
-## Closed (9)
+## Closed (10)
 
 **Риски**
 
@@ -68,6 +67,10 @@
 **Скин plakat**
 
 - [B-10](docs/backlog/B-10-design-canvas-and-references.md) `[x]` - Дизайн: холст по брифу, эталонные PNG в skin-plakat
+
+**Скин toon**
+
+- [B-14](docs/backlog/B-14-toon-board.md) `[x]` - toon: доска, все состояния, оба размера
 
 <!-- END INDEX -->
 

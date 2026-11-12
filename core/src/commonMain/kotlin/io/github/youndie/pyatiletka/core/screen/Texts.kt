@@ -135,6 +135,26 @@ object Texts {
     /** `План выполнен\nна 95 %`. */
     fun planDone(percent: Int): String = "План выполнен\nна $percent %"
 
+    /** `План выполнен на 95 %`, in one line. */
+    fun planDoneLine(percent: Int): String = "План выполнен на $percent\u00A0%"
+
+    /** The summary's counters in one line: `698 из 728 · 1 красный main · 12 PR открыто · 7 ждут меня`. */
+    fun summaryLine(summary: io.github.youndie.pyatiletka.core.Summary): String =
+        "${summary.done} из ${summary.plan} · ${summary.red} $RED_MAIN · ${summary.openPullRequests} $PRS_OPEN · ${summary.waiting} $WAITING_ME"
+
+    /** The counters for a narrow card: `698 из 728 · 1 красный · 12 PR · 7 ждут`. */
+    fun summaryLineShort(summary: io.github.youndie.pyatiletka.core.Summary): String =
+        "${summary.done} из ${summary.plan} · ${summary.red} красный · ${summary.openPullRequests} PR · ${summary.waiting} ждут"
+
+    /** `09:17`. */
+    fun time(
+        instant: Instant,
+        zone: TimeZone,
+    ): String {
+        val t = instant.toLocalDateTime(zone)
+        return "${t.hour.toString().padStart(2, '0')}:${t.minute.toString().padStart(2, '0')}"
+    }
+
     /** `48 из 60 — 80 %`. */
     fun planCell(
         counts: PlanCounts,

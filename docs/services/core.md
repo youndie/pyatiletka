@@ -50,6 +50,7 @@ publishes: []
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Board.kt` | `summarize`, `boardOrder`, `BoardFilter`, `boardRows` |
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/RepoCard.kt` | `cardPullRequests`, `cardItems`, `isQuiet` |
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/` | типы состояний экранов: `BoardUiState`, `RepoUiState` и `repoUiState`, `SettingsUiState`, `Problem`, `TokenSource` |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleBoardStates.kt` | состояния доски на примерных данных — фикстуры обоих скинов |
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleSnapshot.kt` | примерные данные экранов — источник тестов состояний и эталонов |
 | `core/src/commonTest/` | тесты на обоих таргетах; `RealIndexes.kt` — настоящие индексы, генерирует `scripts/index-fixtures.py` |
 | `core/build.gradle.kts` | таргеты `jvm("desktop")` и `wasmJs` |

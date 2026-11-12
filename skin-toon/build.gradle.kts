@@ -4,6 +4,8 @@ plugins {
     alias(wip.plugins.kotlinMultiplatform)
     alias(wip.plugins.composeMultiplatform)
     alias(wip.plugins.composeCompiler)
+    alias(wip.plugins.ksp)
+    alias(libs.plugins.viddik)
     id("io.github.youndie.sborka.kmp")
     id("io.github.youndie.sborka.lint")
 }
@@ -27,5 +29,28 @@ kotlin {
             implementation(wip.compose.foundation)
             implementation(wip.compose.ui)
         }
+        getByName("desktopTest").dependencies {
+            implementation(kotlin("test"))
+            implementation(compose.desktop.currentOs)
+            implementation(wip.compose.ui.test)
+        }
     }
+}
+
+// Goldens verified by `check`, the kit's own setup (research §1.2). The cartoon kit has no canvas
+// (research D6), so there is no design parity here: the goldens are the record, recorded on Linux,
+// where CI verifies them (B-14).
+viddik {
+    verifyOnCheck.set(true)
+    shards.set(1)
+    designTolerancePercent.set(5.0)
+    designChannelTolerance.set(16)
+    designStrict.set(false)
+}
+
+tasks.withType<Test>().configureEach {
+    inputs
+        .dir(layout.projectDirectory.dir("src/desktopTest/snapshots"))
+        .withPropertyName("viddikSnapshots")
+        .withPathSensitivity(org.gradle.api.tasks.PathSensitivity.RELATIVE)
 }
