@@ -12,7 +12,7 @@ calls_api:
   - endpoint-snapshot
 source: app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app
 design:
-  canvas: "Claude Design, проект plakat-ui, страница Board — ещё не нарисован (B-10)"
+  canvas: "Claude Design, проект plakat-ui, страница Board от 12.11.2026; исходники артбордов — design/canvas/Page_Board.dc.html, заметки — design/canvas/canvas.json"
   references: skin-plakat/src/desktopTest/snapshots/design
   states:
     Loading: Board_Loading
@@ -125,6 +125,23 @@ design:
 - `репозиторий — main — PR — план — ждут`. Строка читается на 12 строках подряд и не превращается
   в плакат каждая.
 - **По нажатию:** [screen-repo](screen-repo.md).
+
+### 4.5. Что добавил холст
+
+Из заметок страницы Board в `design/canvas/canvas.json` — то, чего не видно на картинке:
+
+- фильтр — `PlakatSegmentedButton` на широком, `PlakatChip` на узком; выбран ровно один;
+- на широком прокручивается только список строк: шапка, сводка, фильтр, поиск и заголовок таблицы
+  стоят; на узком прокручивается всё под шапкой, обновление — `PlakatPullToRefreshBox`;
+- имя репозитория — в одну строку с многоточием; счётчики и план не обрезаются;
+- кнопка ↻ в шапке широкого берёт снимок сейчас; меню ⋮ — `PlakatMenu` («Вид», «Настройки»);
+- `NoMatches`: «Сбросить поиск» и крестик в поле очищают запрос, фильтр не сбрасывается;
+- `Stale` и `Error`: «Повторить» берёт снимок заново; в `Error` на время запроса на месте кнопки —
+  `PlakatCircularProgress`; при успехе полоса `Stale` уходит;
+- `Empty` ведёт в настройки на блок «Владельцы», `NoToken` — на блок «Токен GitHub»;
+- `AppearanceSheet`: выбор применяется сразу; «Готово» и нажатие на растр закрывают (на узком — ещё
+  свайп вниз);
+- `Loading`: заголовки колонок известны заранее и не скелетом; фильтр и поиск недоступны до снимка.
 
 ## 5. Навигация
 

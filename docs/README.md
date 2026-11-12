@@ -61,7 +61,7 @@ make fix        # пересобрать индекс бэклога, допис
 
 ### Research (1)
 
-- [x] [research-architecture](research/research-architecture.md) — проверенные факты о китах и портфеле, решения D1–D8, риски, нестыковки брифа
+- [x] [research-architecture](research/research-architecture.md) — проверенные факты о китах и портфеле, решения D1–D9, риски, нестыковки брифа
 
 ### Services (5/5)
 

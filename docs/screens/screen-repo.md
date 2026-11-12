@@ -11,7 +11,7 @@ parent_feature: feature-repo-detail
 calls_api: []
 source: app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app
 design:
-  canvas: "Claude Design, проект plakat-ui, страница Repo — ещё не нарисован (B-10)"
+  canvas: "Claude Design, проект plakat-ui, страница Repo от 12.11.2026; исходники артбордов — design/canvas/Page_Repo.dc.html, заметки — design/canvas/canvas.json"
   references: skin-plakat/src/desktopTest/snapshots/design
   states:
     Content: Repo_Content
@@ -85,6 +85,17 @@ design:
 - Порядок: `Question`, `Wip`, `Open`; внутри — по приоритету. Номер, метка, приоритет, заголовок.
 - `Plan.None` — пометка «бэклога в репозитории нет»; `Quiet` — плакат «план выполнен».
 - **По нажатию:** пункт на GitHub.
+
+### 4.4. Что добавил холст
+
+Из заметок страницы Repo в `design/canvas/canvas.json`:
+
+- на широком слева доска в сжатом виде: сводка в одну строку, строка выбранного репозитория
+  выделена; ✕ закрывает панель и снимает выделение; на узком ← возвращает к доске;
+- панель прокручивается целиком под строкой с названием, доска слева — отдельно;
+- заголовки PR и пунктов не обрезаются, а переносятся; название репозитория в шапке узкого — с
+  многоточием;
+- каждая строка PR, пункта и проверки несёт значок ↗ и открывает GitHub.
 
 ## 5. Навигация
 

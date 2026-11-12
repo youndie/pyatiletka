@@ -13,8 +13,8 @@ publishes: []
 
 # skin-plakat
 
-Модуля ещё нет, пути — *целевые* ([B-10](../backlog/B-10-design-canvas-and-references.md)…
-[B-13](../backlog/B-13-plakat-settings.md)).
+Модуля ещё нет: есть только эталоны холста ([B-10](../backlog/B-10-design-canvas-and-references.md));
+остальные пути — *целевые* ([B-11](../backlog/B-11-plakat-board.md)…[B-13](../backlog/B-13-plakat-settings.md)).
 
 ## 1. Ответственность
 
@@ -29,15 +29,18 @@ publishes: []
 ## 2. Контракты
 
 - Вход — типы состояний экранов из `core`.
-- Холст — Claude Design, проект plakat-ui, 31 артборд по брифу дизайнеру; эталонные PNG — по одному
-  на артборд ([B-10](../backlog/B-10-design-canvas-and-references.md)).
+- Холст — Claude Design, проект plakat-ui, 31 артборд от 12.11.2026; исходники артбордов и заметки
+  дизайнера — `design/canvas/` (`canvas.json` — рамки и заметки по страницам); эталонные PNG — по
+  одному на артборд, 1x.
 
 ## 2a. Якоря кода
 
 | Файл | Что там |
 |---|---|
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` | экраны (*целевой*) |
-| `skin-plakat/src/desktopTest/snapshots/design/` | эталонные PNG с холста, имя = артборд (*целевой*) |
+| `skin-plakat/src/desktopTest/snapshots/design/` | эталонные PNG с холста, имя = артборд, 1280×800 и 390×844 |
+| `scripts/design-references.py` | экспорт холста @2x → эталоны 1x, коробочный фильтр ([исследование D9](../research/research-architecture.md)) |
+| `design/canvas/` | исходники артбордов, `canvas.json` с заметками дизайнера |
 | `skin-plakat/src/desktopTest/` | фикстуры viddik и голдены (*целевой*) |
 
 ## 3. Как устроено
@@ -49,6 +52,12 @@ publishes: []
 - **Обход кита — только с issue** в `youndie/plakat-ui` и комментарием `// kit: <ссылка>` в месте
   обхода ([исследование D4](../research/research-architecture.md)).
 - **Имена:** артборд, эталон и фикстура называются одинаково, `<Screen>_<State>[_Phone][_Dark]`.
+- **Эталоны — уменьшенный экспорт, а не рендер в 1x** ([исследование D9](../research/research-architecture.md)).
+  Новый экспорт холста: `python3 scripts/design-references.py <каталог экспорта>` (нужен Pillow),
+  исходники `.dc.html` и `canvas.json` — в `design/canvas/`, PNG экспорта в репозиторий не кладутся.
+- **Холст выведен из токенов, а не из компонентов кита**: у дизайнера не было страниц «Ядро»,
+  «Компоненты», «Текстуры» ([исследование §1.6](../research/research-architecture.md)). Расхождение
+  паритета на компоненте кита сначала сверяется со страницей «Компоненты» plakat-ui.
 
 ## 4. Зависимости
 
