@@ -40,14 +40,15 @@ publishes:
 | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` | `Collector`; запрос, разбор ответа, публичный режим, CLI — *целевые* |
 | `collector/build.gradle.kts` | Kotlin/JVM, конвенции `sborka.jvm` |
 | `collector/src/test/` | тесты на поддельном GitHub (*целевой*) |
+| `measurements/graphql/` | замер запроса: запросы, `run.sh`, `runs.tsv`, ответы без текстов бэклога |
 
 ## 3. Как устроено
 
-- **Один запрос GraphQL.** Проба 12.11: по 48 публичным репозиториям `statusCheckRollup` +
-  `pullRequests.totalCount` + `object(expression:"HEAD:backlog.md")` стоят `rateLimit.cost = 1`
-  ([исследование §1.5](../research/research-architecture.md)). Тот же запрос со списками PR и
-  именами упавших проверок — *гипотеза*, замер цены, времени и числа страниц —
-  [B-02](../backlog/B-02-measure-full-graphql-query.md).
+- **GraphQL страницами по 25 репозиториев.** Запрос — `measurements/graphql/portfolio.graphql`
+  (замер [B-02](../backlog/B-02-measure-full-graphql-query.md)): три запроса подряд, около 10 с и
+  39 очков лимита на снимок из 54 репозиториев. Страница в 100 — один запрос, но около 10 с — это
+  предел GitHub, и 2 прогона из 5 получили `502` ([исследование D2](../research/research-architecture.md)).
+  Отказ страницы — неудача всего снимка, а не снимок без части репозиториев.
 - **Публичный режим падает, а не только фильтрует.** `--public-only` отбрасывает любой репозиторий с
   видимостью не `Public` и завершается ошибкой, если такой попал в результат: тихое отбрасывание
   скрыло бы, что токен видит лишнее ([исследование D5](../research/research-architecture.md)).

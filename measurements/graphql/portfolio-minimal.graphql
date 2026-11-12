@@ -1,0 +1,17 @@
+# The brief's probe of 12.11, repeated (B-02): the board's counters only — the rollup's state, the
+# number of open pull requests and whether a backlog exists. No lists, no texts.
+query Portfolio($owner: String!, $first: Int!, $after: String) {
+  rateLimit { cost remaining resetAt }
+  repositoryOwner(login: $owner) {
+    repositories(first: $first, after: $after, privacy: PUBLIC, ownerAffiliations: OWNER, orderBy: { field: PUSHED_AT, direction: DESC }) {
+      totalCount
+      pageInfo { hasNextPage endCursor }
+      nodes {
+        nameWithOwner
+        defaultBranchRef { target { ... on Commit { statusCheckRollup { state } } } }
+        pullRequests(states: OPEN) { totalCount }
+        backlog: object(expression: "HEAD:backlog.md") { ... on Blob { byteSize } }
+      }
+    }
+  }
+}
