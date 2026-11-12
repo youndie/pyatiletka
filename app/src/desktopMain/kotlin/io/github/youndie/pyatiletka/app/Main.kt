@@ -1,6 +1,7 @@
 package io.github.youndie.pyatiletka.app
 
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -12,6 +13,9 @@ import androidx.compose.ui.window.rememberWindowState
 import io.github.youndie.appframe.AppFrame
 import io.github.youndie.pyatiletka.app.desktop.DesktopGraph
 import io.github.youndie.pyatiletka.app.desktop.DesktopSettings
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.map
 import kotlinx.datetime.TimeZone
 
 /**
@@ -27,7 +31,11 @@ fun main() =
                 BoardModel(
                     data = graph.store.data,
                     scope = scope,
-                    initial = BoardFlags(owners = graph.settings.current.value.settings.owners),
+                    initial =
+                        BoardFlags(
+                            owners = graph.settings.current.value.settings.owners,
+                            appearance = graph.settings.appearance,
+                        ),
                     onRefresh = graph.store::refresh,
                 )
             }
@@ -35,6 +43,14 @@ fun main() =
         DisposableEffect(Unit) {
             graph.store.start()
             onDispose { graph.store.stop() }
+        }
+        // The choice made on the board outlives the window (feature-skins: kept locally).
+        LaunchedEffect(Unit) {
+            board.state
+                .map { it.appearance }
+                .distinctUntilChanged()
+                .drop(1)
+                .collect(graph.settings::chooseAppearance)
         }
         AppFrame(
             onCloseRequest = ::exitApplication,
