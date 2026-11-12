@@ -40,7 +40,7 @@
 | [B-11](docs/backlog/B-11-plakat-board.md) `[?]` | plakat: доска, все состояния, оба размера | P1 | L | B-09, B-10 |
 | [B-12](docs/backlog/B-12-plakat-repo-card.md) `[ ]` | plakat: карточка репозитория | P1 | M | B-11 |
 | [B-13](docs/backlog/B-13-plakat-settings.md) `[ ]` | plakat: настройки | P1 | S | B-11 |
-| [B-15](docs/backlog/B-15-toon-repo-card-and-settings.md) `[ ]` | toon: карточка и настройки | P1 | M | B-14 |
+| [B-15](docs/backlog/B-15-toon-repo-card-and-settings.md) `[~]` | toon: карточка и настройки | P1 | M | B-14 |
 | [B-16](docs/backlog/B-16-live-skin-switch-and-url.md) `[ ]` | Смена скина на ходу и по адресу | P1 | S | B-11, B-14 |
 | [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[ ]` | Страница: сборка в gh-pages, снимок раз в час | P1 | M | B-03, B-07, B-11 |
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |

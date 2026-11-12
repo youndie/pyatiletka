@@ -1,7 +1,7 @@
 ---
 id: B-15
 title: "toon: карточка и настройки"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-3-toon
