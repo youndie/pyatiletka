@@ -37,7 +37,6 @@ import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.theme.Toon
-import io.github.youndie.toon.theme.ToonStage
 import io.github.youndie.toon.theme.textStyle
 import io.github.youndie.toon.tokens.ToonTypeScale
 import kotlinx.datetime.TimeZone
@@ -94,7 +93,7 @@ fun ToonRepo(
     modifier: Modifier = Modifier,
     actions: ToonRepoActions = ToonRepoActions(),
 ) {
-    ToonStage(modifier) {
+    Stage(modifier) {
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val width = maxWidth
             val inner = width - 32.dp

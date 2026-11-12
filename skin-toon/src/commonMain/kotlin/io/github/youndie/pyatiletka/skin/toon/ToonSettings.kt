@@ -37,7 +37,6 @@ import io.github.youndie.toon.component.ToonTextField
 import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.theme.Toon
-import io.github.youndie.toon.theme.ToonStage
 import io.github.youndie.toon.theme.textStyle
 import io.github.youndie.toon.tokens.ToonTypeScale
 
@@ -66,7 +65,7 @@ fun ToonSettings(
     modifier: Modifier = Modifier,
     actions: ToonSettingsActions = ToonSettingsActions(),
 ) {
-    ToonStage(modifier.fillMaxSize()) {
+    Stage(modifier.fillMaxSize()) {
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val width = maxWidth
             val inner = minOf(ColumnWidth, width - 32.dp)

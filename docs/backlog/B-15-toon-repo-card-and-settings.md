@@ -26,8 +26,8 @@ blocked_by: [B-14]
 - Примерные состояния — в `core` (`SampleRepoStates`, `SampleSettingsStates`), чтобы plakat в
   [B-12](B-12-plakat-repo-card.md) и [B-13](B-13-plakat-settings.md) рисовал те же; что настройки
   по умолчанию совпадают с моделью, держит `SettingsStatesTest.theFourStates`.
-- 12 голденов `Repo_*_Toon` и `Settings_*_Toon` записаны на раннере CI
-  ([toon-ui#35](https://github.com/youndie/toon-ui/issues/35)).
+- 12 голденов `Repo_*_Toon` и `Settings_*_Toon` записаны на WSL. Сцена у обоих экранов — через `Stage`,
+  поэтому голдены одинаковы на любом раннере ([B-21](B-21-toon-goldens-depend-on-runner-cpu.md)).
 - Находки: [toon-ui#36](https://github.com/youndie/toon-ui/issues/36) (заголовок строки не
   переносится — обход), [toon-ui#37](https://github.com/youndie/toon-ui/issues/37) (нет выбранной
   строки — без обхода); «План выполнен» на `Repo_Quiet_*_Toon` обрезан плашкой
