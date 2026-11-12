@@ -1,0 +1,20 @@
+# B-03: what the repository's own GITHUB_TOKEN sees of the owner's repositories — the token the hourly
+# snapshot workflow (B-17) will run with. Counts only; see measurements/token/probe.sh.
+name: token-probe
+
+on:
+  push:
+    branches: ["feat/b-03-*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: measurements/token/probe.sh youndie | tee -a "$GITHUB_STEP_SUMMARY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

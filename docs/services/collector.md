@@ -40,6 +40,7 @@ publishes:
 | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` | `Collector`; запрос, разбор ответа, публичный режим, CLI — *целевые* |
 | `collector/build.gradle.kts` | Kotlin/JVM, конвенции `sborka.jvm` |
 | `collector/src/test/` | тесты на поддельном GitHub (*целевой*) |
+| `measurements/token/` | замер права `GITHUB_TOKEN`: `probe.sh` печатает только числа |
 | `measurements/graphql/` | замер запроса: запросы, `run.sh`, `runs.tsv`, ответы без текстов бэклога |
 
 ## 3. Как устроено
@@ -82,6 +83,8 @@ publishes:
 
 ## 8. Причуды
 
-- Публичность снимка держится на праве токена workflow, а не только на фильтре: что токен
-  workflow читает чужие публичные репозитории и не видит приватных — *гипотеза*,
-  [B-03](../backlog/B-03-measure-workflow-token-scope.md).
+- Публичность снимка держится на праве токена workflow, а не только на фильтре: `GITHUB_TOKEN`
+  репозитория видит у владельца только публичные репозитории и читает их целиком
+  ([B-03](../backlog/B-03-measure-workflow-token-scope.md), `measurements/token/README.md`). На
+  десктопе токен владельца видит и приватные — там фильтр `--public-only` не включается, и
+  снимок десктопа никуда не публикуется.
