@@ -35,28 +35,26 @@ tags: []
 
 ## 4. Якоря кода
 
-Все пути — *целевые*: кода ещё нет.
-
 | Модуль | Код |
 |---|---|
-| app | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` — выбор скина и темы |
-| app | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` — разбор адреса |
+| app | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Shell.kt` — кит по выбору; `AppearanceKeys.kt` — `appearanceOf`, `appearanceOfQuery`; выбор — `BoardModel.chooseSkin`, `chooseTheme` |
+| app | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt` — адрес и `localStorage`; десктоп — `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt` и `SettingsModel.chooseAppearance` (`settings.json`) |
 | skin-plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
 | skin-toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
-| учёт находок | `docs/kit-findings.md` (*целевой*, [B-05](../backlog/B-05-kit-findings-and-renovate.md)) |
+| учёт находок | `docs/kit-findings.md` ([B-05](../backlog/B-05-kit-findings-and-renovate.md)) |
 
 ## 5. Сценарии
-
-Все сценарии — *целевые*.
 
 ### Scenario: Switching skins on the fly
 * **Given:** открыта карточка `youndie/kachok` в plakat.
 * **When:** выбран скин toon.
 * **Then:** открыта та же карточка; фильтр и поиск на доске прежние.
+* **Automated:** `ShellTest.switchingSkinsKeepsThePlace`
 
 ### Scenario: The address picks the skin
 * **Given:** веб-страница открыта с `?skin=toon`.
 * **Then:** первый кадр уже в toon.
+* **Automated:** `AppearanceKeysTest.theBriefsExampleIsTheCartoonNight`, `AppearanceKeysTest.aSkinAloneTakesItsFirstTheme` — разбор адреса; страница строит доску сразу с этим видом (`app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/Main.kt`)
 
 ## 6. Вне объёма
 
@@ -65,6 +63,8 @@ tags: []
 
 ## 7. Причуды
 
-* Короткие значения `theme` в адресе (`night` в примере брифа) не сопоставлены с именами тем
-  китов; таблица — в [B-16](../backlog/B-16-live-skin-switch-and-url.md)
-  ([исследование §3.1, п. 4](../research/research-architecture.md)).
+* Значения `theme` в адресе и в `settings.json` — ключи тем, а не их имена
+  ([B-16](../backlog/B-16-live-skin-switch-and-url.md)): `paper` → `Paper`, `black` → `BlackPaper`,
+  `light` → `InkGouacheLight`, `night` → `InkGouacheNight`, `bright` → `BrightCel`. Одна `theme`
+  выбирает и кит; один `skin` берёт первую тему кита; тема чужого кита отбрасывается; адрес главнее
+  выбора, сохранённого в браузере.
