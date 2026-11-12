@@ -126,6 +126,21 @@ class TextsTest {
 
     // screen-repo §6: a pull request's age is its largest whole unit at the snapshot.
     @Test
+    fun theCardsHeadingsAsTheCanvasWritesThem() {
+        val t = io.github.youndie.pyatiletka.core.screen.Texts
+        assertEquals("Проверки main · 2 упали", t.failedChecksHeading("main", 2))
+        assertEquals("Проверки main · 1 упала", t.failedChecksHeading("main", 1))
+        assertEquals("PR · 2", t.pullRequestsHeading(2))
+        assertEquals("Пункты · 7 незакрытых", t.itemsHeading(7))
+        assertEquals("Пункты · 21 незакрытый", t.itemsHeading(21))
+        assertEquals(
+            "177 из 184 выполнено",
+            t.doneOfLong(PlanCounts(done = 177, open = 7, wip = 0, question = 0, dropped = 0)),
+        )
+        assertEquals("96\u00A0%", t.percent(96))
+    }
+
+    @Test
     fun theCardsAges() {
         val t = io.github.youndie.pyatiletka.core.screen.Texts
         assertEquals("2 дня", t.age(kotlin.time.Duration.parse("2d 3h")))

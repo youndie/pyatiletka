@@ -22,6 +22,7 @@ issue в репозитории кита и комментарием `// kit: <�
 | 13 | toon-ui | Текстура `ToonStage` выбирается ближайшим текселом ровно на границе (448 px на 224 dp): при перспективе viddik Intel и AMD берут разные текселы, голдены привязаны к производителю процессора | [toon-ui#35](https://github.com/youndie/toon-ui/issues/35) | `skin-toon/…/Stage.kt` — сцена сдвинута на ¾ px | [B-14](backlog/B-14-toon-board.md), [B-21](backlog/B-21-toon-goldens-depend-on-runner-cpu.md) | открыта |
 | 14 | toon-ui | `ToonListItem` и `ToonCard`: заголовок — одна строка в фиксированном месте без ширины, не переносится и не обрезается | [toon-ui#36](https://github.com/youndie/toon-ui/issues/36) | `skin-toon/…/ToonRepo.kt` — `Entry`: заголовок PR и пункта абзацем под строкой | [B-15](backlog/B-15-toon-repo-card-and-settings.md) | открыта |
 | 15 | toon-ui | У `ToonListItem` нет выбранного состояния для «список слева, подробности справа» | [toon-ui#37](https://github.com/youndie/toon-ui/issues/37) | нет — строка открытого репозитория не отмечена | [B-15](backlog/B-15-toon-repo-card-and-settings.md) | открыта |
+| 16 | plakat-ui | Нет трафарета «открыть снаружи» (↗) для строк, ведущих на GitHub; свой трафарет потребитель сделать не может | [plakat-ui#21](https://github.com/youndie/plakat-ui/issues/21) (комментарий) | `skin-plakat/…/PlakatRepo.kt` — `ExternalGlyph` по пути холста | [B-12](backlog/B-12-plakat-repo-card.md) | открыта |
 
 Статусы: `открыта` — issue открыт; `закрыта` — исправлено в ките, обход снят; `отклонена` — кит
 решил иначе, и это записано в issue.

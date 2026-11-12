@@ -14,8 +14,8 @@ publishes: []
 # skin-plakat
 
 Доска — [B-11](../backlog/B-11-plakat-board.md): обе раскладки, все состояния, голдены; эталоны холста —
-[B-10](../backlog/B-10-design-canvas-and-references.md). Карточка и настройки — *целевые*
-([B-12](../backlog/B-12-plakat-repo-card.md), [B-13](../backlog/B-13-plakat-settings.md)).
+[B-10](../backlog/B-10-design-canvas-and-references.md). Карточка — [B-12](../backlog/B-12-plakat-repo-card.md); настройки —
+*целевые* ([B-13](../backlog/B-13-plakat-settings.md)).
 
 ## 1. Ответственность
 
@@ -40,13 +40,14 @@ publishes: []
 |---|---|
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatBoard.kt` | `PlakatBoard`, `BoardActions`; широкая раскладка |
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PhoneBoard.kt` | узкая раскладка |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatRepo.kt` | карточка: `RepoPanel` рядом с доской, `PhoneRepo` отдельным экраном, `RepoActions`; ↗ своим глифом (`// kit:`) |
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/Marks.kt` | обходы кита: метки статуса, «⋮» (`// kit:`) |
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatSkin.kt` | тема кита по теме доски |
 | `skin-plakat/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и plakat-core, больше ни от чего |
 | `skin-plakat/src/desktopTest/snapshots/design/` | эталонные PNG с холста, имя = артборд, 1280×800 и 390×844 |
 | `scripts/design-references.py` | экспорт холста @2x → эталоны 1x, коробочный фильтр ([исследование D9](../research/research-architecture.md)) |
 | `design/canvas/` | исходники артбордов, `canvas.json` с заметками дизайнера |
-| `skin-plakat/src/desktopTest/` | фикстуры viddik и голдены (*целевой*) |
+| `skin-plakat/src/desktopTest/` | фикстуры viddik (`BoardFixtures.kt`, `RepoFixtures.kt`) и голдены |
 
 ## 3. Как устроено
 
