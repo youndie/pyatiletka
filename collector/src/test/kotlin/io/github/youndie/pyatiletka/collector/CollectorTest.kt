@@ -259,4 +259,40 @@ class CollectorTest {
             assertEquals(2, runCollect(listOf("--owner", "youndie", "--out", "x.json"), emptyMap(), gitHub.client) {})
             assertEquals(0, gitHub.requests.size)
         }
+
+    @Test
+    fun anOwnerIsCheckedBeforeItJoinsTheList() =
+        runTest {
+            val gitHub =
+                FakeGitHub { owner, _ ->
+                    if (owner ==
+                        "youndie"
+                    ) {
+                        """{"data":{"repositoryOwner":{"login":"youndie"}}}"""
+                    } else {
+                        """{"data":{"repositoryOwner":null}}"""
+                    }
+                }
+            val collector = Collector(gitHub.client, "t")
+            assertTrue(collector.ownerExists("youndie"))
+            assertTrue(!collector.ownerExists("youndi"))
+        }
+
+    @Test
+    fun anUnreachableGitHubIsANetworkFailure() =
+        runTest {
+            val client =
+                io.ktor.client.HttpClient(
+                    io.ktor.client.engine.mock
+                        .MockEngine { throw java.io.IOException("no route to host") },
+                ) {
+                    expectSuccess = false
+                }
+            assertEquals(
+                CollectFailure.Network,
+                assertFailsWith<CollectException> {
+                    Collector(client, "t").collect(listOf("youndie"), true)
+                }.failure,
+            )
+        }
 }

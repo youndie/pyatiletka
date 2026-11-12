@@ -4,6 +4,7 @@ plugins {
     alias(wip.plugins.kotlinMultiplatform)
     alias(wip.plugins.composeMultiplatform)
     alias(wip.plugins.composeCompiler)
+    alias(wip.plugins.kotlinSerialization)
     id("io.github.youndie.sborka.kmp")
     id("io.github.youndie.sborka.lint")
 }
@@ -20,6 +21,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core"))
+            implementation(wip.kotlinx.coroutines.core)
             implementation(project(":skin-plakat"))
             implementation(project(":skin-toon"))
             implementation(wip.compose.runtime)
@@ -30,10 +32,16 @@ kotlin {
             implementation(project(":collector"))
             implementation(compose.desktop.currentOs)
             implementation(libs.appframe)
+            implementation("io.ktor:ktor-client-cio:${wip.versions.ktor.get()}")
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(wip.kotlinx.coroutines.test)
         }
         getByName("desktopTest").dependencies {
             implementation(kotlin("test"))
             implementation(wip.compose.ui.test)
+            implementation("io.ktor:ktor-client-mock:${wip.versions.ktor.get()}")
         }
     }
 }

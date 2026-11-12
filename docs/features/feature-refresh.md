@@ -37,39 +37,45 @@ tags: []
 
 ## 4. Якоря кода
 
-Все пути — *целевые*: кода ещё нет.
+Данные и правила — в коде ([B-08](../backlog/B-08-app-snapshot-sources.md)); экраны — *целевые*.
 
 | Модуль | Код |
 |---|---|
 | core | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` — `Snapshot`, `schemaVersion` |
 | collector | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/Collector.kt` — страницы, публичный режим, отказ страницы — неудача снимка |
-| app | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` — таймер и кэш |
-| app | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` — чтение `snapshot.json` |
+| app | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotStore.kt` — `SnapshotStore`, `Data`, `staleness` |
+| app | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/GitHubSnapshotSource.kt` — сбор на десктопе |
+| app | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/Files.kt` — кэш снимка |
+| app | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/PageSnapshotSource.kt` — ответ `snapshot.json` → данные |
+| app | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/BrowserSnapshot.kt` — `window.fetch` |
 
 ## 5. Сценарии
 
-Все сценарии — *целевые*.
+Сценарии проверены на уровне данных (строки `Automated`); на экране — *целевые*, до экранов.
 
 ### Scenario: The network is gone
 * **Given:** десктоп со снимком от 11 ноября, 21:17.
 * **When:** обновление не удалось.
 * **Then:** доска показывает прежние строки и полосу «снимок от 11 ноября, 21:17 — нет связи с
   GitHub» (`Stale`).
+* **Automated:** `SnapshotStoreTest.theNetworkIsGoneAndYesterdaysSnapshotStays`, `DesktopSourcesTest.anUnreachableGitHubIsNoNetwork` — данные; полоса `Stale` на экране — B-09, B-11
 
 ### Scenario: First start without network
 * **Given:** снимка на диске нет.
 * **When:** сбор не удался.
 * **Then:** доска показывает `Error` с кнопкой повтора.
+* **Automated:** `SnapshotStoreTest.aFirstStartWithoutNetworkIsAnError` — данные; экран `Error` — B-09, B-11
 
 ### Scenario: The snapshot is not published yet
 * **Given:** веб-страница.
 * **When:** запрос `snapshot.json` вернул `404`.
 * **Then:** страница показывает `Error`, а не пустую доску.
+* **Automated:** `PageSnapshotSourceTest.aMissingSnapshotIsNotPublished` — данные; экран `Error` — B-09, B-11
 
 ### Scenario: Unknown schema version
 * **Given:** `snapshot.json` с `schemaVersion`, которого клиент не знает.
 * **Then:** `Error` с текстом «страница старее снимка — обновите вкладку».
-* **Automated:** `SnapshotJsonTest.aNewerSchemaIsNamedNotGuessed` — разбор `core`; текст ошибки на экране — B-08
+* **Automated:** `SnapshotJsonTest.aNewerSchemaIsNamedNotGuessed`, `PageSnapshotSourceTest.aNewerSchemaSaysThePageIsOlder` — данные; текст ошибки на экране — B-09, B-11
 
 ### Scenario: A private repository in public mode
 * **Given:** `collect --public-only`, в ответе GitHub подмешан репозиторий с видимостью `Private`.
