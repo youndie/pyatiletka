@@ -11,8 +11,9 @@ publishes: []
 
 # core
 
-Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md): таргеты и одно слово — название
-продукта, которое рисуют оба скина. Модель и правила — *целевые*, [B-06](../backlog/B-06-core-model-and-rules.md).
+Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md); модель, схема снимка, разбор индекса и
+правила доски — [B-06](../backlog/B-06-core-model-and-rules.md). Типы состояний экранов — *целевые*,
+[B-09](../backlog/B-09-app-screen-state-and-navigation.md).
 
 ## 1. Ответственность
 
@@ -34,31 +35,29 @@ publishes: []
 
 - **Снимок:** класс `Snapshot` и его поддеревья, JSON kotlinx.serialization с
   `ignoreUnknownKeys = true`, времена ISO-8601 UTC, целое `schemaVersion` в корне.
-- Версия схемы, которую понимает клиент, — константа в этом модуле; снимок с версией новее —
-  ошибка разбора, а не пустая доска.
+- Версия схемы, которую понимает клиент, — `SCHEMA_VERSION`; `readSnapshot` читает
+  `schemaVersion` раньше всего остального и отвечает `SnapshotRead.NewerSchema`, а не пустой доской.
+  Сломанный текст — `SnapshotRead.Unreadable`.
 
 ## 2a. Якоря кода
 
 | Файл | Что там |
 |---|---|
-| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` | `Product.TITLE`; модель, схема, правила — *целевые* |
-| `core/src/commonTest/` | тесты на обоих таргетах; правила и разбор индексов — *целевые* |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Snapshot.kt` | модель: `Snapshot`, `Repo`, `PullRequest`, `Plan`, `BacklogItem` |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/SnapshotJson.kt` | `readSnapshot`, `writeSnapshot`, `SCHEMA_VERSION`, времена ISO-8601 UTC |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/BacklogIndex.kt` | `parseBacklogIndex` |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Completion.kt` | план, выполнение, «ждут» |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Board.kt` | `summarize`, `boardOrder`, `BoardFilter`, `boardRows` |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/RepoCard.kt` | `cardPullRequests`, `cardItems`, `isQuiet` |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleSnapshot.kt` | примерные данные экранов — источник тестов состояний и эталонов |
+| `core/src/commonTest/` | тесты на обоих таргетах; `RealIndexes.kt` — настоящие индексы, генерирует `scripts/index-fixtures.py` |
 | `core/build.gradle.kts` | таргеты `jvm("desktop")` и `wasmJs` |
 
-## 3. Модель (из брифа §3, целевая)
+## 3. Модель
 
-Пока кода нет, модель записана здесь; когда появится, таблица заменяется путём к классам.
-
-| Сущность | Идентификатор | Владелец | Заметки |
-|---|---|---|---|
-| `Snapshot` | `takenAt` | — | вся доска на один момент: `schemaVersion`, список владельцев, список `Repo` |
-| `Repo` | `owner/name` | `Snapshot` | видимость `Public` / `Private`; основная ветка; время последнего push |
-| `MainStatus` | — | `Repo` | закрытый набор: `Green`, `Red`, `Running`, `None` (у коммита нет проверок) |
-| `FailedCheck` | имя проверки | `Repo` | только при `Red`; имя и ссылка |
-| `PullRequest` | номер в репозитории | `Repo` | заголовок, автор `Human` / `Bot`, черновик, возраст, проверки: `Ready`, `Failing`, `Running`, `NoChecks` |
-| `Plan` | — | `Repo` | форма `Items` / `Flat` / `None`; для `Items` — счётчики `done`, `open`, `wip`, `question`, `dropped` |
-| `BacklogItem` | `B-NN` | `Plan` | только незакрытые: заголовок, статус `Open` / `Wip` / `Question`, приоритет, ссылка |
-| `Settings` | — | локально | скин, тема, владельцы, период, источник токена; секретов не содержит |
+Классы — `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Snapshot.kt`; поля не
+копируются сюда. `Settings` брифа (скин, тема, владельцы, период, источник токена) — не часть
+снимка и появится в [app](app.md) ([B-08](../backlog/B-08-app-snapshot-sources.md)).
 
 Тенантности нет. Единственная граница доступа — видимость репозитория: всё, что публикуется,
 содержит только `Public`.
@@ -69,7 +68,13 @@ publishes: []
   `<!-- END INDEX -->`, разделы `## Open (N)` / `## Closed (N)`, метки `[ ]` `[~]` `[x]` `[?]`
   `[-]` — словарь `MARK` в `youndie/docs-bootstrap@v0.4.1!/scripts/backlog_index.py`. Так снимок
   обходится одним запросом на репозиторий вместо чтения десятков файлов. Цена — зависимость от
-  формата генератора; тесты идут на настоящих индексах трёх публичных репозиториев.
+  формата генератора; тесты идут на настоящих индексах четырёх публичных репозиториев — appframe,
+  kachok, tacku, plakat-ui (`scripts/index-fixtures.py` пишет их в общий тест на названных коммитах).
+  Заголовок пункта — всё, что стоит до трёх последних ячеек строки, так что `|` в заголовке его не рвёт.
+- **Порядок строк** — группы брифа (красный main, падающий PR, вопросы, открытые PR, остальное), а
+  внутри группы — последний push сверху ([исследование §3.1, п. 2](../research/research-architecture.md)).
+- **Примерные данные живут в `core`, а не в тестах.** Их читают тесты состояний экранов в `app` и
+  эталоны обоих скинов; у KMP нет общих тестовых источников между модулями.
 - **Выполнение округляется вниз.** `done / (done + open + wip + question)`, вниз до целого
   процента: 179 из 180 — 99 %, а не 100 %.
 
@@ -95,6 +100,9 @@ playwright. CI делает то же на `ubuntu-latest` (`.github/workflows/c
 Нет.
 
 ## 8. Причуды
+
+- Времена брифа («снимок взят в 09:17») — московские; в `SampleSnapshot` они записаны в UTC
+  (`06:17Z`). Показ в часовом поясе зрителя — забота экранов.
 
 - Тесты `core` гоняются на обоих таргетах: разбор индекса на wasmJs и на JVM должен давать одно и
   то же (регулярные выражения и разбор чисел — разные движки).

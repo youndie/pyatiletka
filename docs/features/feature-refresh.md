@@ -69,6 +69,7 @@ tags: []
 ### Scenario: Unknown schema version
 * **Given:** `snapshot.json` с `schemaVersion`, которого клиент не знает.
 * **Then:** `Error` с текстом «страница старее снимка — обновите вкладку».
+* **Automated:** `SnapshotJsonTest.aNewerSchemaIsNamedNotGuessed` — разбор `core`; текст ошибки на экране — B-08
 
 ### Scenario: A private repository in public mode
 * **Given:** `collect --public-only`, в ответе GitHub подмешан репозиторий с видимостью `Private`.

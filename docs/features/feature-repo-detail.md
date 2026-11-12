@@ -33,11 +33,11 @@ tags: []
 
 ## 4. Якоря кода
 
-Все пути — *целевые*: кода ещё нет.
+Правила — в `core` ([B-06](../backlog/B-06-core-model-and-rules.md)); остальные пути — *целевые*.
 
 | Модуль | Код |
 |---|---|
-| core | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` — порядок PR и пунктов |
+| core | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/RepoCard.kt` — порядок PR и пунктов, `isQuiet` |
 | app | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` — состояние карточки |
 | skin-plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
 | skin-toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
@@ -50,14 +50,17 @@ tags: []
 * **Given:** `youndie/tacku` из примерных данных.
 * **When:** открыта карточка.
 * **Then:** сверху стоят две упавшие проверки (`server / test`, `client / tck`), ниже PR и пункты.
+* **Automated:** `RepoCardTest.aRedMainCarriesItsFailedChecks` — данные и порядок `core`; карточка — B-12, B-15
 
 ### Scenario: Nothing to do
 * **Given:** `youndie/plakat-ui` — 73 из 73, PR нет, `Green`.
 * **Then:** карточка показывает состояние `Quiet`.
+* **Automated:** `RepoCardTest.plakatUiIsQuiet` — признак `isQuiet`; состояние `Quiet` — B-09
 
 ### Scenario: No plan in the repository
 * **Given:** `youndie/proba` — `Plan.None`.
 * **Then:** раздел плана заменён пометкой «бэклога в репозитории нет», PR показаны как обычно.
+* **Automated:** `RepoCardTest.probaHasNoPlanAndOnePullRequest` — данные `core`; пометка на карточке — B-12, B-15
 
 ## 6. Вне объёма
 

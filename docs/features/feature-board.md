@@ -45,11 +45,12 @@ tags: []
 
 ## 4. Якоря кода
 
-Все пути — *целевые*: кода ещё нет.
+Правила — в `core` ([B-06](../backlog/B-06-core-model-and-rules.md)); остальные пути — *целевые*.
 
 | Модуль | Код |
 |---|---|
-| core | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` — выполнение, сводка, порядок, фильтры |
+| core | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Board.kt` — сводка, порядок, фильтры, поиск |
+| core | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Completion.kt` — план и выполнение |
 | app | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` — состояние доски |
 | skin-plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
 | skin-toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
@@ -65,15 +66,18 @@ tags: []
 * **When:** доска открыта.
 * **Then:** первой стоит `youndie/tacku` (красный main); сводка показывает 95 %, 1 красный, 12 PR,
   7 ждут.
+* **Automated:** `BoardTest.anOrdinaryDaySummarisesAsTheArtboardsDo`, `BoardTest.theDefaultOrderIsTheTableOfTheBrief` — правила `core`; экран — B-11, B-14
 
 ### Scenario: The search finds nothing
 * **Given:** тот же снимок.
 * **When:** в поиске набрано `zzz`.
 * **Then:** доска показывает состояние `NoMatches` с кнопкой сброса; сводка не меняется.
+* **Automated:** `BoardTest.aSearchThatFindsNothingLeavesTheSummaryAlone` — правило `core`; состояние `NoMatches` — B-09
 
 ### Scenario: The plan is not quite done
 * **Given:** репозиторий с `done = 179`, `open = 1`.
 * **Then:** выполнение показывает 99 %, а не 100 %.
+* **Automated:** `BoardTest.oneItemShortIsNinetyNine`, `BacklogIndexTest.kachokCountsDroppedOutsideThePlan`
 
 ## 6. Вне объёма
 
