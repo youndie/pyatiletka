@@ -1,0 +1,46 @@
+query Portfolio($owner: String!, $first: Int!, $after: String, $privacy: RepositoryPrivacy) {
+  rateLimit { cost remaining }
+  repositoryOwner(login: $owner) {
+    repositories(first: $first, after: $after, privacy: $privacy, ownerAffiliations: OWNER, orderBy: { field: PUSHED_AT, direction: DESC }) {
+      pageInfo { hasNextPage endCursor }
+      nodes {
+        nameWithOwner
+        url
+        visibility
+        isArchived
+        isFork
+        pushedAt
+        defaultBranchRef {
+          name
+          target {
+            ... on Commit {
+              statusCheckRollup {
+                state
+                contexts(first: 50) {
+                  nodes {
+                    __typename
+                    ... on CheckRun { name conclusion detailsUrl }
+                    ... on StatusContext { context state targetUrl }
+                  }
+                }
+              }
+            }
+          }
+        }
+        pullRequests(states: OPEN, first: 50, orderBy: { field: CREATED_AT, direction: ASC }) {
+          nodes {
+            number
+            title
+            isDraft
+            createdAt
+            url
+            author { __typename login }
+            commits(last: 1) { nodes { commit { statusCheckRollup { state } } } }
+          }
+        }
+        backlog: object(expression: "HEAD:backlog.md") { ... on Blob { text } }
+        flatBacklog: object(expression: "HEAD:BACKLOG.md") { ... on Blob { byteSize } }
+      }
+    }
+  }
+}

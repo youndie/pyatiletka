@@ -17,8 +17,9 @@ parent_feature: feature-refresh
 [collector](../services/collector.md) в scheduled workflow, кладёт в ветку `gh-pages`, читает
 веб-сборка [app](../services/app.md). Десктоп этот файл не читает — он собирает снимок сам.
 
-Схема и её разбор есть ([B-06](../backlog/B-06-core-model-and-rules.md)); сборщика и workflow ещё
-нет ([B-07](../backlog/B-07-collector-query-and-cli.md), [B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)).
+Схема и её разбор ([B-06](../backlog/B-06-core-model-and-rules.md)) и CLI, который пишет файл
+([B-07](../backlog/B-07-collector-query-and-cli.md)), есть; workflow, который его публикует, — *целевой*,
+[B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md).
 
 ## Маршруты — все, без исключений
 
@@ -33,7 +34,7 @@ parent_feature: feature-refresh
 
 | Маршрут | Где |
 |---|---|
-| запись `snapshot.json` | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` — CLI `collect --public-only` (*целевой*) |
+| запись `snapshot.json` | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/Main.kt` — CLI `collector --public-only` |
 | чтение `snapshot.json` | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` (*целевой*) |
 | схема | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Snapshot.kt`, `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/SnapshotJson.kt` — `readSnapshot`, `SCHEMA_VERSION` |
 | публикация | `.github/workflows/` — workflow снимка раз в час (*целевой*) |
