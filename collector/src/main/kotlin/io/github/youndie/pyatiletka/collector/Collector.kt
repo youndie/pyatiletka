@@ -12,9 +12,12 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonObject
 import kotlin.time.Clock
 import kotlin.time.Instant
 
@@ -49,6 +52,17 @@ class Collector(
         return Snapshot(SCHEMA_VERSION, takenAt, owners, repos)
     }
 
+    /**
+     * Whether [login] is a GitHub user or organisation, for the settings' owner field
+     * (feature-settings: a login is checked before it joins the list). A rejected token is a
+     * [CollectException] of kind [CollectFailure.TokenRejected], not a "no".
+     */
+    suspend fun ownerExists(login: String): Boolean {
+        val request = GqlRequest(OWNER_QUERY, mapOf("owner" to JsonPrimitive(login)))
+        val data = WireJson.parseToJsonElement(post(request, login)).jsonObject["data"] as? JsonObject
+        return data?.get("repositoryOwner") is JsonObject
+    }
+
     private suspend fun fetchOwner(
         owner: String,
         publicOnly: Boolean,
@@ -78,27 +92,7 @@ class Collector(
                     "privacy" to (if (publicOnly) JsonPrimitive("PUBLIC") else JsonNull),
                 ),
             )
-        val response =
-            client.post(endpoint) {
-                header(HttpHeaders.Authorization, "bearer $token")
-                header(HttpHeaders.UserAgent, USER_AGENT)
-                contentType(ContentType.Application.Json)
-                setBody(WireJson.encodeToString(GqlRequest.serializer(), request))
-            }
-        when (response.status) {
-            HttpStatusCode.OK -> Unit
-
-            HttpStatusCode.Unauthorized -> throw CollectException(
-                CollectFailure.TokenRejected,
-                "GitHub refused the token (401)",
-            )
-
-            else -> throw CollectException(
-                CollectFailure.GitHubRefused,
-                "GitHub answered ${response.status.value} for a page of $owner",
-            )
-        }
-        val body = WireJson.decodeFromString(GqlResponse.serializer(), response.bodyAsText())
+        val body = WireJson.decodeFromString(GqlResponse.serializer(), post(request, owner))
         val ownerData = body.data?.repositoryOwner
         if (ownerData == null) {
             if (body.errors.orEmpty().any { it.type == "NOT_FOUND" } || body.errors.isNullOrEmpty()) {
@@ -112,6 +106,46 @@ class Collector(
         return ownerData.repositories
     }
 
+    private suspend fun post(
+        request: GqlRequest,
+        owner: String,
+    ): String {
+        val response =
+            try {
+                client.post(endpoint) {
+                    header(HttpHeaders.Authorization, "bearer $token")
+                    header(HttpHeaders.UserAgent, USER_AGENT)
+                    contentType(ContentType.Application.Json)
+                    setBody(WireJson.encodeToString(GqlRequest.serializer(), request))
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (
+                @Suppress("TooGenericExceptionCaught") e: Exception,
+            ) {
+                // No address, no route, a timeout: the engine names them differently on every platform,
+                // and to the board they are one thing — GitHub could not be reached.
+                throw CollectException(
+                    CollectFailure.Network,
+                    "GitHub could not be reached: ${e.message ?: e::class.simpleName}",
+                )
+            }
+        when (response.status) {
+            HttpStatusCode.OK -> Unit
+
+            HttpStatusCode.Unauthorized -> throw CollectException(
+                CollectFailure.TokenRejected,
+                "GitHub refused the token (401)",
+            )
+
+            else -> throw CollectException(
+                CollectFailure.GitHubRefused,
+                "GitHub answered ${response.status.value} for $owner",
+            )
+        }
+        return response.bodyAsText()
+    }
+
     companion object {
         const val GITHUB_GRAPHQL: String = "https://api.github.com/graphql"
 
@@ -120,6 +154,9 @@ class Collector(
 
         /** Measured in B-02: 25 per page is the largest size GitHub never refused. */
         const val PAGE_SIZE: Int = 25
+
+        private const val OWNER_QUERY: String =
+            "query(${'$'}owner: String!) { repositoryOwner(login: ${'$'}owner) { login } }"
 
         internal val QUERY: String by lazy {
             checkNotNull(Collector::class.java.getResourceAsStream("portfolio.graphql")) {
@@ -131,7 +168,7 @@ class Collector(
 }
 
 /** What a collection can fail on, for the screens to tell apart (feature-refresh, feature-settings). */
-enum class CollectFailure { TokenRejected, OwnerNotFound, GitHubRefused, PublicModeViolation }
+enum class CollectFailure { Network, TokenRejected, OwnerNotFound, GitHubRefused, PublicModeViolation }
 
 class CollectException(
     val failure: CollectFailure,
