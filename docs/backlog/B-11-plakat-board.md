@@ -1,7 +1,7 @@
 ---
 id: B-11
 title: "plakat: доска, все состояния, оба размера"
-status: open
+status: wip
 priority: P1
 size: L
 stage: stage-2-plakat
