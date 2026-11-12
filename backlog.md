@@ -37,7 +37,7 @@
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-07](docs/backlog/B-07-collector-query-and-cli.md) `[ ]` | collector: запрос → Snapshot, публичный режим, CLI | P1 | M | B-02, B-06 |
+| [B-07](docs/backlog/B-07-collector-query-and-cli.md) `[~]` | collector: запрос → Snapshot, публичный режим, CLI | P1 | M | B-02, B-06 |
 | [B-08](docs/backlog/B-08-app-snapshot-sources.md) `[ ]` | app: источники снимка, кэш, таймер, токен, настройки | P1 | M | B-06, B-07 |
 | [B-09](docs/backlog/B-09-app-screen-state-and-navigation.md) `[ ]` | app: состояние и навигация экранов Board, Repo, Settings | P1 | M | B-08 |
 | [B-11](docs/backlog/B-11-plakat-board.md) `[ ]` | plakat: доска, все состояния, оба размера | P1 | L | B-09, B-10 |

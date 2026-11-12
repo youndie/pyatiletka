@@ -1,7 +1,7 @@
 ---
 id: B-07
 title: "collector: запрос → Snapshot, публичный режим, CLI"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-data
