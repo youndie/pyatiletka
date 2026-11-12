@@ -1,7 +1,7 @@
 ---
 id: B-06
 title: "core: модель, схема snapshot.json, разбор индекса, выполнение и порядок"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-1-data
@@ -18,3 +18,15 @@ blocked_by: [B-01]
 
 - AC: тесты на индексах трёх публичных репозиториев и на правилах §4 брифа зелёные на desktop и wasmJs.
 - Якоря: `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/`, `core/src/commonTest/`.
+
+## Итог (12.11.2026)
+
+- Модель снимка, `readSnapshot` / `writeSnapshot` со схемой версии 1, `parseBacklogIndex`, выполнение,
+  сводка, порядок строк, фильтры, поиск и порядок на карточке — в `core`
+  ([docs/services/core.md](../services/core.md), §2a).
+- Тесты — 27 на каждом таргете, `desktopTest` и `wasmJsBrowserTest` зелёные на WSL: настоящие индексы
+  appframe, kachok, tacku и plakat-ui на коммитах из `RealIndexes.kt`, правила §4 на примерных
+  данных. Три мутанта (округление вверх, порядок push, закрытая метка в таблице открытых) убиты.
+- Примерные данные брифа — `SampleSnapshot` в `core`: счётчики брифа, заголовки невидимых на
+  артбордах пунктов — настоящие открытые пункты тех репозиториев на 12.11.
+- Не сделано здесь и не входило: типы состояний экранов — [B-09](B-09-app-screen-state-and-navigation.md).
