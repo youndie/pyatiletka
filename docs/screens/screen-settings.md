@@ -10,7 +10,7 @@ parent_feature: feature-settings
 calls_api: []
 source: app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app
 design:
-  canvas: "Claude Design, проект plakat-ui, страница Settings — ещё не нарисован (B-10)"
+  canvas: "Claude Design, проект plakat-ui, страница Settings от 12.11.2026; исходники артбордов — design/canvas/Page_Settings.dc.html, заметки — design/canvas/canvas.json"
   references: skin-plakat/src/desktopTest/snapshots/design
   states:
     Content: Settings_Content
@@ -71,6 +71,17 @@ design:
 ### 4.3. Период
 
 - 5, 15 или 60 минут.
+
+### 4.4. Что добавил холст
+
+Из заметок страницы Settings в `design/canvas/canvas.json`:
+
+- `TokenMissing`: выбранный способ показывает команду или имя переменной; «Проверить снова» ищет
+  токен заново; владельцы и период недоступны до токена;
+- `TokenRejected`: остальное доступно; «Проверить снова» повторяет запрос к GitHub;
+- владелец добавляется полем по Enter или «Добавить», убирается ✕ в строке; ошибка
+  `OwnerNotFound` появляется после «Добавить» и уходит при правке поля;
+- команда и имя переменной набраны Golos Text 600 на плашке: моноширинного шрифта в ките нет.
 
 ## 5. Навигация
 

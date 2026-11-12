@@ -1,0 +1,780 @@
+{
+  "kit": "plakat-ui",
+  "direction": "3a",
+  "tokens": "plakat-tokens.json v0.2.0",
+  "date": "2026-11-12",
+  "snapshot": "09:17",
+  "pages": [
+    {
+      "name": "Board",
+      "file": "Page_Board.dc.html",
+      "w": 12800,
+      "h": 2208,
+      "frames": [
+        {
+          "name": "Board_Loading",
+          "file": "Board_Loading.dc.html",
+          "png": "png/Board_Loading.png",
+          "x": 560,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_Empty",
+          "file": "Board_Empty.dc.html",
+          "png": "png/Board_Empty.png",
+          "x": 1920,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_Content",
+          "file": "Board_Content.dc.html",
+          "png": "png/Board_Content.png",
+          "x": 3280,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_NoMatches",
+          "file": "Board_NoMatches.dc.html",
+          "png": "png/Board_NoMatches.png",
+          "x": 4640,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_Stale",
+          "file": "Board_Stale.dc.html",
+          "png": "png/Board_Stale.png",
+          "x": 6000,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_Error",
+          "file": "Board_Error.dc.html",
+          "png": "png/Board_Error.png",
+          "x": 7360,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_NoToken",
+          "file": "Board_NoToken.dc.html",
+          "png": "png/Board_NoToken.png",
+          "x": 8720,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_AppearanceSheet",
+          "file": "Board_AppearanceSheet.dc.html",
+          "png": "png/Board_AppearanceSheet.png",
+          "x": 10080,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_Content_Dark",
+          "file": "Board_Content_Dark.dc.html",
+          "png": "png/Board_Content_Dark.png",
+          "x": 11440,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Board_Loading_Phone",
+          "file": "Board_Loading_Phone.dc.html",
+          "png": "png/Board_Loading_Phone.png",
+          "x": 560,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Board_Empty_Phone",
+          "file": "Board_Empty_Phone.dc.html",
+          "png": "png/Board_Empty_Phone.png",
+          "x": 1030,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Board_Content_Phone",
+          "file": "Board_Content_Phone.dc.html",
+          "png": "png/Board_Content_Phone.png",
+          "x": 1500,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Board_NoMatches_Phone",
+          "file": "Board_NoMatches_Phone.dc.html",
+          "png": "png/Board_NoMatches_Phone.png",
+          "x": 1970,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Board_Stale_Phone",
+          "file": "Board_Stale_Phone.dc.html",
+          "png": "png/Board_Stale_Phone.png",
+          "x": 2440,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Board_Error_Phone",
+          "file": "Board_Error_Phone.dc.html",
+          "png": "png/Board_Error_Phone.png",
+          "x": 2910,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Board_AppearanceSheet_Phone",
+          "file": "Board_AppearanceSheet_Phone.dc.html",
+          "png": "png/Board_AppearanceSheet_Phone.png",
+          "x": 3380,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Board_Content_Phone_Dark",
+          "file": "Board_Content_Phone_Dark.dc.html",
+          "png": "png/Board_Content_Phone_Dark.png",
+          "x": 3850,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        }
+      ],
+      "notes": [
+        {
+          "x": 560,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_Loading",
+          "text": "Скелет — бетонные плиты до первого снимка. Заголовки колонок известны заранее и не скелетом. Фильтр и поиск недоступны до снимка."
+        },
+        {
+          "x": 1920,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_Empty",
+          "text": "«Настройки» открывает настройки на блоке «Владельцы». Раскат — единственный на экране."
+        },
+        {
+          "x": 3280,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_Content",
+          "text": "12 строк помещаются целиком. 1 красный — tacku; у kachok из двух PR один падает."
+        },
+        {
+          "x": 4640,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_NoMatches",
+          "text": "«Сбросить поиск» и крестик в поле очищают запрос. Фильтр не сбрасывается."
+        },
+        {
+          "x": 6000,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_Stale",
+          "text": "Данные — из снимка 11 ноября, 21:17. «Повторить» берёт снимок заново; при успехе полоса уходит. Нижние строки ушли под край — прокрутка."
+        },
+        {
+          "x": 7360,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_Error",
+          "text": "«Повторить» берёт снимок; на время запроса на месте кнопки CircularProgress."
+        },
+        {
+          "x": 8720,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_NoToken",
+          "text": "«Настройки» открывает блок «Токен GitHub». Только широкий."
+        },
+        {
+          "x": 10080,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_AppearanceSheet",
+          "text": "Выбор применяется сразу. «Готово» и нажатие на растр закрывают диалог."
+        },
+        {
+          "x": 11440,
+          "y": 944,
+          "w": 1280,
+          "frame": "Board_Content_Dark",
+          "text": "Чёрная бумага: paper, concrete, ink, ink-muted — из dark. Red, ocher, slate те же."
+        },
+        {
+          "x": 560,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_Loading_Phone",
+          "text": "Строки скелетом в одну колонку; видно шесть из восьми."
+        },
+        {
+          "x": 1030,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_Empty_Phone",
+          "text": "Как широкий."
+        },
+        {
+          "x": 1500,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_Content_Phone",
+          "text": "Сводка сжата до плашки и трёх счётчиков. Видны первые строки, дальше прокрутка."
+        },
+        {
+          "x": 1970,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_NoMatches_Phone",
+          "text": "Как широкий."
+        },
+        {
+          "x": 2440,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_Stale_Phone",
+          "text": "Кнопка повтора — ↻ в полосе."
+        },
+        {
+          "x": 2910,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_Error_Phone",
+          "text": "Как широкий."
+        },
+        {
+          "x": 3380,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_AppearanceSheet_Phone",
+          "text": "BottomSheet. Свайп вниз, «Готово» или нажатие на растр закрывают."
+        },
+        {
+          "x": 3850,
+          "y": 2032,
+          "w": 390,
+          "frame": "Board_Content_Phone_Dark",
+          "text": "Как Board_Content_Dark."
+        },
+        {
+          "x": 0,
+          "y": 120,
+          "w": 480,
+          "tag": "Источник",
+          "text": "Из системы был только plakat-tokens.json (3a, v0.2.0). Страниц «Ядро», «Компоненты», «Текстуры» не было: геометрия компонентов выведена из токенов. Сверить с этими страницами до голденов."
+        },
+        {
+          "x": 0,
+          "y": 284,
+          "w": 480,
+          "tag": "Нажатие",
+          "text": "Строка открывает карточку репозитория (на широком — панель справа, на узком — экран)."
+        },
+        {
+          "x": 0,
+          "y": 402,
+          "w": 480,
+          "tag": "Фильтр",
+          "text": "«Все», «Красные», «С PR», «Ждут меня». Выбран один. На широком — SegmentedButton, на узком — Chip."
+        },
+        {
+          "x": 0,
+          "y": 520,
+          "w": 480,
+          "tag": "Шапка",
+          "text": "Меню ⋮ — PlakatMenu: «Вид», «Настройки». «Вид» открывает диалог (широкий) или шторку (узкий). Кнопка ↻ на широком берёт снимок сейчас."
+        },
+        {
+          "x": 0,
+          "y": 661,
+          "w": 480,
+          "tag": "Узкий",
+          "text": "Обновление — потянуть вниз: PullToRefreshBox вокруг всего экрана под шапкой."
+        },
+        {
+          "x": 0,
+          "y": 779,
+          "w": 480,
+          "tag": "Прокрутка",
+          "text": "Прокручивается только список строк. Шапка, сводка, фильтр, поиск и заголовок таблицы стоят. На узком прокручивается всё под шапкой."
+        },
+        {
+          "x": 0,
+          "y": 920,
+          "w": 480,
+          "tag": "Многоточие",
+          "text": "Имя репозитория — в одну строку, лишнее многоточием. Счётчики и план не обрезаются."
+        },
+        {
+          "x": 0,
+          "y": 1038,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Строка таблицы с пятью колонками и заголовок таблицы: собраны из ListItem, Divider, LinearProgress и Badge."
+        },
+        {
+          "x": 0,
+          "y": 1179,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Полоса устаревшего снимка внутри экрана (не Snackbar): ocher-плашка warning со словом «ВНИМАНИЕ» и TextButton."
+        },
+        {
+          "x": 0,
+          "y": 1320,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Подложка под диалогом и шторкой: растр halftone pitch 4, 45°, одна краска. Затемнения в токенах нет."
+        },
+        {
+          "x": 0,
+          "y": 1438,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Бейдж статуса main: «Зелёный» — клин-галочка, «Ошибка» — штриховка 45° шаг 6, «Идёт» — slate-плашка."
+        },
+        {
+          "x": 0,
+          "y": 1556,
+          "w": 480,
+          "tag": "Не из токенов",
+          "text": "Высота шапки 64 (широкий) и 56 (узкий) + брус 8. Бейдж 20 по высоте. Иконки нарисованы линией rule 3, butt/miter: набора иконок в токенах нет. Отступы 24 и 32 взяты кратными шагу сетки 8."
+        },
+        {
+          "x": 0,
+          "y": 1720,
+          "w": 480,
+          "tag": "Трактовка",
+          "text": "Приводка 1,1: у display/headline — красный оттиск под краской, у плашек — краска под красным. Текстура бумаги — своя feTurbulence с tile 256, opacity 0.45, multiply из токенов. Срез cut 46×14 не применён: неясно, к чему он."
+        },
+        {
+          "x": 0,
+          "y": 1907,
+          "w": 480,
+          "tag": "Не из токенов",
+          "text": "Код (gh auth token, имя переменной) набран Golos Text 600 на concrete: моноширинного текстового шрифта в ките нет."
+        }
+      ]
+    },
+    {
+      "name": "Repo",
+      "file": "Page_Repo.dc.html",
+      "w": 7360,
+      "h": 2208,
+      "frames": [
+        {
+          "name": "Repo_Content",
+          "file": "Repo_Content.dc.html",
+          "png": "png/Repo_Content.png",
+          "x": 560,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Repo_Red",
+          "file": "Repo_Red.dc.html",
+          "png": "png/Repo_Red.png",
+          "x": 1920,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Repo_Quiet",
+          "file": "Repo_Quiet.dc.html",
+          "png": "png/Repo_Quiet.png",
+          "x": 3280,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Repo_NoPlan",
+          "file": "Repo_NoPlan.dc.html",
+          "png": "png/Repo_NoPlan.png",
+          "x": 4640,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Repo_Content_Dark",
+          "file": "Repo_Content_Dark.dc.html",
+          "png": "png/Repo_Content_Dark.png",
+          "x": 6000,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Repo_Content_Phone",
+          "file": "Repo_Content_Phone.dc.html",
+          "png": "png/Repo_Content_Phone.png",
+          "x": 560,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Repo_Red_Phone",
+          "file": "Repo_Red_Phone.dc.html",
+          "png": "png/Repo_Red_Phone.png",
+          "x": 1030,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Repo_Quiet_Phone",
+          "file": "Repo_Quiet_Phone.dc.html",
+          "png": "png/Repo_Quiet_Phone.png",
+          "x": 1500,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Repo_NoPlan_Phone",
+          "file": "Repo_NoPlan_Phone.dc.html",
+          "png": "png/Repo_NoPlan_Phone.png",
+          "x": 1970,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        },
+        {
+          "name": "Repo_Content_Phone_Dark",
+          "file": "Repo_Content_Phone_Dark.dc.html",
+          "png": "png/Repo_Content_Phone_Dark.png",
+          "x": 2440,
+          "y": 1164,
+          "w": 390,
+          "h": 844
+        }
+      ],
+      "notes": [
+        {
+          "x": 560,
+          "y": 944,
+          "w": 1280,
+          "frame": "Repo_Content",
+          "text": "Слева доска в сжатом виде: сводка в одну строку, строка kachok выделена. Пункты ниже края — прокрутка панели."
+        },
+        {
+          "x": 1920,
+          "y": 944,
+          "w": 1280,
+          "frame": "Repo_Red",
+          "text": "Упавшие проверки main стоят выше плана. Пункты — первые три из 12."
+        },
+        {
+          "x": 3280,
+          "y": 944,
+          "w": 1280,
+          "frame": "Repo_Quiet",
+          "text": "Плакат «План выполнен» вместо списков: PR и пунктов нет."
+        },
+        {
+          "x": 4640,
+          "y": 944,
+          "w": 1280,
+          "frame": "Repo_NoPlan",
+          "text": "План заменён плитой «Бэклога в репозитории нет»; PR на месте."
+        },
+        {
+          "x": 6000,
+          "y": 944,
+          "w": 1280,
+          "frame": "Repo_Content_Dark",
+          "text": "Чёрная бумага."
+        },
+        {
+          "x": 560,
+          "y": 2032,
+          "w": 390,
+          "frame": "Repo_Content_Phone",
+          "text": "Отдельный экран, одна колонка. Название в шапке — многоточием при нехватке места."
+        },
+        {
+          "x": 1030,
+          "y": 2032,
+          "w": 390,
+          "frame": "Repo_Red_Phone",
+          "text": "Как широкий."
+        },
+        {
+          "x": 1500,
+          "y": 2032,
+          "w": 390,
+          "frame": "Repo_Quiet_Phone",
+          "text": "Как широкий."
+        },
+        {
+          "x": 1970,
+          "y": 2032,
+          "w": 390,
+          "frame": "Repo_NoPlan_Phone",
+          "text": "Как широкий."
+        },
+        {
+          "x": 2440,
+          "y": 2032,
+          "w": 390,
+          "frame": "Repo_Content_Phone_Dark",
+          "text": "Чёрная бумага."
+        },
+        {
+          "x": 0,
+          "y": 120,
+          "w": 480,
+          "tag": "Источник",
+          "text": "Из системы был только plakat-tokens.json (3a, v0.2.0). Страниц «Ядро», «Компоненты», «Текстуры» не было: геометрия компонентов выведена из токенов. Сверить с этими страницами до голденов."
+        },
+        {
+          "x": 0,
+          "y": 284,
+          "w": 480,
+          "tag": "Нажатие",
+          "text": "Строка PR, пункта или проверки открывает GitHub (значок ↗)."
+        },
+        {
+          "x": 0,
+          "y": 402,
+          "w": 480,
+          "tag": "Закрыть",
+          "text": "Широкий: ✕ закрывает панель, строка на доске теряет выделение. Узкий: ← назад к доске."
+        },
+        {
+          "x": 0,
+          "y": 520,
+          "w": 480,
+          "tag": "Прокрутка",
+          "text": "Панель прокручивается целиком под строкой с названием. Доска слева прокручивается отдельно."
+        },
+        {
+          "x": 0,
+          "y": 638,
+          "w": 480,
+          "tag": "Перенос",
+          "text": "Заголовки PR и пунктов не обрезаются: переносятся на нужное число строк."
+        },
+        {
+          "x": 0,
+          "y": 756,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Правая панель шириной 480 рядом с доской: не Dialog и не NavigationDrawer — свой контейнер с левым брусом 3."
+        },
+        {
+          "x": 0,
+          "y": 897,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Бейджи статуса пункта: «Ждёт ответа» — ocher, «В работе» — slate, «Открыт» — контур hair. PR: «Проверки упали» — штриховка, «Готов к вливанию» — клин, «Проверки идут» — slate."
+        },
+        {
+          "x": 0,
+          "y": 1061,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Строка проверки: штриховка, имя проверки, «Ошибка», ↗."
+        },
+        {
+          "x": 0,
+          "y": 1179,
+          "w": 480,
+          "tag": "Предложение",
+          "text": "В tacku «Ещё 9» раскрывает остальные пункты по месту. В брифе этого нет: решить."
+        },
+        {
+          "x": 0,
+          "y": 1297,
+          "w": 480,
+          "tag": "Не из токенов",
+          "text": "Высота шапки 64 (широкий) и 56 (узкий) + брус 8. Бейдж 20 по высоте. Иконки нарисованы линией rule 3, butt/miter: набора иконок в токенах нет. Отступы 24 и 32 взяты кратными шагу сетки 8."
+        },
+        {
+          "x": 0,
+          "y": 1461,
+          "w": 480,
+          "tag": "Трактовка",
+          "text": "Приводка 1,1: у display/headline — красный оттиск под краской, у плашек — краска под красным. Текстура бумаги — своя feTurbulence с tile 256, opacity 0.45, multiply из токенов. Срез cut 46×14 не применён: неясно, к чему он."
+        },
+        {
+          "x": 0,
+          "y": 1648,
+          "w": 480,
+          "tag": "Не из токенов",
+          "text": "Код (gh auth token, имя переменной) набран Golos Text 600 на concrete: моноширинного текстового шрифта в ките нет."
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "file": "Page_Settings.dc.html",
+      "w": 6000,
+      "h": 1383,
+      "frames": [
+        {
+          "name": "Settings_Content",
+          "file": "Settings_Content.dc.html",
+          "png": "png/Settings_Content.png",
+          "x": 560,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Settings_TokenMissing",
+          "file": "Settings_TokenMissing.dc.html",
+          "png": "png/Settings_TokenMissing.png",
+          "x": 1920,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Settings_TokenRejected",
+          "file": "Settings_TokenRejected.dc.html",
+          "png": "png/Settings_TokenRejected.png",
+          "x": 3280,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        },
+        {
+          "name": "Settings_OwnerNotFound",
+          "file": "Settings_OwnerNotFound.dc.html",
+          "png": "png/Settings_OwnerNotFound.png",
+          "x": 4640,
+          "y": 120,
+          "w": 1280,
+          "h": 800
+        }
+      ],
+      "notes": [
+        {
+          "x": 560,
+          "y": 944,
+          "w": 1280,
+          "frame": "Settings_Content",
+          "text": "Токен найден через gh; владелец youndie; период 15 минут."
+        },
+        {
+          "x": 1920,
+          "y": 944,
+          "w": 1280,
+          "frame": "Settings_TokenMissing",
+          "text": "Выбранный способ показывает команду или имя переменной. «Проверить снова» ищет токен заново. Владельцы и период недоступны до токена."
+        },
+        {
+          "x": 3280,
+          "y": 944,
+          "w": 1280,
+          "frame": "Settings_TokenRejected",
+          "text": "Остальное как в Content и доступно. «Проверить снова» повторяет запрос к GitHub."
+        },
+        {
+          "x": 4640,
+          "y": 944,
+          "w": 1280,
+          "frame": "Settings_OwnerNotFound",
+          "text": "Ошибка появляется после «Добавить»; правка поля убирает её."
+        },
+        {
+          "x": 0,
+          "y": 120,
+          "w": 480,
+          "tag": "Источник",
+          "text": "Из системы был только plakat-tokens.json (3a, v0.2.0). Страниц «Ядро», «Компоненты», «Текстуры» не было: геометрия компонентов выведена из токенов. Сверить с этими страницами до голденов."
+        },
+        {
+          "x": 0,
+          "y": 284,
+          "w": 480,
+          "tag": "Токен",
+          "text": "Источник — выбор из двух: GitHub CLI или переменная PYATILETKA_GITHUB_TOKEN. Поля для ввода самого токена нет."
+        },
+        {
+          "x": 0,
+          "y": 425,
+          "w": 480,
+          "tag": "Владельцы",
+          "text": "Добавляются полем: Enter или «Добавить». Убираются ✕ в строке."
+        },
+        {
+          "x": 0,
+          "y": 543,
+          "w": 480,
+          "tag": "Период",
+          "text": "5, 15 или 60 минут."
+        },
+        {
+          "x": 0,
+          "y": 638,
+          "w": 480,
+          "tag": "Назад",
+          "text": "← возвращает на доску."
+        },
+        {
+          "x": 0,
+          "y": 733,
+          "w": 480,
+          "tag": "Нет в ките",
+          "text": "Строка настроек «подпись слева, контролы справа» собрана из Divider, Typography и контролов кита."
+        },
+        {
+          "x": 0,
+          "y": 851,
+          "w": 480,
+          "tag": "Не из токенов",
+          "text": "Высота шапки 64 (широкий) и 56 (узкий) + брус 8. Бейдж 20 по высоте. Иконки нарисованы линией rule 3, butt/miter: набора иконок в токенах нет. Отступы 24 и 32 взяты кратными шагу сетки 8."
+        },
+        {
+          "x": 0,
+          "y": 1015,
+          "w": 480,
+          "tag": "Трактовка",
+          "text": "Приводка 1,1: у display/headline — красный оттиск под краской, у плашек — краска под красным. Текстура бумаги — своя feTurbulence с tile 256, opacity 0.45, multiply из токенов. Срез cut 46×14 не применён: неясно, к чему он."
+        },
+        {
+          "x": 0,
+          "y": 1202,
+          "w": 480,
+          "tag": "Не из токенов",
+          "text": "Код (gh auth token, имя переменной) набран Golos Text 600 на concrete: моноширинного текстового шрифта в ките нет."
+        }
+      ]
+    }
+  ]
+}
