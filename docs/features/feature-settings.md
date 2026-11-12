@@ -56,10 +56,12 @@ tags: []
 ### Scenario: The token is rejected
 * **Given:** GitHub отвечает `401`.
 * **Then:** настройки показывают `TokenRejected`; старый снимок остаётся на доске.
+* **Automated:** `CollectorTest.aRejectedTokenIsNamed` — сборщик различает `401`; состояние `TokenRejected` — B-08
 
 ### Scenario: No such owner
 * **When:** введён логин `youndi`.
 * **Then:** поле показывает ошибку `OwnerNotFound`; список владельцев не меняется.
+* **Automated:** `CollectorTest.anUnknownOwnerIsNamed` — сборщик различает неизвестный логин; поле и ошибка `OwnerNotFound` — B-08
 
 ## 6. Вне объёма
 

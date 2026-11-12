@@ -42,7 +42,7 @@ tags: []
 | Модуль | Код |
 |---|---|
 | core | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/` — `Snapshot`, `schemaVersion` |
-| collector | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` — запрос, публичный режим |
+| collector | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/Collector.kt` — страницы, публичный режим, отказ страницы — неудача снимка |
 | app | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` — таймер и кэш |
 | app | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` — чтение `snapshot.json` |
 
@@ -75,6 +75,7 @@ tags: []
 * **Given:** `collect --public-only`, в ответе GitHub подмешан репозиторий с видимостью `Private`.
 * **Then:** сбор завершается ошибкой, файл снимка не пишется (приёмка
   [B-07](../backlog/B-07-collector-query-and-cli.md)).
+* **Automated:** `CollectorTest.aPrivateRepositoryInPublicModeFailsTheCollection`, `CollectorTest.theCliRefusesAPrivateLeakAndWritesNothing`
 
 ## 6. Вне объёма
 
