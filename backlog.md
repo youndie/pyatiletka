@@ -39,7 +39,7 @@
 |---|---|---|---|---|
 | [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[ ]` | Страница: сборка в gh-pages, снимок раз в час | P1 | M | B-03, B-07, B-11 |
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
-| [B-22](docs/backlog/B-22-summary-counters-wrap-at-mid-width.md) `[ ]` | plakat: счётчики сводки переносятся по цифрам на ширине около 800 | P2 | S | - |
+| [B-22](docs/backlog/B-22-summary-counters-wrap-at-mid-width.md) `[~]` | plakat: счётчики сводки переносятся по цифрам на ширине около 800 | P2 | S | - |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
 ## Closed (18)
