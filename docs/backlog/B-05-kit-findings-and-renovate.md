@@ -1,7 +1,7 @@
 ---
 id: B-05
 title: "Учёт находок по китам и Renovate на снапшоты китов"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-0-risks
