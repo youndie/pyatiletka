@@ -18,8 +18,9 @@ publishes:
 # app
 
 Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md): окно appframe и страница рисуют
-оба скина рядом (`BothSkins`). Источники снимка, состояние и навигация — *целевые*
-([B-08](../backlog/B-08-app-snapshot-sources.md), [B-09](../backlog/B-09-app-screen-state-and-navigation.md)).
+оба скина рядом (`BothSkins`). Источники снимка, кэш, таймер, токен и настройки —
+[B-08](../backlog/B-08-app-snapshot-sources.md); они ещё не подключены к окну и странице. Состояние
+экранов и навигация — *целевые*, [B-09](../backlog/B-09-app-screen-state-and-navigation.md).
 
 ## 1. Ответственность
 
@@ -47,10 +48,27 @@ publishes:
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` | `BothSkins`; состояние экранов, навигация, выбор скина — *целевые* |
 | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — окно `AppFrame` 1280×800; таймер, кэш, токен — *целевые* |
 | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — `ComposeViewport`; чтение `snapshot.json`, разбор адреса — *целевые* |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotStore.kt` | `SnapshotStore`: кэш → источник → таймер; `Data` (`Loading`, `Ready` с `Staleness`, `Failed`) |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotSource.kt` | `SnapshotSource`, `RefreshFailure`, `SnapshotCache` |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/PageSnapshotSource.kt` | ответ `snapshot.json` → данные (веб) |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/Settings.kt` | `Settings`, `TokenSource` — в `settings.json`, без секретов |
+| `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/` | `GitHubSnapshotSource`, `TokenFinder`, `FileSnapshotCache`, `SettingsFile`, `SettingsModel`, `DesktopGraph` |
+| `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/BrowserSnapshot.kt` | `window.fetch` для `snapshot.json` |
 | `app/src/wasmJsMain/resources/index.html` | страница, фон — бумага plakat, чтобы не мигал шов до первого кадра |
 | `app/src/desktopTest/kotlin/io/github/youndie/pyatiletka/app/` | `BothSkinsTest` — оба кита рисуют название |
 
 ## 3. Как устроено
+
+- **Один источник на платформу, одно хранилище на оба.** `SnapshotStore` читает кэш, потом
+  источник; на десктопе — снова каждые 5/15/60 минут. Попытка одна за раз: нажатие во время
+  попытки к ней присоединяется. Удачный снимок пишется в кэш (`FileSnapshotCache` в каталоге
+  кэшей ОС, запись через `.part` и переименование).
+- **Устаревание.** Снимок устарел, если он старше двух периодов (десктоп) или трёх часов (веб), или
+  если последняя попытка не удалась; `Staleness` говорит, что из двух.
+- **Токен ищется заново на каждую попытку** (`TokenFinder`): сначала источник из настроек, потом
+  второй. Нет ни одного — `RefreshFailure.NoToken`, запроса нет вовсе.
+- **Веб обходит кэш браузера** случайным параметром в адресе `snapshot.json`; возраст снимка —
+  по `takenAt`, а не по ответу.
 
 - **Последний удачный снимок показывается всегда.** Неудача при наличии снимка — `Stale` с
   причиной, без снимка — `Error` ([feature-refresh](../features/feature-refresh.md)).
@@ -81,8 +99,8 @@ publishes:
 
 | Ключ | Описание | Обязателен |
 |---|---|---|
-| `settings.json` в каталоге настроек ОС | скин, тема, владельцы, период, источник токена (десктоп) | нет — по умолчанию |
-| кэш снимка в каталоге кэша ОС | последний удачный снимок (десктоп) | нет |
+| `settings.json` в каталоге настроек ОС (`~/Library/Application Support/pyatiletka` на маке, `$XDG_CONFIG_HOME/pyatiletka` на Linux, `%APPDATA%\pyatiletka` на Windows) | скин, тема, владельцы, период, источник токена (десктоп); сломанный файл — значения по умолчанию | нет — по умолчанию |
+| `snapshot.json` в каталоге кэшей ОС (`~/Library/Caches/pyatiletka` на маке, `$XDG_CACHE_HOME/pyatiletka`) | последний удачный снимок (десктоп); нечитаемый — как будто его нет | нет |
 | localStorage | скин и тема (веб) | нет |
 | `?skin=…&theme=…` | скин и тема из адреса (веб) | нет |
 | `PYATILETKA_GITHUB_TOKEN` | токен, если не через `gh auth token` (десктоп) | один из двух источников |
