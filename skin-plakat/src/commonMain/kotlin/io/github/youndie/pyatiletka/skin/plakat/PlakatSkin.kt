@@ -1,6 +1,7 @@
 package io.github.youndie.pyatiletka.skin.plakat
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import io.github.youndie.plakat.theme.PlakatStrings
 import io.github.youndie.plakat.theme.PlakatTheme
 import io.github.youndie.plakat.tokens.PlakatPalettes
@@ -13,16 +14,21 @@ fun PlakatSkin(
     theme: Theme,
     content: @Composable () -> Unit,
 ) = PlakatTheme(
-    colors =
-        if (theme ==
-            Theme.BlackPaper
-        ) {
-            PlakatPalettes.BlackPaper
-        } else {
-            PlakatPalettes.Paper
-        },
+    colors = plakatColors(theme),
     strings = RussianStrings,
 ) { content() }
 
 /** The kit's own words in the board's language: its defaults are English (the field's error prefix, the loading control). */
 val RussianStrings: PlakatStrings = PlakatStrings(refresh = Texts.REFRESH, loading = Texts.LOADING, error = Texts.ERROR)
+
+private fun plakatColors(theme: Theme) =
+    if (theme ==
+        Theme.BlackPaper
+    ) {
+        PlakatPalettes.BlackPaper
+    } else {
+        PlakatPalettes.Paper
+    }
+
+/** The paper and the ink of [theme]: what the window's frame takes so it reads as the kit's (B-18). */
+fun plakatFrameColors(theme: Theme): Pair<Color, Color> = plakatColors(theme).let { it.paper to it.ink }

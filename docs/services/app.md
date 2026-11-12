@@ -56,6 +56,7 @@ publishes:
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotSource.kt` | `SnapshotSource`, `RefreshFailure`, `SnapshotCache` |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/PageSnapshotSource.kt` | ответ `snapshot.json` → данные (веб) |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/Settings.kt` | `Settings`, `TokenSource` — в `settings.json`, без секретов |
+| `app/build.gradle.kts` | `nativeDistributions`: `Pyatiletka.app`, `.dmg`, модули урезанной JDK |
 | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/` | `GitHubSnapshotSource`, `TokenFinder`, `FileSnapshotCache`, `SettingsFile`, `SettingsModel`, `DesktopGraph`, `DesktopSettings` (экран настроек в окне, по `Navigator`) |
 | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/BrowserSnapshot.kt` | `window.fetch` для `snapshot.json` |
 | `app/src/wasmJsMain/resources/index.html` | страница, фон — бумага plakat, чтобы не мигал шов до первого кадра |
@@ -92,8 +93,10 @@ publishes:
 
 - **Страница:** сборка wasm кладётся в ветку `gh-pages` workflow на push в `main`; адрес
   `youndie.github.io/pyatiletka/` ([B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)).
-- **Десктоп:** в первой версии собирается для машины владельца
-  ([B-18](../backlog/B-18-desktop-installed-app.md)).
+- **Десктоп:** в первой версии собирается для машины владельца, без подписи
+  ([B-18](../backlog/B-18-desktop-installed-app.md)): `LOCAL=1 ./gradlew :app:createDistributable` даёт
+  `app/build/compose/binaries/main/app/Pyatiletka.app` (154 МБ со своей урезанной JDK),
+  `:app:packageDmg` — образ диска. Только на маке: таргет macOS на Linux не собирается.
 
 ## 6. Локальный запуск
 
@@ -111,9 +114,13 @@ publishes:
 
 ## 8. Причуды
 
-- appframe тематизирует рамку через `MaterialTheme` (Material 3), а киты Material не используют.
-  Пока рамка в цветах Material по умолчанию; привести её к бумаге скина — забота
-  [B-18](../backlog/B-18-desktop-installed-app.md), где окно становится приложением.
+- appframe рисует заголовок окна из `MaterialTheme` (`surfaceVariant`, `onSurfaceVariant`), а киты
+  Material не используют. `FrameTheme` (`app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/FrameTheme.kt`)
+  подставляет туда бумагу и тушь выбранной темы кита ([B-18](../backlog/B-18-desktop-installed-app.md)).
+- **Приложение, запущенное из Finder или Dock, не видит окружения оболочки.** Его `PATH` — только
+  `/usr/bin:/bin:/usr/sbin:/sbin`, поэтому `gh` ищется ещё и в `/opt/homebrew/bin`, `/usr/local/bin`
+  и в путях Linuxbrew (`ghExecutable`). Переменная `PYATILETKA_GITHUB_TOKEN` до такого приложения не
+  доходит вовсе: этот способ работает только при запуске из оболочки.
 
 - Десктоп видит всё, что видит токен владельца, в том числе приватные репозитории. Это нормально
   для десктопа и запрещено для всего, что публикуется: снимок с десктопа нельзя приносить в

@@ -13,6 +13,7 @@ import androidx.compose.ui.window.rememberWindowState
 import io.github.youndie.appframe.AppFrame
 import io.github.youndie.pyatiletka.app.desktop.DesktopGraph
 import io.github.youndie.pyatiletka.app.desktop.DesktopSettings
+import io.github.youndie.pyatiletka.app.desktop.FrameTheme
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
@@ -52,15 +53,18 @@ fun main() =
                 .drop(1)
                 .collect(graph.settings::chooseAppearance)
         }
-        AppFrame(
-            onCloseRequest = ::exitApplication,
-            state = rememberWindowState(size = DpSize(1280.dp, 800.dp)),
-            title = "Пятилетка",
-        ) {
-            val route by navigator.current.collectAsState()
-            when (route) {
-                Route.Settings -> DesktopSettings(graph.settings, board, navigator::back)
-                Route.Board -> Shell(board, TimeZone.currentSystemDefault(), openSettings = navigator::openSettings)
+        val boardState by board.state.collectAsState()
+        FrameTheme(boardState.appearance) {
+            AppFrame(
+                onCloseRequest = ::exitApplication,
+                state = rememberWindowState(size = DpSize(1280.dp, 800.dp)),
+                title = "Пятилетка",
+            ) {
+                val route by navigator.current.collectAsState()
+                when (route) {
+                    Route.Settings -> DesktopSettings(graph.settings, board, navigator::back)
+                    Route.Board -> Shell(board, TimeZone.currentSystemDefault(), openSettings = navigator::openSettings)
+                }
             }
         }
     }

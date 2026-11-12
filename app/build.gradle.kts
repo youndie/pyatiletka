@@ -1,3 +1,5 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 // The shell: entry points for the desktop window and the web page, and later the snapshot sources,
 // screen state and navigation (docs/services/app.md).
 plugins {
@@ -48,5 +50,15 @@ kotlin {
 
 compose.desktop.application {
     mainClass = "io.github.youndie.pyatiletka.app.MainKt"
-    nativeDistributions { packageName = "pyatiletka" }
+    // B-18: an app for the owner's machine, started by the system rather than by Gradle. No signing and
+    // no installers for other machines: those are out of scope for the first version.
+    nativeDistributions {
+        targetFormats(TargetFormat.Dmg)
+        packageName = "Pyatiletka"
+        packageVersion = "1.0.0"
+        description = "The portfolio board"
+        // `suggestRuntimeModules`: what the trimmed runtime would miss.
+        modules("java.instrument", "java.management", "jdk.unsupported")
+        macOS { bundleID = "io.github.youndie.pyatiletka" }
+    }
 }
