@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "The portfolio's configuration, extended by name rather than copied: sborka's `default.json` (the Monday batch, the kotlin / kotlinx / sborka / ci-actions groups, the stack held until Kotlin 2.5.20, majors to a human). The harness preset is second because package rules are concatenated in the order the presets are named; its precondition holds here — both jobs of check.yaml run on `pull_request`.",
+    "One rule of this repository's own: the two kits are offered at any time, not on Monday. The board exists to be the kits' first consumer before Maven Central (research D4), so every build a kit's `main` publishes to reposilite has to reach the board the day it is published, not at the end of the week (B-05)."
+  ],
+  "extends": [
+    "github>youndie/sborka",
+    "github>youndie/sborka:automerge-harness"
+  ],
+  "packageRules": [
+    {
+      "description": "The kits, from reposilite's snapshots: every published build, the same day, one pull request per kit.",
+      "matchPackageNames": [
+        "io.github.youndie:plakat-core",
+        "io.github.youndie:toon-core"
+      ],
+      "schedule": [
+        "at any time"
+      ]
+    }
+  ]
+}

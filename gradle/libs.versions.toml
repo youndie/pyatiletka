@@ -5,7 +5,9 @@ sborka = "0.5.0.135"
 # The kits, from reposilite's snapshots until they reach Maven Central — which is what this product
 # is for (research §1.1). Renovate moves them (B-05).
 plakat = "0.1.0.15"
-toon = "0.1.0.13"
+# B-05's positive control: one build behind on purpose, so the first Renovate pull request for a kit
+# arrives without waiting for a kit to publish. That pull request brings it back to 0.1.0.13.
+toon = "0.1.0.12"
 # The desktop window frame, from Maven Central.
 appframe = "0.3.0"
 
