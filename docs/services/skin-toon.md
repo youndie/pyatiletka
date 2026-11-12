@@ -13,8 +13,8 @@ publishes: []
 
 # skin-toon
 
-Доска — [B-14](../backlog/B-14-toon-board.md): обе раскладки, все состояния, голдены. Карточка и
-настройки — *целевые* ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)).
+Доска — [B-14](../backlog/B-14-toon-board.md), карточка и настройки —
+[B-15](../backlog/B-15-toon-repo-card-and-settings.md): обе раскладки, все состояния, голдены.
 
 ## 1. Ответственность
 
@@ -33,9 +33,12 @@ publishes: []
 | Файл | Что там |
 |---|---|
 | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonBoard.kt` | `ToonBoard`, `ToonBoardActions` — обе раскладки |
+| `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonRepo.kt` | `ToonRepoScreen` (доска и панель или карточка одна), `ToonRepo`, `ToonRepoActions` |
+| `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonSettings.kt` | `ToonSettings`, `ToonSettingsActions` |
 | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonSkin.kt` | тема кита по теме доски |
 | `skin-toon/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и toon-core, больше ни от чего |
 | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/BoardFixtures.kt` | фикстуры `Board_*_Toon` |
+| `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/RepoFixtures.kt`, `SettingsFixtures.kt` | фикстуры `Repo_*_Toon`, `Settings_*_Toon` |
 | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/Stage.kt` | `Stage` — сцена кита со сдвигом на ¾ px (обход [toon-ui#35](https://github.com/youndie/toon-ui/issues/35)) |
 | `skin-toon/src/desktopTest/snapshots/` | голдены — запись (холста нет) |
 
@@ -53,8 +56,12 @@ publishes: []
 - **Длинный русский текст не помещается в компоненты движка**: бейдж времени карточки, плашка
   заголовочной карточки, подстрока строки списка ([#30](https://github.com/youndie/toon-ui/issues/30),
   [#32](https://github.com/youndie/toon-ui/issues/32), [#33](https://github.com/youndie/toon-ui/issues/33)).
-  На узком экране строки сокращены; заголовки «Репозиториев нет» и «Ничего не найдено» обрезаны
-  плашкой — обхода нет.
+  На узком экране строки сокращены; заголовки «Репозиториев нет», «Ничего не найдено» и «План
+  выполнен» обрезаны плашкой — обхода нет. Заголовок строки тоже однострочный и без ширины
+  ([#36](https://github.com/youndie/toon-ui/issues/36)): в карточке репозитория заголовки PR и
+  пунктов идут абзацем под строкой.
+- **Выбранной строки у кита нет** ([toon-ui#37](https://github.com/youndie/toon-ui/issues/37)):
+  на широком доска рядом с карточкой не отмечает открытый репозиторий.
 - **`ToonTitleCard`**: пустой `sub` — подзаголовка нет, `null` — демонстрационная строка кита;
   плашка фиксированной ширины, длинный заголовок выходит за край
   ([toon-ui#30](https://github.com/youndie/toon-ui/issues/30), [учёт находок](../kit-findings.md)).

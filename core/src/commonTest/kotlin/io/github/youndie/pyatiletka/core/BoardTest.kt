@@ -123,4 +123,32 @@ class TextsTest {
         assertEquals("youndie · 3 репозитория", t.owners(listOf("youndie"), 3))
         assertEquals("1 падает", t.failingPullRequests(1))
     }
+
+    // screen-repo §6: a pull request's age is its largest whole unit at the snapshot.
+    @Test
+    fun theCardsAges() {
+        val t = io.github.youndie.pyatiletka.core.screen.Texts
+        assertEquals("2 дня", t.age(kotlin.time.Duration.parse("2d 3h")))
+        assertEquals("5 часов", t.age(kotlin.time.Duration.parse("5h 59m")))
+        assertEquals("1 час", t.age(kotlin.time.Duration.parse("1h")))
+        assertEquals("21 минута", t.age(kotlin.time.Duration.parse("21m")))
+        assertEquals("0 минут", t.age(kotlin.time.Duration.parse("-1m")))
+        assertEquals("15 минут", t.period(15))
+    }
+
+    @Test
+    fun theSampleCardsAreTheFourStates() {
+        val s = io.github.youndie.pyatiletka.core.sample.SampleRepoStates
+        assertEquals(
+            io.github.youndie.pyatiletka.core.screen.RepoScreenState.entries,
+            listOf(s.content, s.red, s.quiet, s.noPlan).map { it.screen },
+        )
+        val settings = io.github.youndie.pyatiletka.core.sample.SampleSettingsStates
+        assertEquals(
+            io.github.youndie.pyatiletka.core.screen.SettingsScreenState.entries,
+            listOf(settings.content, settings.tokenMissing, settings.tokenRejected, settings.ownerNotFound).map {
+                it.screen
+            },
+        )
+    }
 }

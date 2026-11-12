@@ -74,7 +74,8 @@ class ToonBoardActions(
     val closeAppearance: () -> Unit = {},
 )
 
-private val WideFrom = 720.dp
+/** From this width the board and the card are laid out wide. */
+internal val WideFrom = 720.dp
 
 /**
  * screen-board on toon-ui: no canvas (research D6) — the board is built from the kit's own components:
@@ -194,7 +195,9 @@ private fun WideContent(
                 onChange = { actions.filter(BoardFilter.entries[it]) },
             )
             Spacer(Modifier.weight(1f))
-            ToonTextField(state.query, actions.search, label = Texts.SEARCH, width = 360.dp)
+            // Next to the card's panel the board is 800 wide: the field gives up what the filter leaves.
+            val field = minOf(360.dp, column * 2 - 480.dp)
+            ToonTextField(state.query, actions.search, label = Texts.SEARCH, width = field)
         }
         if (state.screen == BoardScreenState.NoMatches) {
             NothingFound(state, actions)
@@ -206,7 +209,8 @@ private fun WideContent(
                         i,
                         last = i >= state.rows.size - 2,
                         width = column,
-                        narrow = false,
+                        // Beside the card's panel a column is too narrow for the long line.
+                        narrow = column < 420.dp,
                     ) { actions.open(repo.fullName) }
                 }
             }

@@ -1,11 +1,15 @@
 package io.github.youndie.pyatiletka.core.screen
 
+import io.github.youndie.pyatiletka.core.Author
 import io.github.youndie.pyatiletka.core.BoardFilter
+import io.github.youndie.pyatiletka.core.ItemStatus
 import io.github.youndie.pyatiletka.core.MainStatus
 import io.github.youndie.pyatiletka.core.PlanCounts
+import io.github.youndie.pyatiletka.core.PrChecks
 import io.github.youndie.pyatiletka.core.size
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Duration
 import kotlin.time.Instant
 
 /**
@@ -181,6 +185,102 @@ object Texts {
             '0',
         )}:${t.minute.toString().padStart(2, '0')}"
     }
+
+    // screen-repo
+
+    const val FAILED_CHECKS: String = "Упавшие проверки"
+    const val CHECK_FAILED: String = "проверка упала"
+    const val OPEN_PULL_REQUESTS: String = "Открытые PR"
+    const val UNCLOSED_ITEMS: String = "Незакрытые пункты"
+    const val NO_BACKLOG: String = "Бэклога в репозитории нет"
+    const val FLAT_PLAN: String = "План одним файлом"
+    const val FLAT_PLAN_BODY: String = "доска его не считает"
+    const val PLAN_COMPLETE: String = "План выполнен"
+    const val CLOSE: String = "Закрыть"
+    const val BACK: String = "Назад"
+
+    fun author(author: Author): String =
+        when (author) {
+            Author.Human -> "человек"
+            Author.Bot -> "бот"
+        }
+
+    fun checks(checks: PrChecks): String =
+        when (checks) {
+            PrChecks.Failing -> "падает"
+            PrChecks.Ready -> "готов"
+            PrChecks.Running -> "идёт"
+            PrChecks.NoChecks -> "без проверок"
+        }
+
+    fun itemStatus(status: ItemStatus): String =
+        when (status) {
+            ItemStatus.Question -> "вопрос"
+            ItemStatus.Wip -> "в работе"
+            ItemStatus.Open -> "открыт"
+        }
+
+    /** How old a pull request is at the snapshot: `12 минут`, `5 часов`, `2 дня` — the largest whole unit. */
+    fun age(age: Duration): String {
+        val days = age.inWholeDays.toInt()
+        val hours = age.inWholeHours.toInt()
+        val minutes = age.inWholeMinutes.toInt().coerceAtLeast(0)
+        return when {
+            days > 0 -> "$days ${plural(days, "день", "дня", "дней")}"
+            hours > 0 -> "$hours ${plural(hours, "час", "часа", "часов")}"
+            else -> "$minutes ${plural(minutes, "минута", "минуты", "минут")}"
+        }
+    }
+
+    /** The card's default branch: `main зелёный`, with the repository's own branch name. */
+    fun branch(
+        name: String,
+        status: MainStatus,
+    ): String = "$name ${main(status).lowercase()}"
+
+    /** `73 из 73`. */
+    fun doneOf(counts: PlanCounts): String = "${counts.done} из ${counts.size}"
+
+    // screen-settings
+
+    const val TOKEN: String = "Токен GitHub"
+    const val TOKEN_FOUND: String = "Токен найден"
+    const val TOKEN_MISSING: String = "Токена нет"
+    const val TOKEN_MISSING_BODY: String = "Дайте его одним из двух способов"
+    const val TOKEN_REJECTED: String = "GitHub отверг токен (401)"
+    const val TOKEN_REJECTED_BODY: String = "Обновите токен и проверьте снова"
+    const val RECHECK: String = "Проверить снова"
+    const val OWNERS: String = "Владельцы"
+    const val OWNER_FIELD: String = "Логин на GitHub"
+    const val ADD: String = "Добавить"
+    const val PERIOD: String = "Период обновления"
+    const val GH_LOGIN: String = "gh auth login"
+    const val TOKEN_VARIABLE: String = "PYATILETKA_GITHUB_TOKEN"
+
+    /** Where the token is looked for, as the choice reads. */
+    fun tokenSource(source: TokenSource): String =
+        when (source) {
+            TokenSource.GhCli -> "Через gh auth token"
+            TokenSource.EnvVar -> "Переменная $TOKEN_VARIABLE"
+        }
+
+    /** Where a found token came from, for the line under "Токен найден". */
+    fun tokenFoundAt(source: TokenSource): String =
+        when (source) {
+            TokenSource.GhCli -> "через gh"
+            TokenSource.EnvVar -> "в переменной $TOKEN_VARIABLE"
+        }
+
+    /** What gives the token by the chosen way: the command, or the variable's name. */
+    fun tokenHint(source: TokenSource): String =
+        when (source) {
+            TokenSource.GhCli -> GH_LOGIN
+            TokenSource.EnvVar -> TOKEN_VARIABLE
+        }
+
+    fun ownerNotFound(login: String): String = "На GitHub нет пользователя или организации $login"
+
+    fun period(minutes: Int): String = "$minutes ${plural(minutes, "минута", "минуты", "минут")}"
 
     /** Russian plural: one, few (2–4), many. */
     fun plural(

@@ -55,17 +55,17 @@ tags: []
 * **Given:** `gh` не установлен, переменная `PYATILETKA_GITHUB_TOKEN` пуста.
 * **Then:** настройки показывают `TokenMissing` с двумя способами дать токен (`gh auth login`,
   переменная).
-* **Automated:** `SettingsModelTest.noTokenAnywhereIsTokenMissing`, `DesktopSourcesTest.withoutATokenNothingIsAsked` — модель; экран `TokenMissing` — B-13
+* **Automated:** `SettingsModelTest.noTokenAnywhereIsTokenMissing`, `DesktopSourcesTest.withoutATokenNothingIsAsked` — модель; экран toon — голден `Settings_TokenMissing_Toon`; plakat — B-13
 
 ### Scenario: The token is rejected
 * **Given:** GitHub отвечает `401`.
 * **Then:** настройки показывают `TokenRejected`; старый снимок остаётся на доске.
-* **Automated:** `CollectorTest.aRejectedTokenIsNamed`, `DesktopSourcesTest.aRejectedTokenIsNamed`, `SettingsModelTest.aRejectedTokenWhileCheckingALoginIsTokenRejected` — модель; экран — B-13
+* **Automated:** `CollectorTest.aRejectedTokenIsNamed`, `DesktopSourcesTest.aRejectedTokenIsNamed`, `SettingsModelTest.aRejectedTokenWhileCheckingALoginIsTokenRejected` — модель; экран toon — голден `Settings_TokenRejected_Toon`; plakat — B-13
 
 ### Scenario: No such owner
 * **When:** введён логин `youndi`.
 * **Then:** поле показывает ошибку `OwnerNotFound`; список владельцев не меняется.
-* **Automated:** `SettingsModelTest.anUnknownLoginLeavesTheListAlone`, `CollectorTest.anOwnerIsCheckedBeforeItJoinsTheList` — модель; поле и ошибка на экране — B-13
+* **Automated:** `SettingsModelTest.anUnknownLoginLeavesTheListAlone`, `CollectorTest.anOwnerIsCheckedBeforeItJoinsTheList` — модель; поле и ошибка на экране toon — голден `Settings_OwnerNotFound_Toon`; plakat — B-13
 
 ## 6. Вне объёма
 

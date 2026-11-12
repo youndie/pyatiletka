@@ -26,7 +26,7 @@ design:
 [feature-repo-detail](../features/feature-repo-detail.md). API нет: данные из того же снимка, что и
 [screen-board](screen-board.md).
 
-Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладки скинов — *целевые*.
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка toon — в коде и голденах ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)), раскладка plakat — *целевая* ([B-12](../backlog/B-12-plakat-repo-card.md)).
 
 ## 0a. Якоря кода
 
@@ -36,7 +36,9 @@ design:
 | Тест состояний | `app/src/commonTest/kotlin/io/github/youndie/pyatiletka/app/ScreenStatesTest.kt` — `theFourCards` |
 | Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/RepoUi.kt` — `RepoScreenState`, `repoUiState` |
 | Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
-| Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/` |
+| Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonRepo.kt` — `ToonRepoScreen`, `ToonRepo` |
+| Примерные состояния | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleCardStates.kt` — `SampleRepoStates` |
+| Фикстуры toon | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/RepoFixtures.kt` |
 | Эталоны холста | `skin-plakat/src/desktopTest/snapshots/design/` |
 
 ## 0. Вход и видимость
@@ -97,6 +99,23 @@ design:
 - заголовки PR и пунктов не обрезаются, а переносятся; название репозитория в шапке узкого — с
   многоточием;
 - каждая строка PR, пункта и проверки несёт значок ↗ и открывает GitHub.
+
+### 4.5. Как это сделано в toon
+
+Холста у toon нет ([исследование D6](../research/research-architecture.md)); раскладка собрана из
+компонентов кита ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)):
+
+- шапка — `ToonTopAppBar` с названием репозитория: на широком ✕ закрывает панель, на узком ← ведёт
+  назад; сводка — `ToonCard`: ветка и её состояние, число PR и «сделано из всего», доля плана в
+  бейдже;
+- проверки, PR и пункты — `ToonListItem` с иконкой состояния; строка кита однострочная и без
+  ширины ([toon-ui#36](https://github.com/youndie/toon-ui/issues/36)), поэтому в строке — номер и
+  короткие слова, а собственный заголовок PR или пункта переносится абзацем под строкой;
+- `Quiet` — `ToonTitleCard` `Empty` «План выполнен» с «73 из 73»; заголовок шире плашки
+  ([toon-ui#30](https://github.com/youndie/toon-ui/issues/30)) — обхода нет;
+- на широком доска слева — та же `ToonBoard`, но строка открытого репозитория не выделена: у
+  строки кита нет выбранного состояния ([toon-ui#37](https://github.com/youndie/toon-ui/issues/37));
+  строки доски рядом с панелью идут короткой подстрокой, поле поиска сужается до 248.
 
 ## 5. Навигация
 

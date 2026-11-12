@@ -100,6 +100,11 @@ class SettingsStatesTest {
             )
             assertEquals(listOf("youndie"), found.current.value.ui.owners)
             assertEquals(15, found.current.value.ui.periodMinutes)
+            // The skins' goldens draw the sample, so the sample is what the model gives by default.
+            assertEquals(
+                io.github.youndie.pyatiletka.core.sample.SampleSettingsStates.content,
+                found.current.value.ui,
+            )
 
             val missing = model(TokenFinder({ null }, { null }))
             assertEquals(

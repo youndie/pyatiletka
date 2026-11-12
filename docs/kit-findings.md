@@ -20,6 +20,8 @@ issue в репозитории кита и комментарием `// kit: <�
 | 11 | toon-ui | `ToonListItem`: подстрока не обрезается и уходит за край | [toon-ui#33](https://github.com/youndie/toon-ui/issues/33) | `skin-toon/…/ToonBoard.kt` — короткая подстрока на узком | [B-14](backlog/B-14-toon-board.md) | открыта |
 | 12 | toon-ui | `ToonDialog` и `ToonBottomSheet` без слота содержимого; английские значения по умолчанию | [toon-ui#34](https://github.com/youndie/toon-ui/issues/34) | `skin-toon/…/ToonBoard.kt` — `AppearancePanel` | [B-14](backlog/B-14-toon-board.md) | открыта |
 | 13 | toon-ui | Текстура `ToonStage` выбирается ближайшим текселом ровно на границе (448 px на 224 dp): при перспективе viddik Intel и AMD берут разные текселы, голдены привязаны к производителю процессора | [toon-ui#35](https://github.com/youndie/toon-ui/issues/35) | `skin-toon/…/Stage.kt` — сцена сдвинута на ¾ px | [B-14](backlog/B-14-toon-board.md), [B-21](backlog/B-21-toon-goldens-depend-on-runner-cpu.md) | открыта |
+| 14 | toon-ui | `ToonListItem` и `ToonCard`: заголовок — одна строка в фиксированном месте без ширины, не переносится и не обрезается | [toon-ui#36](https://github.com/youndie/toon-ui/issues/36) | `skin-toon/…/ToonRepo.kt` — `Entry`: заголовок PR и пункта абзацем под строкой | [B-15](backlog/B-15-toon-repo-card-and-settings.md) | открыта |
+| 15 | toon-ui | У `ToonListItem` нет выбранного состояния для «список слева, подробности справа» | [toon-ui#37](https://github.com/youndie/toon-ui/issues/37) | нет — строка открытого репозитория не отмечена | [B-15](backlog/B-15-toon-repo-card-and-settings.md) | открыта |
 
 Статусы: `открыта` — issue открыт; `закрыта` — исправлено в ките, обход снят; `отклонена` — кит
 решил иначе, и это записано в issue.
