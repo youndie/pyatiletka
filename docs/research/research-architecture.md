@@ -407,8 +407,9 @@ plakat упирается в разницу холста и кита, а не в
    `kachok`). Не противоречие, но ловушка для теста; записано в причудах
    [feature-board](../features/feature-board.md).
 4. **Короткие имена тем в адресе не заданы.** Пример брифа — `?skin=toon&theme=night`, а темы
-   называются `InkGouacheNight` и т. д. Таблица «значение параметра → тема» не написана;
-   решается в [B-16](../backlog/B-16-live-skin-switch-and-url.md).
+   называются `InkGouacheNight` и т. д. **Решено в [B-16](../backlog/B-16-live-skin-switch-and-url.md):**
+   значение — ключ темы `Theme.key` (`paper`, `black`, `light`, `night`, `bright`), таблица — в
+   причудах [feature-skins](../features/feature-skins.md).
 5. **`GITHUB_TOKEN` на десктопе.** §7: `collector` читает `PYATILETKA_GITHUB_TOKEN` или
    `GITHUB_TOKEN`; §4 feature-settings: десктоп берёт токен из `gh auth token` или
    `PYATILETKA_GITHUB_TOKEN`. Читает ли десктоп `GITHUB_TOKEN`, не сказано. Принято: `GITHUB_TOKEN`

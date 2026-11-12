@@ -48,7 +48,8 @@ publishes:
 |---|---|
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` | `BothSkins`; состояние экранов, навигация, выбор скина — *целевые* |
 | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — окно `AppFrame` 1280×800; таймер, кэш, токен — *целевые* |
-| `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — `ComposeViewport`; чтение `snapshot.json`, разбор адреса — *целевые* |
+| `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — `ComposeViewport`; вид из адреса (`?skin=…&theme=…`), иначе из `localStorage` |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Shell.kt` | доска, карточка — в ките, который назван видом; `AppearanceKeys.kt` — разбор `skin`/`theme` |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/BoardModel.kt` | `BoardModel`: данные + `BoardFlags` → `BoardUiState`, карточка; `boardUiState` — чистая функция |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Navigation.kt` | `Route` (`Board`, `Settings`), `Navigator`; карточка — не маршрут, а `BoardFlags.selected` |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotStore.kt` | `SnapshotStore`: кэш → источник → таймер; `Data` (`Loading`, `Ready` с `Staleness`, `Failed`) |

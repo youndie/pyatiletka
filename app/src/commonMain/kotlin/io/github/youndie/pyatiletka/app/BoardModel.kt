@@ -75,7 +75,7 @@ class BoardModel(
 
     fun closeCard() = flags.update { it.copy(selected = null) }
 
-    /** A skin is chosen with its first theme; persisting the choice and the address are B-16. */
+    /** A skin is chosen with its first theme; the window and the page keep it, and the page reads it from the address (B-16). */
     fun chooseSkin(skin: Skin) =
         flags.update {
             if (it.appearance.skin ==

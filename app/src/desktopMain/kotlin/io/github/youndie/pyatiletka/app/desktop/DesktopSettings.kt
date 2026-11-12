@@ -9,16 +9,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import io.github.youndie.pyatiletka.app.BoardModel
 import io.github.youndie.pyatiletka.core.screen.Skin
-import io.github.youndie.pyatiletka.core.screen.Theme
 import io.github.youndie.pyatiletka.skin.plakat.PlakatSettings
 import io.github.youndie.pyatiletka.skin.plakat.PlakatSkin
 import io.github.youndie.pyatiletka.skin.plakat.SettingsActions
+import io.github.youndie.pyatiletka.skin.toon.ToonSettings
+import io.github.youndie.pyatiletka.skin.toon.ToonSettingsActions
+import io.github.youndie.pyatiletka.skin.toon.ToonSkin
 import kotlinx.coroutines.launch
 
 /**
- * screen-settings in the window, over [model]: the poster kit draws it in the board's theme (the cartoon
- * kit's settings join with the skin switch, B-16). The owner field is held here; it empties once GitHub
- * knew the login and keeps it when it did not, under the field's error.
+ * screen-settings in the window, over [model], in the kit and theme the board is drawn in. The owner
+ * field is held here; it empties once GitHub knew the login and keeps it when it did not, under the
+ * field's error.
  */
 @Composable
 internal fun DesktopSettings(
@@ -30,7 +32,7 @@ internal fun DesktopSettings(
     val boardState by board.state.collectAsState()
     var field by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
-    val theme = boardState.appearance.theme.takeIf { boardState.appearance.skin == Skin.Plakat } ?: Theme.Paper
+    val appearance = boardState.appearance
     val actions =
         SettingsActions(
             back = back,
@@ -49,5 +51,23 @@ internal fun DesktopSettings(
             removeOwner = model::removeOwner,
             choosePeriod = model::choosePeriod,
         )
-    PlakatSkin(theme) { PlakatSettings(settings.ui, field, actions = actions) }
+    when (appearance.skin) {
+        Skin.Plakat -> {
+            PlakatSkin(appearance.theme) { PlakatSettings(settings.ui, field, actions = actions) }
+        }
+
+        Skin.Toon -> {
+            val toon =
+                ToonSettingsActions(
+                    back = actions.back,
+                    chooseTokenSource = actions.chooseTokenSource,
+                    recheckToken = actions.recheckToken,
+                    editOwner = actions.editOwner,
+                    addOwner = actions.addOwner,
+                    removeOwner = actions.removeOwner,
+                    choosePeriod = actions.choosePeriod,
+                )
+            ToonSkin(appearance.theme) { ToonSettings(settings.ui, field, actions = toon) }
+        }
+    }
 }

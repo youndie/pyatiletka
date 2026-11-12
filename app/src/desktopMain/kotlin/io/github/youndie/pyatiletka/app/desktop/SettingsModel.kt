@@ -1,8 +1,10 @@
 package io.github.youndie.pyatiletka.app.desktop
 
+import io.github.youndie.pyatiletka.app.appearanceOf
 import io.github.youndie.pyatiletka.app.data.Settings
 import io.github.youndie.pyatiletka.collector.CollectException
 import io.github.youndie.pyatiletka.collector.CollectFailure
+import io.github.youndie.pyatiletka.core.screen.Appearance
 import io.github.youndie.pyatiletka.core.screen.SettingsUiState
 import io.github.youndie.pyatiletka.core.screen.TokenSource
 import io.github.youndie.pyatiletka.core.screen.TokenView
@@ -57,6 +59,14 @@ class SettingsModel(
     }
 
     fun removeOwner(login: String) = change { it.copy(owners = it.owners - login) }
+
+    /** The skin and theme chosen on the board, kept by the words the address uses (`toon`, `night`). */
+    fun chooseAppearance(appearance: Appearance) =
+        change { it.copy(skin = appearance.skin.name.lowercase(), theme = appearance.theme.key) }
+
+    /** The appearance `settings.json` keeps; the poster kit's paper when it names nothing known. */
+    val appearance: Appearance
+        get() = state.value.settings.let { appearanceOf(it.skin, it.theme) } ?: Appearance()
 
     /** The owner field was edited: its error goes away. */
     fun editingOwner() = state.update { it.copy(ownerNotFound = null) }
