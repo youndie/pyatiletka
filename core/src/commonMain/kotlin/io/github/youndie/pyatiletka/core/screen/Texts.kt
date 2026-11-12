@@ -241,6 +241,47 @@ object Texts {
     /** `73 из 73`. */
     fun doneOf(counts: PlanCounts): String = "${counts.done} из ${counts.size}"
 
+    // screen-repo on plakat: the canvas's section heads and longer words (B-12)
+
+    const val PLAN: String = "План"
+    const val PLAN_DONE_ON: String = "План выполнен на"
+    const val NOTHING_TO_DO: String = "PR нет. Незакрытых пунктов нет."
+
+    /** `Проверки main · 2 упали`, with the repository's own branch name. */
+    fun failedChecksHeading(
+        branch: String,
+        count: Int,
+    ): String = "Проверки $branch · $count ${plural(count, "упала", "упали", "упали")}"
+
+    /** `PR · 2`. */
+    fun pullRequestsHeading(count: Int): String = "PR · $count"
+
+    /** `Пункты · 7 незакрытых`. */
+    fun itemsHeading(count: Int): String = "Пункты · $count ${plural(count, "незакрытый", "незакрытых", "незакрытых")}"
+
+    /** `177 из 184 выполнено`. */
+    fun doneOfLong(counts: PlanCounts): String = "${doneOf(counts)} выполнено"
+
+    /** A share as the canvas prints it, the sign after a no-break space: `96 %`. */
+    fun percent(percent: Int): String = "$percent\u00A0%"
+
+    /** A pull request's checks in a word on its mark. */
+    fun checksLong(checks: PrChecks): String =
+        when (checks) {
+            PrChecks.Failing -> "Проверки упали"
+            PrChecks.Ready -> "Готов к вливанию"
+            PrChecks.Running -> "Проверки идут"
+            PrChecks.NoChecks -> "Без проверок"
+        }
+
+    /** An item's status on its plate. */
+    fun itemStatusLong(status: ItemStatus): String =
+        when (status) {
+            ItemStatus.Question -> "Ждёт ответа"
+            ItemStatus.Wip -> "В работе"
+            ItemStatus.Open -> "Открыт"
+        }
+
     // screen-settings
 
     const val TOKEN: String = "Токен GitHub"

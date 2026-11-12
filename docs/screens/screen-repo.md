@@ -26,7 +26,7 @@ design:
 [feature-repo-detail](../features/feature-repo-detail.md). API нет: данные из того же снимка, что и
 [screen-board](screen-board.md).
 
-Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка toon — в коде и голденах ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)), раскладка plakat — *целевая* ([B-12](../backlog/B-12-plakat-repo-card.md)).
+Состояния экрана и их получение — в коде ([B-09](../backlog/B-09-app-screen-state-and-navigation.md)); раскладка toon — в коде и голденах ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)), раскладка plakat — в коде и голденах ([B-12](../backlog/B-12-plakat-repo-card.md)).
 
 ## 0a. Якоря кода
 
@@ -35,7 +35,8 @@ design:
 | Состояние и навигация | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/BoardModel.kt` — `BoardModel.card`, `open`, `closeCard` |
 | Тест состояний | `app/src/commonTest/kotlin/io/github/youndie/pyatiletka/app/ScreenStatesTest.kt` — `theFourCards` |
 | Типы состояний | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/RepoUi.kt` — `RepoScreenState`, `repoUiState` |
-| Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` |
+| Раскладка plakat | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatRepo.kt` — `RepoPanel`, `PhoneRepo`; доска рядом — `PlakatBoard.kt` (`card`) |
+| Фикстуры plakat | `skin-plakat/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/plakat/RepoFixtures.kt` |
 | Раскладка toon | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonRepo.kt` — `ToonRepoScreen`, `ToonRepo` |
 | Примерные состояния | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleCardStates.kt` — `SampleRepoStates` |
 | Фикстуры toon | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/RepoFixtures.kt` |
@@ -100,7 +101,21 @@ design:
   многоточием;
 - каждая строка PR, пункта и проверки несёт значок ↗ и открывает GitHub.
 
-### 4.5. Как это сделано в toon
+### 4.5. Как это сделано в plakat
+
+По холсту, с видом компонентов кита ([B-11](../backlog/B-11-plakat-board.md), [B-12](../backlog/B-12-plakat-repo-card.md)):
+
+- на широком доска остаётся слева на 800: красная плашка «План выполнен на 95 %» шириной 248 и
+  четыре счётчика без полосы, поиск занимает остаток строки, колонки таблицы сужены до
+  112 / 120 / 208 / 48, полоска плана — до 64; строка открытого репозитория выделена;
+- панель 480 за линией 3 dp; разделы — подпись над линией 3 dp, строки — под линией 1 dp, у каждой
+  строки ↗. Своего значка ↗ в ките нет ([plakat-ui#21](https://github.com/youndie/plakat-ui/issues/21)),
+  поэтому он нарисован по пути с холста;
+- показаны **все** незакрытые пункты, в порядке `core` (§4.3). Кнопку «Ещё 9» с холста не взяли:
+  дизайнер сам оставил её как вопрос («В брифе этого нет: решить»), и порядок на холсте
+  (B-61, B-58, B-52) расходится с порядком `core` (B-61, B-58, B-53).
+
+### 4.6. Как это сделано в toon
 
 Холста у toon нет ([исследование D6](../research/research-architecture.md)); раскладка собрана из
 компонентов кита ([B-15](../backlog/B-15-toon-repo-card-and-settings.md)):
