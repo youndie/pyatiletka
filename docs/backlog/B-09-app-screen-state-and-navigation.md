@@ -1,7 +1,7 @@
 ---
 id: B-09
 title: "app: состояние и навигация экранов Board, Repo, Settings"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-data
