@@ -5,11 +5,14 @@ import io.github.youndie.pyatiletka.app.data.RefreshFailure
 import io.github.youndie.pyatiletka.app.data.Staleness
 import io.github.youndie.pyatiletka.core.BoardFilter
 import io.github.youndie.pyatiletka.core.boardRows
+import io.github.youndie.pyatiletka.core.screen.Appearance
 import io.github.youndie.pyatiletka.core.screen.BoardScreenState
 import io.github.youndie.pyatiletka.core.screen.BoardUiState
 import io.github.youndie.pyatiletka.core.screen.Problem
 import io.github.youndie.pyatiletka.core.screen.RepoUiState
+import io.github.youndie.pyatiletka.core.screen.Skin
 import io.github.youndie.pyatiletka.core.screen.StaleNotice
+import io.github.youndie.pyatiletka.core.screen.Theme
 import io.github.youndie.pyatiletka.core.screen.repoUiState
 import io.github.youndie.pyatiletka.core.summarize
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +29,10 @@ data class BoardFlags(
     val query: String = "",
     val appearanceOpen: Boolean = false,
     val selected: String? = null,
+    val appearance: Appearance = Appearance(),
+    /** The owners asked for, shown while there is no snapshot to name them (`Loading`). */
+    val owners: List<String> = emptyList(),
+    val hasSettings: Boolean = true,
 )
 
 /**
@@ -36,9 +43,10 @@ data class BoardFlags(
 class BoardModel(
     data: StateFlow<Data>,
     scope: CoroutineScope,
+    initial: BoardFlags = BoardFlags(),
     private val onRefresh: () -> Unit,
 ) {
-    private val flags = MutableStateFlow(BoardFlags())
+    private val flags = MutableStateFlow(initial)
 
     val state: StateFlow<BoardUiState> =
         combine(
@@ -66,6 +74,20 @@ class BoardModel(
     fun open(fullName: String) = flags.update { it.copy(selected = fullName) }
 
     fun closeCard() = flags.update { it.copy(selected = null) }
+
+    /** A skin is chosen with its first theme; persisting the choice and the address are B-16. */
+    fun chooseSkin(skin: Skin) =
+        flags.update {
+            if (it.appearance.skin ==
+                skin
+            ) {
+                it
+            } else {
+                it.copy(appearance = Appearance(skin, Theme.of(skin).first()))
+            }
+        }
+
+    fun chooseTheme(theme: Theme) = flags.update { it.copy(appearance = Appearance(theme.skin, theme)) }
 }
 
 /**
@@ -90,6 +112,9 @@ fun boardUiState(
                 query = flags.query,
                 problem = data.failure.toProblem(),
                 refreshing = data.refreshing,
+                owners = flags.owners,
+                appearance = flags.appearance,
+                hasSettings = flags.hasSettings,
             )
         }
 
@@ -118,6 +143,9 @@ fun boardUiState(
                 stale = stale,
                 refreshing = data.refreshing,
                 selected = flags.selected?.takeIf { name -> repos.any { it.fullName == name } },
+                owners = data.snapshot.owners,
+                appearance = flags.appearance,
+                hasSettings = flags.hasSettings,
             )
         }
     }

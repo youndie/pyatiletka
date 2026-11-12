@@ -11,15 +11,14 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
 
 /**
- * The board in a browser. The snapshot is read from `snapshot.json` next to the page; until the
- * skins draw the board (B-11, B-14), the window shows both kits' title, and every change of the
- * board's screen is written to the console — what B-09 checks the browser's fetch by.
+ * The board in a browser. The snapshot is read from `snapshot.json` next to the page; every change of
+ * the board's screen is also written to the console, which is how the browser's fetch is checked.
  */
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     val scope = MainScope()
     val store = SnapshotStore(browserSnapshotSource(), NoCache, scope, WEB_STALE_AFTER)
-    val board = BoardModel(store.data, scope, store::refresh)
+    val board = BoardModel(store.data, scope, BoardFlags(hasSettings = false), store::refresh)
     store.start()
     scope.launch {
         board.state.distinctUntilChangedBy { it.screen to it.rows.size }.collect { state ->
@@ -28,5 +27,5 @@ fun main() {
             )
         }
     }
-    ComposeViewport(document.body!!) { BothSkins() }
+    ComposeViewport(document.body!!) { Shell(board, browserZone()) }
 }

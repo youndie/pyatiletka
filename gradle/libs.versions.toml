@@ -9,6 +9,8 @@ plakat = "0.1.0.15"
 toon = "0.1.0.13"
 # The desktop window frame, from Maven Central.
 appframe = "0.3.0"
+# Screenshots and design parity, the kits' own version (research §1.2).
+viddik = "0.7.0"
 
 [libraries]
 plakat-core = { module = "io.github.youndie:plakat-core", version.ref = "plakat" }
@@ -16,6 +18,7 @@ toon-core = { module = "io.github.youndie:toon-core", version.ref = "toon" }
 appframe = { module = "io.github.youndie:appframe", version.ref = "appframe" }
 
 [plugins]
+viddik = { id = "io.github.youndie.viddik", version.ref = "viddik" }
 sborkaKmp = { id = "io.github.youndie.sborka.kmp", version.ref = "sborka" }
 sborkaJvm = { id = "io.github.youndie.sborka.jvm", version.ref = "sborka" }
 sborkaLint = { id = "io.github.youndie.sborka.lint", version.ref = "sborka" }
