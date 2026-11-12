@@ -1,7 +1,7 @@
 ---
 id: B-16
 title: "Смена скина на ходу и по адресу"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-3-toon
