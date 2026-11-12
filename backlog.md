@@ -37,7 +37,7 @@
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-02](docs/backlog/B-02-measure-full-graphql-query.md) `[ ]` | Замер: полный запрос GraphQL на живом портфеле | P1 | S | B-01 |
+| [B-02](docs/backlog/B-02-measure-full-graphql-query.md) `[~]` | Замер: полный запрос GraphQL на живом портфеле | P1 | S | B-01 |
 | [B-03](docs/backlog/B-03-measure-workflow-token-scope.md) `[ ]` | Замер: токен workflow читает чужие публичные репозитории | P1 | S | B-02 |
 | [B-05](docs/backlog/B-05-kit-findings-and-renovate.md) `[ ]` | Учёт находок по китам и Renovate на снапшоты китов | P1 | S | B-01 |
 | [B-06](docs/backlog/B-06-core-model-and-rules.md) `[ ]` | core: модель, схема snapshot.json, разбор индекса, выполнение и порядок | P1 | M | B-01 |

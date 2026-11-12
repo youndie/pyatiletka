@@ -1,7 +1,7 @@
 ---
 id: B-02
 title: "Замер: полный запрос GraphQL на живом портфеле"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-0-risks
