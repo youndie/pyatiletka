@@ -49,23 +49,23 @@ tags: []
 
 ## 5. Сценарии
 
-Сценарии проверены на уровне данных (строки `Automated`); на экране — *целевые*, до экранов.
+Сценарии проверены на уровне данных и голденами обоих скинов (строки `Automated`).
 
 ### Scenario: No token
 * **Given:** `gh` не установлен, переменная `PYATILETKA_GITHUB_TOKEN` пуста.
 * **Then:** настройки показывают `TokenMissing` с двумя способами дать токен (`gh auth login`,
   переменная).
-* **Automated:** `SettingsModelTest.noTokenAnywhereIsTokenMissing`, `DesktopSourcesTest.withoutATokenNothingIsAsked` — модель; экран toon — голден `Settings_TokenMissing_Toon`; plakat — B-13
+* **Automated:** `SettingsModelTest.noTokenAnywhereIsTokenMissing`, `DesktopSourcesTest.withoutATokenNothingIsAsked` — модель; экран toon — голден `Settings_TokenMissing_Toon`; plakat — голден `Settings_TokenMissing`
 
 ### Scenario: The token is rejected
 * **Given:** GitHub отвечает `401`.
 * **Then:** настройки показывают `TokenRejected`; старый снимок остаётся на доске.
-* **Automated:** `CollectorTest.aRejectedTokenIsNamed`, `DesktopSourcesTest.aRejectedTokenIsNamed`, `SettingsModelTest.aRejectedTokenWhileCheckingALoginIsTokenRejected` — модель; экран toon — голден `Settings_TokenRejected_Toon`; plakat — B-13
+* **Automated:** `CollectorTest.aRejectedTokenIsNamed`, `DesktopSourcesTest.aRejectedTokenIsNamed`, `SettingsModelTest.aRejectedTokenWhileCheckingALoginIsTokenRejected` — модель; экран toon — голден `Settings_TokenRejected_Toon`; plakat — голден `Settings_TokenRejected`
 
 ### Scenario: No such owner
 * **When:** введён логин `youndi`.
 * **Then:** поле показывает ошибку `OwnerNotFound`; список владельцев не меняется.
-* **Automated:** `SettingsModelTest.anUnknownLoginLeavesTheListAlone`, `CollectorTest.anOwnerIsCheckedBeforeItJoinsTheList` — модель; поле и ошибка на экране toon — голден `Settings_OwnerNotFound_Toon`; plakat — B-13
+* **Automated:** `SettingsModelTest.anUnknownLoginLeavesTheListAlone`, `CollectorTest.anOwnerIsCheckedBeforeItJoinsTheList` — модель; поле и ошибка на экране toon — голден `Settings_OwnerNotFound_Toon`; plakat — голден `Settings_OwnerNotFound`
 
 ## 6. Вне объёма
 

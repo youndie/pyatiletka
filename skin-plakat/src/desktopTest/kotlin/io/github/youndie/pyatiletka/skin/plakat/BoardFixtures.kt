@@ -20,7 +20,12 @@ private val Moscow = UtcOffset(hours = 3).asTimeZone()
 private fun Screen(
     colors: PlakatColors = PlakatPalettes.Paper,
     state: BoardUiState,
-) = PlakatTheme(colors = colors, reduceMotion = true, print = PlakatPrintSwitches(texture = false)) {
+) = PlakatTheme(
+    colors = colors,
+    reduceMotion = true,
+    print = PlakatPrintSwitches(texture = false),
+    strings = RussianStrings,
+) {
     PlakatBoard(state, Moscow)
 }
 

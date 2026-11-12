@@ -55,7 +55,7 @@ publishes:
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotSource.kt` | `SnapshotSource`, `RefreshFailure`, `SnapshotCache` |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/PageSnapshotSource.kt` | ответ `snapshot.json` → данные (веб) |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/Settings.kt` | `Settings`, `TokenSource` — в `settings.json`, без секретов |
-| `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/` | `GitHubSnapshotSource`, `TokenFinder`, `FileSnapshotCache`, `SettingsFile`, `SettingsModel`, `DesktopGraph` |
+| `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/desktop/` | `GitHubSnapshotSource`, `TokenFinder`, `FileSnapshotCache`, `SettingsFile`, `SettingsModel`, `DesktopGraph`, `DesktopSettings` (экран настроек в окне, по `Navigator`) |
 | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/BrowserSnapshot.kt` | `window.fetch` для `snapshot.json` |
 | `app/src/wasmJsMain/resources/index.html` | страница, фон — бумага plakat, чтобы не мигал шов до первого кадра |
 | `app/src/desktopTest/kotlin/io/github/youndie/pyatiletka/app/` | `BothSkinsTest` — оба кита рисуют название |
