@@ -26,3 +26,16 @@ a snapshot itself, the web page reads `snapshot.json` published by a scheduled w
   type it in.
 - Code, commits and pull requests in English, Conventional Commits; documentation prose in Russian,
   identifiers verbatim.
+
+## The backlog loop
+
+The owner's decisions of 2026-11-12, for `/loop` over `backlog-item`:
+
+- The loop merges its own pull requests, squash, on a green verdict over the head commit and not
+  behind `main` (backlog-item Step 7). Red is a finding, never a reason to loosen a check.
+- Kit findings are filed as issues in `youndie/plakat-ui` and `youndie/toon-ui` without asking
+  about each one. Nothing else in the kit repositories is changed from here.
+- Gradle runs on the WSL box through `~/.claude/bin/wsl-run` (mutagen session `pyatiletka`);
+  CI runs on `ubuntu-latest`. Formatters that rewrite files run on the Mac.
+- Production-like steps that leave this repository — the owner's machine (B-18), kotlin.website
+  (B-19) — are prepared and stopped before the outside change, as a `question`.
