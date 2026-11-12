@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.github.youndie.plakat.components.PlakatButton
 import io.github.youndie.plakat.components.PlakatEmptyState
 import io.github.youndie.plakat.components.PlakatIconButton
@@ -80,6 +82,12 @@ class BoardActions(
 private val WideFrom = 720.dp
 
 /**
+ * The 640 dp red plate of the summary fits from here; below it the board takes the summary it has beside
+ * the card, the 248 dp plate, or the four counters get a few dp each and break digit by digit (B-22).
+ */
+private val RoomyFrom = 1200.dp
+
+/**
  * screen-board on plakat-ui: the header, the summary, the filter and the search, the table. With a
  * [card] open (screen-repo), the wide board narrows beside it and the phone shows the card alone. [zone]
  * is the viewer's time zone for the snapshot's moment — fixed in the goldens.
@@ -96,7 +104,7 @@ fun PlakatBoard(
     val colors = PlakatTheme.colors
     BoxWithConstraints(modifier.fillMaxSize().background(colors.paper).plakatPaper()) {
         when {
-            maxWidth >= WideFrom -> WideBoard(state, zone, actions, card, cardActions)
+            maxWidth >= WideFrom -> WideBoard(state, zone, actions, card, cardActions, roomy = maxWidth >= RoomyFrom)
             card != null -> PhoneRepo(card, state.takenAt ?: card.repo.pushedAt, cardActions)
             else -> PhoneBoard(state, zone, actions)
         }
@@ -110,17 +118,20 @@ private fun WideBoard(
     actions: BoardActions,
     card: RepoUiState?,
     cardActions: RepoActions,
+    roomy: Boolean,
 ) {
     val colors = PlakatTheme.colors
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
-            Header(state, zone, actions)
+            Header(state, zone, actions, roomy)
             Box(Modifier.fillMaxWidth().height(8.dp).background(colors.ink))
             if (card == null) {
-                BoardBody(state, zone, actions, compact = false)
+                BoardBody(state, zone, actions, compact = false, roomy = roomy)
             } else {
                 Row(Modifier.fillMaxWidth().weight(1f)) {
-                    Column(Modifier.weight(1f).fillMaxHeight()) { BoardBody(state, zone, actions, compact = true) }
+                    Column(
+                        Modifier.weight(1f).fillMaxHeight(),
+                    ) { BoardBody(state, zone, actions, compact = true, roomy = false) }
                     RepoPanel(card, state.takenAt ?: card.repo.pushedAt, cardActions, Modifier.fillMaxHeight())
                 }
             }
@@ -136,8 +147,9 @@ private fun ColumnScope.BoardBody(
     zone: TimeZone,
     actions: BoardActions,
     compact: Boolean,
+    roomy: Boolean,
 ) {
-    val columns = if (compact) CompactColumns else Columns
+    val columns = if (compact || !roomy) CompactColumns else Columns
     when (state.screen) {
         BoardScreenState.Loading -> {
             LoadingBoard()
@@ -174,7 +186,7 @@ private fun ColumnScope.BoardBody(
             state.stale?.let { StaleBar(it, zone, actions.refresh) }
             state.summary?.let {
                 val at = Modifier.padding(start = 32.dp, end = 32.dp, top = 24.dp)
-                if (compact) CompactSummary(it, at) else Summary(it, at)
+                if (compact || !roomy) CompactSummary(it, at) else Summary(it, at)
             }
             Controls(state, actions, compact)
             if (state.screen == BoardScreenState.NoMatches) {
@@ -224,12 +236,17 @@ private fun Controls(
     )
 }
 
-/** The header: the full one over a board; over a screen with no snapshot, the title and the menu only (canvas). */
+/**
+ * The header: the full one over a board; over a screen with no snapshot, the title and the menu only
+ * (canvas). Below [RoomyFrom] the owners' line goes: the title, the moment and the two buttons fill the
+ * row, and the summary already says how many repositories there are (B-22).
+ */
 @Composable
 private fun Header(
     state: BoardUiState,
     zone: TimeZone,
     actions: BoardActions,
+    roomy: Boolean,
 ) {
     val colors = PlakatTheme.colors
     val type = PlakatTheme.typography
@@ -243,11 +260,11 @@ private fun Header(
     ) {
         BasicText(type.headline.text(Texts.TITLE), style = type.headline.style.registered(colors.ink, colors.red))
         when {
-            summary != null -> {
+            roomy && summary != null -> {
                 BasicText(type.label.text(Texts.owners(state.owners, summary.repos)), style = label)
             }
 
-            state.screen == BoardScreenState.Loading && state.owners.isNotEmpty() -> {
+            roomy && state.screen == BoardScreenState.Loading && state.owners.isNotEmpty() -> {
                 BasicText(type.label.text(state.owners.joinToString(", ")), style = label)
             }
         }
@@ -356,7 +373,14 @@ private fun RowScope.Stat(
             }.padding(top = 15.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        BasicText(number, style = type.headline.style.registered(colors.ink, colors.red))
+        // One line at any width: a counter shrinks to fit rather than break digit by digit (B-22).
+        BasicText(
+            number,
+            style = type.headline.style.registered(colors.ink, colors.red),
+            maxLines = 1,
+            softWrap = false,
+            autoSize = TextAutoSize.StepBased(minFontSize = 12.sp, maxFontSize = type.headline.style.fontSize),
+        )
         BasicText(
             type.label.text(caption),
             style = type.label.style.copy(color = colors.inkMuted),
