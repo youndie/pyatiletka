@@ -1,0 +1,85 @@
+---
+id: collector
+title: collector — сбор снимка из GitHub
+type: service
+module: collector
+tech_stack: [Kotlin/JVM, Ktor client, GitHub GraphQL]
+owner: unassigned
+depends_on:
+  - core
+  - GitHub GraphQL API
+publishes:
+  - snapshot.json
+---
+
+# collector
+
+Черновик: модуля ещё нет, пути — *целевые*
+([B-07](../backlog/B-07-collector-query-and-cli.md)).
+
+## 1. Ответственность
+
+Запрос к GitHub → `Snapshot` из [core](core.md). Две формы поставки:
+
+- **библиотека** для десктопа: [app](app.md) зовёт её по таймеру и по кнопке;
+- **CLI** для scheduled workflow: `collect --public-only` пишет `snapshot.json`, который
+  публикуется в `gh-pages` ([endpoint-snapshot](../api/endpoint-snapshot.md)).
+
+**Не делает:** не пишет в GitHub (доска только читает), не хранит токен, не держит кэш —
+кэш снимка у [app](app.md).
+
+## 2. Контракты
+
+- Выход — `Snapshot` из `core`; другого формата у сборщика нет.
+- Вход — GitHub GraphQL. Это внешняя зависимость, не наш API; запрос и его цена описываются здесь.
+
+## 2a. Якоря кода
+
+| Файл | Что там |
+|---|---|
+| `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` | запрос, разбор ответа, публичный режим, CLI (*целевой*) |
+| `collector/src/test/` | тесты на поддельном GitHub (*целевой*) |
+
+## 3. Как устроено
+
+- **Один запрос GraphQL.** Проба 12.11: по 48 публичным репозиториям `statusCheckRollup` +
+  `pullRequests.totalCount` + `object(expression:"HEAD:backlog.md")` стоят `rateLimit.cost = 1`
+  ([исследование §1.5](../research/research-architecture.md)). Тот же запрос со списками PR и
+  именами упавших проверок — *гипотеза*, замер цены, времени и числа страниц —
+  [B-02](../backlog/B-02-measure-full-graphql-query.md).
+- **Публичный режим падает, а не только фильтрует.** `--public-only` отбрасывает любой репозиторий с
+  видимостью не `Public` и завершается ошибкой, если такой попал в результат: тихое отбрасывание
+  скрыло бы, что токен видит лишнее ([исследование D5](../research/research-architecture.md)).
+
+## 4. Зависимости
+
+| Вид | Имя | Зачем |
+|---|---|---|
+| Модуль | [core](core.md) | модель и схема снимка |
+| Внешнее | GitHub GraphQL API | CI, PR, индекс бэклога |
+| Библиотека | Ktor client | HTTP |
+
+## 5. Инфраструктура и выкладка
+
+- Workflow по расписанию, раз в час, запускает CLI и кладёт `snapshot.json` в `gh-pages`
+  ([B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)). Общая группа `concurrency` со
+  сборкой страницы — *гипотеза* против гонки двух workflow.
+
+## 6. Локальный запуск
+
+Появится в [B-07](../backlog/B-07-collector-query-and-cli.md).
+
+## 7. Конфигурация
+
+| Ключ | Описание | Обязателен |
+|---|---|---|
+| `PYATILETKA_GITHUB_TOKEN` | токен GitHub для чтения | один из двух |
+| `GITHUB_TOKEN` | токен workflow; принято — только для CLI ([исследование §3.1, п. 5](../research/research-architecture.md)) | один из двух |
+
+Токен не пишется ни на диск, ни в логи.
+
+## 8. Причуды
+
+- Публичность снимка держится на праве токена workflow, а не только на фильтре: что токен
+  workflow читает чужие публичные репозитории и не видит приватных — *гипотеза*,
+  [B-03](../backlog/B-03-measure-workflow-token-scope.md).
