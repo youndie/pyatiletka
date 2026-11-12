@@ -10,6 +10,8 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
 import io.github.youndie.toon.theme.ToonStage
 
+// kit: https://github.com/youndie/toon-ui/issues/35
+
 /**
  * The kit's [ToonStage] behind [content], drawn 3/4 px up and to the left.
  *
@@ -21,7 +23,6 @@ import io.github.youndie.toon.theme.ToonStage
  * sits in a texel's middle, and the stage draws the same on both; the texture looks the same, one
  * texel over. Drop this once the kit samples its tile off the boundary.
  */
-// kit: https://github.com/youndie/toon-ui/issues/35
 @Composable
 internal fun Stage(
     modifier: Modifier = Modifier,
