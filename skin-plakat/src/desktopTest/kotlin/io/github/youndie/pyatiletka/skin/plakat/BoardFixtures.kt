@@ -96,3 +96,24 @@ fun BoardAppearanceSheetPhone() = Screen(state = SampleBoardStates.appearanceShe
 @ViddikScreenshot(group = "Board", name = "Content_Phone_Dark", width = 390, height = 844)
 @Composable
 fun BoardContentPhoneDark() = Screen(PlakatPalettes.BlackPaper, SampleBoardStates.content)
+
+// B-22: widths between the artboards, with four-digit counters as the live portfolio has them. No canvas
+// reference; the golden holds every counter on one line.
+private val bigCounters =
+    SampleBoardStates.content.copy(
+        summary =
+            SampleBoardStates.content.summary?.copy(
+                done = 1231,
+                plan = 1288,
+                openPullRequests = 29,
+                waiting = 14,
+            ),
+    )
+
+@ViddikScreenshot(group = "Board", name = "Content_Width800", width = 800, height = 800)
+@Composable
+fun BoardContentWidth800() = Screen(state = bigCounters)
+
+@ViddikScreenshot(group = "Board", name = "Content_Width1024", width = 1024, height = 800)
+@Composable
+fun BoardContentWidth1024() = Screen(state = bigCounters)
