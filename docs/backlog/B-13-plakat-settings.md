@@ -1,7 +1,7 @@
 ---
 id: B-13
 title: "plakat: настройки"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-plakat
