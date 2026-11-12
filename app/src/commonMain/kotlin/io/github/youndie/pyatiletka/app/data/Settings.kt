@@ -1,5 +1,6 @@
 package io.github.youndie.pyatiletka.app.data
 
+import io.github.youndie.pyatiletka.core.screen.TokenSource
 import kotlinx.serialization.Serializable
 
 /**
@@ -19,7 +20,3 @@ data class Settings(
         val PERIODS: List<Int> = listOf(5, 15, 60)
     }
 }
-
-/** Where the token comes from: `gh auth token`, or the `PYATILETKA_GITHUB_TOKEN` variable. There is no third way. */
-@Serializable
-enum class TokenSource { GhCli, EnvVar }

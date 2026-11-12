@@ -1,33 +1,34 @@
 package io.github.youndie.pyatiletka.app.desktop
 
 import io.github.youndie.pyatiletka.app.data.Settings
-import io.github.youndie.pyatiletka.app.data.TokenSource
 import io.github.youndie.pyatiletka.collector.CollectException
 import io.github.youndie.pyatiletka.collector.CollectFailure
+import io.github.youndie.pyatiletka.core.screen.SettingsUiState
+import io.github.youndie.pyatiletka.core.screen.TokenSource
+import io.github.youndie.pyatiletka.core.screen.TokenView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-/** Where the token stands, for the settings' first block (screen-settings). */
-sealed interface TokenStatus {
-    data class Found(
-        val source: TokenSource,
-    ) : TokenStatus
-
-    /** `TokenMissing`: neither source gave one; the rest of the settings is unavailable until one does. */
-    data object Missing : TokenStatus
-
-    /** `TokenRejected`: GitHub answered 401; the rest stays available. */
-    data object Rejected : TokenStatus
-}
-
 data class SettingsState(
     val settings: Settings,
-    val token: TokenStatus,
+    val token: TokenView,
     /** `OwnerNotFound`: the login last tried, while it stays in the field; cleared by editing it. */
     val ownerNotFound: String? = null,
-)
+) {
+    /** What screen-settings draws. */
+    val ui: SettingsUiState
+        get() =
+            SettingsUiState(
+                token,
+                settings.tokenSource,
+                settings.owners,
+                settings.periodMinutes,
+                Settings.PERIODS,
+                ownerNotFound,
+            )
+}
 
 /**
  * The settings' logic (feature-settings). [ownerExists] asks GitHub — with the token as found now —
@@ -46,7 +47,7 @@ class SettingsModel(
     fun recheckToken() = state.update { it.copy(token = tokenStatus(it.settings.tokenSource)) }
 
     /** What a refresh learned: a 401 turns the token block into `TokenRejected`. */
-    fun tokenRejected() = state.update { it.copy(token = TokenStatus.Rejected) }
+    fun tokenRejected() = state.update { it.copy(token = TokenView.Rejected) }
 
     fun chooseTokenSource(source: TokenSource) = change { it.copy(tokenSource = source) }.also { recheckToken() }
 
@@ -66,7 +67,7 @@ class SettingsModel(
         if (name.isEmpty() || name in state.value.settings.owners) return
         val token = tokens.find(state.value.settings.tokenSource)
         if (token == null) {
-            state.update { it.copy(token = TokenStatus.Missing) }
+            state.update { it.copy(token = TokenView.Missing) }
             return
         }
         val exists =
@@ -84,8 +85,8 @@ class SettingsModel(
         }
     }
 
-    private fun tokenStatus(source: TokenSource): TokenStatus =
-        tokens.find(source)?.let { TokenStatus.Found(it.source) } ?: TokenStatus.Missing
+    private fun tokenStatus(source: TokenSource): TokenView =
+        tokens.find(source)?.let { TokenView.Found(it.source) } ?: TokenView.Missing
 
     private fun change(edit: (Settings) -> Settings) {
         state.update { it.copy(settings = edit(it.settings)) }

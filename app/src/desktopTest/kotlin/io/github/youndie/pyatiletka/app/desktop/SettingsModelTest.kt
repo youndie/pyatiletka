@@ -1,9 +1,10 @@
 package io.github.youndie.pyatiletka.app.desktop
 
 import io.github.youndie.pyatiletka.app.data.Settings
-import io.github.youndie.pyatiletka.app.data.TokenSource
 import io.github.youndie.pyatiletka.collector.CollectException
 import io.github.youndie.pyatiletka.collector.CollectFailure
+import io.github.youndie.pyatiletka.core.screen.TokenSource
+import io.github.youndie.pyatiletka.core.screen.TokenView
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,12 +21,12 @@ class SettingsModelTest {
     // Scenario: No token.
     @Test
     fun noTokenAnywhereIsTokenMissing() {
-        assertEquals(TokenStatus.Missing, model(TokenFinder({ null }, { null })).current.value.token)
+        assertEquals(TokenView.Missing, model(TokenFinder({ null }, { null })).current.value.token)
     }
 
     @Test
     fun aFoundTokenSaysWhere() {
-        assertEquals(TokenStatus.Found(TokenSource.GhCli), model().current.value.token)
+        assertEquals(TokenView.Found(TokenSource.GhCli), model().current.value.token)
     }
 
     // Scenario: No such owner.
@@ -64,7 +65,7 @@ class SettingsModelTest {
                     {},
                 )
             m.addOwner("kotlin")
-            assertEquals(TokenStatus.Rejected, m.current.value.token)
+            assertEquals(TokenView.Rejected, m.current.value.token)
             assertEquals(listOf("youndie"), m.current.value.settings.owners)
         }
 
@@ -75,4 +76,49 @@ class SettingsModelTest {
         assertEquals(60, m.current.value.settings.periodMinutes)
         assertFailsWith<IllegalArgumentException> { m.choosePeriod(7) }
     }
+}
+
+// B-09's acceptance for screen-settings: its four states, from the settings of the artboards
+// (token through gh, owner youndie, 15 minutes).
+class SettingsStatesTest {
+    private fun model(tokens: TokenFinder) =
+        SettingsModel(
+            io.github.youndie.pyatiletka.app.data
+                .Settings(),
+            tokens,
+            { _, login -> login == "youndie" },
+            {},
+        )
+
+    @Test
+    fun theFourStates() =
+        kotlinx.coroutines.test.runTest {
+            val found = model(TokenFinder({ "t" }, { null }))
+            assertEquals(
+                io.github.youndie.pyatiletka.core.screen.SettingsScreenState.Content,
+                found.current.value.ui.screen,
+            )
+            assertEquals(listOf("youndie"), found.current.value.ui.owners)
+            assertEquals(15, found.current.value.ui.periodMinutes)
+
+            val missing = model(TokenFinder({ null }, { null }))
+            assertEquals(
+                io.github.youndie.pyatiletka.core.screen.SettingsScreenState.TokenMissing,
+                missing.current.value.ui.screen,
+            )
+
+            found.tokenRejected()
+            assertEquals(
+                io.github.youndie.pyatiletka.core.screen.SettingsScreenState.TokenRejected,
+                found.current.value.ui.screen,
+            )
+
+            val typing = model(TokenFinder({ "t" }, { null }))
+            typing.addOwner("youndi")
+            assertEquals(
+                io.github.youndie.pyatiletka.core.screen.SettingsScreenState.OwnerNotFound,
+                typing.current.value.ui.screen,
+            )
+            assertEquals("youndi", typing.current.value.ui.ownerNotFound)
+        }
 }

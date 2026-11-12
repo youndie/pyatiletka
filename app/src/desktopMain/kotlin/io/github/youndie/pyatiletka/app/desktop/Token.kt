@@ -1,6 +1,6 @@
 package io.github.youndie.pyatiletka.app.desktop
 
-import io.github.youndie.pyatiletka.app.data.TokenSource
+import io.github.youndie.pyatiletka.core.screen.TokenSource
 import java.util.concurrent.TimeUnit
 
 /** A token and where it was found. Its [value] is never logged, stored or shown. */

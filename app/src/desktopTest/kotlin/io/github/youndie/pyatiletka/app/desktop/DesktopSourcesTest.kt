@@ -3,8 +3,8 @@ package io.github.youndie.pyatiletka.app.desktop
 import io.github.youndie.pyatiletka.app.data.Fetched
 import io.github.youndie.pyatiletka.app.data.RefreshFailure
 import io.github.youndie.pyatiletka.app.data.Settings
-import io.github.youndie.pyatiletka.app.data.TokenSource
 import io.github.youndie.pyatiletka.core.sample.SampleSnapshot
+import io.github.youndie.pyatiletka.core.screen.TokenSource
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
