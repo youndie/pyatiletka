@@ -18,3 +18,14 @@ blocked_by: [B-01]
 
 - AC: PR Renovate на новую версию кита приходит сам; первая находка заведена issue и видна в `docs/kit-findings.md`.
 - Якоря: `renovate.json`, `docs/kit-findings.md`.
+
+## Iteration 1 (12.11.2026)
+
+- `renovate.json`: пресеты sborka и `automerge-harness`, как у plakat-ui и oldge-ui; плюс своё правило —
+  plakat-core и toon-core предлагаются в любое время, а не по понедельникам (бриф §8: каждый main
+  кита — в доске в тот же день).
+- Положительный контроль: toon-core намеренно на сборку назад, `0.1.0.12`. Если Renovate находит
+  снапшоты китов в reposilite, он сам откроет PR на `0.1.0.13` вскоре после вливания этого
+  изменения; этот PR вливается в рамках пункта, и пункт закрывается вторым PR с доказательством.
+- `docs/kit-findings.md` с первой находкой ([toon-ui#30](https://github.com/youndie/toon-ui/issues/30))
+  заведён ещё в B-01.
