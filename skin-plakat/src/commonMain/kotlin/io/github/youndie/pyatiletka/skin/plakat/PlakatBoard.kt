@@ -89,7 +89,7 @@ fun PlakatBoard(
 ) {
     val colors = PlakatTheme.colors
     BoxWithConstraints(modifier.fillMaxSize().background(colors.paper).plakatPaper()) {
-        if (maxWidth >= WideFrom) WideBoard(state, zone, actions) else WideBoard(state, zone, actions)
+        if (maxWidth >= WideFrom) WideBoard(state, zone, actions) else PhoneBoard(state, zone, actions)
     }
 }
 
@@ -432,7 +432,7 @@ private fun PlanCell(
 }
 
 /** `youndie/` muted, the name in ink. */
-private fun repoName(
+internal fun repoName(
     fullName: String,
     muted: androidx.compose.ui.graphics.Color,
 ): AnnotatedString =

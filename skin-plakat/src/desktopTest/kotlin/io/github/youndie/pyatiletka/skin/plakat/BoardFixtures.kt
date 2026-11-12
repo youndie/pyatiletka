@@ -58,3 +58,35 @@ fun BoardAppearanceSheet() = Screen(state = BoardStates.appearanceSheet)
 @ViddikScreenshot(group = "Board", name = "Content_Dark", width = 1280, height = 800)
 @Composable
 fun BoardContentDark() = Screen(PlakatPalettes.BlackPaper, BoardStates.content)
+
+@ViddikScreenshot(group = "Board", name = "Loading_Phone", width = 390, height = 844)
+@Composable
+fun BoardLoadingPhone() = Screen(state = BoardStates.loading)
+
+@ViddikScreenshot(group = "Board", name = "Empty_Phone", width = 390, height = 844)
+@Composable
+fun BoardEmptyPhone() = Screen(state = BoardStates.empty)
+
+@ViddikScreenshot(group = "Board", name = "Content_Phone", width = 390, height = 844)
+@Composable
+fun BoardContentPhone() = Screen(state = BoardStates.content)
+
+@ViddikScreenshot(group = "Board", name = "NoMatches_Phone", width = 390, height = 844)
+@Composable
+fun BoardNoMatchesPhone() = Screen(state = BoardStates.noMatches)
+
+@ViddikScreenshot(group = "Board", name = "Stale_Phone", width = 390, height = 844)
+@Composable
+fun BoardStalePhone() = Screen(state = BoardStates.stale)
+
+@ViddikScreenshot(group = "Board", name = "Error_Phone", width = 390, height = 844)
+@Composable
+fun BoardErrorPhone() = Screen(state = BoardStates.error)
+
+@ViddikScreenshot(group = "Board", name = "AppearanceSheet_Phone", width = 390, height = 844)
+@Composable
+fun BoardAppearanceSheetPhone() = Screen(state = BoardStates.appearanceSheet)
+
+@ViddikScreenshot(group = "Board", name = "Content_Phone_Dark", width = 390, height = 844)
+@Composable
+fun BoardContentPhoneDark() = Screen(PlakatPalettes.BlackPaper, BoardStates.content)

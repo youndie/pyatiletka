@@ -37,7 +37,7 @@
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-11](docs/backlog/B-11-plakat-board.md) `[~]` | plakat: доска, все состояния, оба размера | P1 | L | B-09, B-10 |
+| [B-11](docs/backlog/B-11-plakat-board.md) `[?]` | plakat: доска, все состояния, оба размера | P1 | L | B-09, B-10 |
 | [B-12](docs/backlog/B-12-plakat-repo-card.md) `[ ]` | plakat: карточка репозитория | P1 | M | B-11 |
 | [B-13](docs/backlog/B-13-plakat-settings.md) `[ ]` | plakat: настройки | P1 | S | B-11 |
 | [B-14](docs/backlog/B-14-toon-board.md) `[ ]` | toon: доска, все состояния, оба размера | P1 | L | B-09 |

@@ -13,9 +13,9 @@ publishes: []
 
 # skin-plakat
 
-Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md) (`PlakatTitleScreen` — название на
-бумаге, `PlakatMasthead`), эталоны холста — в [B-10](../backlog/B-10-design-canvas-and-references.md);
-экраны — *целевые* ([B-11](../backlog/B-11-plakat-board.md)…[B-13](../backlog/B-13-plakat-settings.md)).
+Доска — [B-11](../backlog/B-11-plakat-board.md): обе раскладки, все состояния, голдены; эталоны холста —
+[B-10](../backlog/B-10-design-canvas-and-references.md). Карточка и настройки — *целевые*
+([B-12](../backlog/B-12-plakat-repo-card.md), [B-13](../backlog/B-13-plakat-settings.md)).
 
 ## 1. Ответственность
 
@@ -38,7 +38,10 @@ publishes: []
 
 | Файл | Что там |
 |---|---|
-| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` | `PlakatTitleScreen`; экраны — *целевые* |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatBoard.kt` | `PlakatBoard`, `BoardActions`; широкая раскладка |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PhoneBoard.kt` | узкая раскладка |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/Marks.kt` | обходы кита: метки статуса, «⋮» (`// kit:`) |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatSkin.kt` | тема кита по теме доски |
 | `skin-plakat/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и plakat-core, больше ни от чего |
 | `skin-plakat/src/desktopTest/snapshots/design/` | эталонные PNG с холста, имя = артборд, 1280×800 и 390×844 |
 | `scripts/design-references.py` | экспорт холста @2x → эталоны 1x, коробочный фильтр ([исследование D9](../research/research-architecture.md)) |
@@ -54,6 +57,12 @@ publishes: []
 - **Обход кита — только с issue** в `youndie/plakat-ui` и комментарием `// kit: <ссылка>` в месте
   обхода ([исследование D4](../research/research-architecture.md)).
 - **Имена:** артборд, эталон и фикстура называются одинаково, `<Screen>_<State>[_Phone][_Dark]`.
+- **Компоненты кита — даже там, где холст рисует иначе.** Поле поиска, сегменты, прогресс, чипы,
+  скелет, пустое состояние, шторка — кита; паритет с холстом там не сходится, и это вопрос владельцу
+  ([B-11](../backlog/B-11-plakat-board.md), исследование §1.8), а не повод рисовать «под холст».
+- **Голдены пишутся на Linux** (там же, где их проверяет CI), с паузой синхронизации: реплика mutagen
+  стирает файлы, которых нет на маке. `mutagen sync pause pyatiletka`, `viddikRecord` по ssh, забрать
+  `src/desktopTest/snapshots/`, `mutagen sync resume`.
 - **Эталоны — уменьшенный экспорт, а не рендер в 1x** ([исследование D9](../research/research-architecture.md)).
   Новый экспорт холста: `python3 scripts/design-references.py <каталог экспорта>` (нужен Pillow),
   исходники `.dc.html` и `canvas.json` — в `design/canvas/`, PNG экспорта в репозиторий не кладутся.

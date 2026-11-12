@@ -199,6 +199,27 @@ internal fun AppearanceDialog(
     }
 }
 
+/** The appearance's body, shared by the wide dialog and the phone's bottom sheet. */
+@Composable
+internal fun AppearanceChoices(
+    appearance: Appearance,
+    actions: BoardActions,
+) {
+    Group(Texts.SKIN, top = 8.dp) {
+        Skin.entries.forEach { Choice(Texts.skin(it), it == appearance.skin) { actions.chooseSkin(it) } }
+    }
+    Group(Texts.THEME, top = 16.dp) {
+        Theme
+            .of(
+                appearance.skin,
+            ).forEach { Choice(Texts.theme(it), it == appearance.theme) { actions.chooseTheme(it) } }
+    }
+    Row(Modifier.fillMaxWidth().padding(top = 16.dp)) {
+        Spacer(Modifier.weight(1f))
+        PlakatButton(Texts.DONE, actions.closeAppearance)
+    }
+}
+
 @Composable
 private fun Group(
     title: String,
