@@ -37,7 +37,7 @@
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-01](docs/backlog/B-01-skeleton-five-modules.md) `[ ]` | Каркас: пять модулей, конвенции sborka, оба кита и appframe в одной сборке | P1 | M | - |
+| [B-01](docs/backlog/B-01-skeleton-five-modules.md) `[~]` | Каркас: пять модулей, конвенции sborka, оба кита и appframe в одной сборке | P1 | M | - |
 | [B-02](docs/backlog/B-02-measure-full-graphql-query.md) `[ ]` | Замер: полный запрос GraphQL на живом портфеле | P1 | S | B-01 |
 | [B-03](docs/backlog/B-03-measure-workflow-token-scope.md) `[ ]` | Замер: токен workflow читает чужие публичные репозитории | P1 | S | B-02 |
 | [B-05](docs/backlog/B-05-kit-findings-and-renovate.md) `[ ]` | Учёт находок по китам и Renovate на снапшоты китов | P1 | S | B-01 |

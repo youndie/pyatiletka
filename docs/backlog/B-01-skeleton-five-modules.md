@@ -1,7 +1,7 @@
 ---
 id: B-01
 title: "Каркас: пять модулей, конвенции sborka, оба кита и appframe в одной сборке"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-0-risks
