@@ -14,8 +14,8 @@ publishes:
 
 # collector
 
-Модуля ещё нет, пути — *целевые*
-([B-07](../backlog/B-07-collector-query-and-cli.md)).
+Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md) и пока почти пуст: `Collector.USER_AGENT`.
+Запрос, публичный режим и CLI — *целевые* ([B-07](../backlog/B-07-collector-query-and-cli.md)).
 
 ## 1. Ответственность
 
@@ -37,7 +37,8 @@ publishes:
 
 | Файл | Что там |
 |---|---|
-| `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` | запрос, разбор ответа, публичный режим, CLI (*целевой*) |
+| `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/` | `Collector`; запрос, разбор ответа, публичный режим, CLI — *целевые* |
+| `collector/build.gradle.kts` | Kotlin/JVM, конвенции `sborka.jvm` |
 | `collector/src/test/` | тесты на поддельном GitHub (*целевой*) |
 
 ## 3. Как устроено
@@ -67,7 +68,7 @@ publishes:
 
 ## 6. Локальный запуск
 
-Появится в [B-07](../backlog/B-07-collector-query-and-cli.md).
+Как у всего проекта — [core, §6](core.md). Свой запуск CLI появится в [B-07](../backlog/B-07-collector-query-and-cli.md).
 
 ## 7. Конфигурация
 

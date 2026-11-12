@@ -46,6 +46,29 @@ jobs:
 
       - uses: youndie/docs-bootstrap@v0.4.1
 
+  # The code gate (B-01): what a contributor runs, on both targets. `check` runs the desktop tests and
+  # the wasmJs tests in a headless Chrome (the runner has one); the two distributions prove the desktop
+  # window and the web page still link with both kits in them. Goldens arrive with the skins
+  # (B-11, B-14), and with them the question of which rasteriser records them.
+  gradle:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Java and Gradle in one step and at one version for the portfolio.
+      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.135
+
+      - run: ./gradlew check :app:wasmJsBrowserDistribution :app:desktopJar --no-daemon
+
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: "**/build/reports/**"
+          retention-days: 7
+          if-no-files-found: ignore
+
   # Separate from the gate, and on a schedule rather than on a pull request, because an anchor rots
   # when somebody refactors a **different** repository. A pull request here is the least likely
   # moment for one to break, and running it there trains people to ignore a red build they did not

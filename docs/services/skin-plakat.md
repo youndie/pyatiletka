@@ -13,8 +13,9 @@ publishes: []
 
 # skin-plakat
 
-Модуля ещё нет: есть только эталоны холста ([B-10](../backlog/B-10-design-canvas-and-references.md));
-остальные пути — *целевые* ([B-11](../backlog/B-11-plakat-board.md)…[B-13](../backlog/B-13-plakat-settings.md)).
+Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md) (`PlakatTitleScreen` — название на
+бумаге, `PlakatMasthead`), эталоны холста — в [B-10](../backlog/B-10-design-canvas-and-references.md);
+экраны — *целевые* ([B-11](../backlog/B-11-plakat-board.md)…[B-13](../backlog/B-13-plakat-settings.md)).
 
 ## 1. Ответственность
 
@@ -37,7 +38,8 @@ publishes: []
 
 | Файл | Что там |
 |---|---|
-| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` | экраны (*целевой*) |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/` | `PlakatTitleScreen`; экраны — *целевые* |
+| `skin-plakat/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и plakat-core, больше ни от чего |
 | `skin-plakat/src/desktopTest/snapshots/design/` | эталонные PNG с холста, имя = артборд, 1280×800 и 390×844 |
 | `scripts/design-references.py` | экспорт холста @2x → эталоны 1x, коробочный фильтр ([исследование D9](../research/research-architecture.md)) |
 | `design/canvas/` | исходники артбордов, `canvas.json` с заметками дизайнера |

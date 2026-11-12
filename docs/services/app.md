@@ -17,9 +17,9 @@ publishes:
 
 # app
 
-Модуля ещё нет, пути — *целевые*
-([B-01](../backlog/B-01-skeleton-five-modules.md), [B-08](../backlog/B-08-app-snapshot-sources.md),
-[B-09](../backlog/B-09-app-screen-state-and-navigation.md)).
+Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md): окно appframe и страница рисуют
+оба скина рядом (`BothSkins`). Источники снимка, состояние и навигация — *целевые*
+([B-08](../backlog/B-08-app-snapshot-sources.md), [B-09](../backlog/B-09-app-screen-state-and-navigation.md)).
 
 ## 1. Ответственность
 
@@ -44,9 +44,11 @@ publishes:
 
 | Файл | Что там |
 |---|---|
-| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` | состояние экранов, навигация, выбор скина (*целевой*) |
-| `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` | точка входа, окно appframe, таймер, кэш, токен (*целевой*) |
-| `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` | точка входа страницы, чтение `snapshot.json`, разбор адреса (*целевой*) |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` | `BothSkins`; состояние экранов, навигация, выбор скина — *целевые* |
+| `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — окно `AppFrame` 1280×800; таймер, кэш, токен — *целевые* |
+| `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — `ComposeViewport`; чтение `snapshot.json`, разбор адреса — *целевые* |
+| `app/src/wasmJsMain/resources/index.html` | страница, фон — бумага plakat, чтобы не мигал шов до первого кадра |
+| `app/src/desktopTest/kotlin/io/github/youndie/pyatiletka/app/` | `BothSkinsTest` — оба кита рисуют название |
 
 ## 3. Как устроено
 
@@ -73,7 +75,7 @@ publishes:
 
 ## 6. Локальный запуск
 
-Появится в [B-01](../backlog/B-01-skeleton-five-modules.md).
+Как у всего проекта — [core, §6](core.md).
 
 ## 7. Конфигурация
 
@@ -86,6 +88,10 @@ publishes:
 | `PYATILETKA_GITHUB_TOKEN` | токен, если не через `gh auth token` (десктоп) | один из двух источников |
 
 ## 8. Причуды
+
+- appframe тематизирует рамку через `MaterialTheme` (Material 3), а киты Material не используют.
+  Пока рамка в цветах Material по умолчанию; привести её к бумаге скина — забота
+  [B-18](../backlog/B-18-desktop-installed-app.md), где окно становится приложением.
 
 - Десктоп видит всё, что видит токен владельца, в том числе приватные репозитории. Это нормально
   для десктопа и запрещено для всего, что публикуется: снимок с десктопа нельзя приносить в
