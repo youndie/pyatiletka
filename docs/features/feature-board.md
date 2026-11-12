@@ -2,7 +2,7 @@
 id: feature-board
 title: Доска портфеля
 type: feature
-status: draft
+status: active
 owner: unassigned
 involved_services:
   - core

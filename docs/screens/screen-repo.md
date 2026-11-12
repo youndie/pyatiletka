@@ -3,7 +3,7 @@ id: screen-repo
 title: Карточка репозитория (Repo)
 type: client_screen
 platform: [desktop, web]
-status: draft
+status: active
 entry:
   desktop: "строка доски"
   web: "/#/<owner>/<name>"
@@ -26,7 +26,7 @@ design:
 [feature-repo-detail](../features/feature-repo-detail.md). API нет: данные из того же снимка, что и
 [screen-board](screen-board.md).
 
-Черновик: кода нет, все пути — *целевые*.
+Кода ещё нет: все пути — *целевые*, состояния — задуманные.
 
 ## 0a. Якоря кода
 

@@ -17,7 +17,7 @@ publishes:
 
 # app
 
-Черновик: модуля ещё нет, пути — *целевые*
+Модуля ещё нет, пути — *целевые*
 ([B-01](../backlog/B-01-skeleton-five-modules.md), [B-08](../backlog/B-08-app-snapshot-sources.md),
 [B-09](../backlog/B-09-app-screen-state-and-navigation.md)).
 

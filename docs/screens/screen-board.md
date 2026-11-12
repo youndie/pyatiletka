@@ -3,7 +3,7 @@ id: screen-board
 title: Доска (Board)
 type: client_screen
 platform: [desktop, web]
-status: draft
+status: active
 entry:
   desktop: "стартовый экран"
   web: "/"
@@ -33,7 +33,7 @@ design:
 [feature-settings](../features/feature-settings.md) (`NoToken`). На вебе читает
 [endpoint-snapshot](../api/endpoint-snapshot.md), на десктопе API нет.
 
-Черновик: кода нет, все пути — *целевые*.
+Кода ещё нет: все пути — *целевые*, состояния — задуманные.
 
 ## 0a. Якоря кода
 

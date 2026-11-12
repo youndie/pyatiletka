@@ -3,7 +3,7 @@ id: screen-settings
 title: Настройки (Settings)
 type: client_screen
 platform: [desktop]
-status: draft
+status: active
 entry:
   desktop: "меню шапки → «Настройки»"
 parent_feature: feature-settings
@@ -24,7 +24,7 @@ design:
 Только десктоп. Фича — [feature-settings](../features/feature-settings.md). API нет; проверка
 логина владельца идёт через [collector](../services/collector.md).
 
-Черновик: кода нет, все пути — *целевые*.
+Кода ещё нет: все пути — *целевые*, состояния — задуманные.
 
 ## 0a. Якоря кода
 

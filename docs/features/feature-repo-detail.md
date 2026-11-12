@@ -2,7 +2,7 @@
 id: feature-repo-detail
 title: Карточка репозитория
 type: feature
-status: draft
+status: active
 owner: unassigned
 involved_services:
   - core

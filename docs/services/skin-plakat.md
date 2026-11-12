@@ -13,7 +13,7 @@ publishes: []
 
 # skin-plakat
 
-Черновик: модуля ещё нет, пути — *целевые* ([B-10](../backlog/B-10-design-canvas-and-references.md)…
+Модуля ещё нет, пути — *целевые* ([B-10](../backlog/B-10-design-canvas-and-references.md)…
 [B-13](../backlog/B-13-plakat-settings.md)).
 
 ## 1. Ответственность

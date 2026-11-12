@@ -2,7 +2,7 @@
 id: feature-refresh
 title: Свежесть данных
 type: feature
-status: draft
+status: active
 owner: unassigned
 involved_services:
   - core

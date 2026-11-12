@@ -2,7 +2,7 @@
 id: feature-skins
 title: Два скина на одном состоянии
 type: feature
-status: draft
+status: active
 owner: unassigned
 involved_services:
   - app

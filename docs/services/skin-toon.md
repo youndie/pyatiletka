@@ -13,7 +13,7 @@ publishes: []
 
 # skin-toon
 
-Черновик: модуля ещё нет, пути — *целевые* ([B-14](../backlog/B-14-toon-board.md),
+Модуля ещё нет, пути — *целевые* ([B-14](../backlog/B-14-toon-board.md),
 [B-15](../backlog/B-15-toon-repo-card-and-settings.md)).
 
 ## 1. Ответственность

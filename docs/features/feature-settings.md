@@ -2,7 +2,7 @@
 id: feature-settings
 title: Откуда и как собирать (только десктоп)
 type: feature
-status: draft
+status: active
 owner: unassigned
 involved_services:
   - collector

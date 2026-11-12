@@ -2,7 +2,7 @@
 id: endpoint-snapshot
 title: Снимок портфеля
 type: api_endpoints
-status: draft
+status: active
 services:
   - collector
   - app
@@ -17,7 +17,7 @@ parent_feature: feature-refresh
 [collector](../services/collector.md) в scheduled workflow, кладёт в ветку `gh-pages`, читает
 веб-сборка [app](../services/app.md). Десктоп этот файл не читает — он собирает снимок сам.
 
-Черновик: ни класса, ни workflow ещё нет ([B-06](../backlog/B-06-core-model-and-rules.md),
+Кода ещё нет: ни класса, ни workflow ([B-06](../backlog/B-06-core-model-and-rules.md),
 [B-07](../backlog/B-07-collector-query-and-cli.md), [B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)).
 
 ## Маршруты — все, без исключений
