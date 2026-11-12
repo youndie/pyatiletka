@@ -48,7 +48,7 @@
 | [B-18](docs/backlog/B-18-desktop-installed-app.md) `[ ]` | Десктоп: установленное приложение на машине владельца | P2 | S | B-12, B-13 |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
-## Closed (10)
+## Closed (11)
 
 **Риски**
 
@@ -71,6 +71,7 @@
 **Скин toon**
 
 - [B-14](docs/backlog/B-14-toon-board.md) `[x]` - toon: доска, все состояния, оба размера
+- [B-21](docs/backlog/B-21-toon-goldens-depend-on-runner-cpu.md) `[x]` - Голдены toon зависят от процессора раннера: текстура сцены выбирается на границе текселов
 
 <!-- END INDEX -->
 

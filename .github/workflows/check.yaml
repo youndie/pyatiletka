@@ -69,10 +69,10 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      # Goldens are a claim about the rasteriser that recorded them: the toon kit's textured stage differs
-      # by a channel step or two between the WSL box and this runner (B-14). When verification fails, the
-      # same runner records the goldens, and they are offered for review as an artifact — what is committed
-      # is what this runner draws. Nothing is committed from here, and no tolerance is raised.
+      # When verification fails, this runner records the goldens and offers them as an artifact, to see
+      # what it drew. They are the same on the WSL box and on any runner, Intel or AMD, since the toon
+      # stage is drawn off its texel boundaries (B-21). Nothing is committed from here, and no tolerance
+      # is raised.
       - if: failure()
         run: ./gradlew viddikRecord --no-daemon --continue || true
 

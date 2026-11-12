@@ -56,7 +56,6 @@ import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.theme.Toon
-import io.github.youndie.toon.theme.ToonStage
 import io.github.youndie.toon.theme.textStyle
 import io.github.youndie.toon.tokens.ToonTypeScale
 import kotlinx.datetime.TimeZone
@@ -89,7 +88,7 @@ fun ToonBoard(
     modifier: Modifier = Modifier,
     actions: ToonBoardActions = ToonBoardActions(),
 ) {
-    ToonStage(modifier.fillMaxSize()) {
+    Stage(modifier.fillMaxSize()) {
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val wide = maxWidth >= WideFrom
             val width = maxWidth

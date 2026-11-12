@@ -36,7 +36,8 @@ publishes: []
 | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonSkin.kt` | тема кита по теме доски |
 | `skin-toon/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и toon-core, больше ни от чего |
 | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/BoardFixtures.kt` | фикстуры `Board_*_Toon` |
-| `skin-toon/src/desktopTest/snapshots/` | голдены — запись (холста нет); записаны на раннере CI |
+| `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/Stage.kt` | `Stage` — сцена кита со сдвигом на ¾ px (обход [toon-ui#35](https://github.com/youndie/toon-ui/issues/35)) |
+| `skin-toon/src/desktopTest/snapshots/` | голдены — запись (холста нет) |
 
 ## 3. Как устроено
 
@@ -65,9 +66,9 @@ publishes: []
 | Модуль | [core](core.md) | типы состояний |
 | Библиотека | toon-core `0.1.0.13` из `reposilite.kotlin.website/snapshots` | компоненты и темы |
 | Плагин | viddik `0.7.0` | голдены |
-- **Голдены toon записываются на раннере CI, а не на WSL.** Текстура `ToonStage` рисуется на двух
-  x86-машинах с разницей в 1–4 ступени канала на 0,5 % пикселей
-  ([toon-ui#35](https://github.com/youndie/toon-ui/issues/35)). Когда проверка голденов падает, джоба
-  `gradle` записывает их на том же раннере и выкладывает артефактом `recorded-goldens`; закоммитить —
-  оттуда. Локально на WSL `:skin-toon:viddikVerify` поэтому может не совпасть — допуск не поднимается.
+- **Сцена — через `Stage`, не через `ToonStage` напрямую.** Кит выбирает текстуру ближайшим текселом
+  ровно на границе двух текселов, и под перспективой viddik Intel и AMD рисовали её по-разному:
+  голдены падали на раннерах Intel ([B-21](../backlog/B-21-toon-goldens-depend-on-runner-cpu.md),
+  [toon-ui#35](https://github.com/youndie/toon-ui/issues/35)). `Stage` сдвигает сцену на ¾ px, и
+  голдены одинаковы на WSL и на любом раннере. Новый экран toon берёт `Stage`.
 
