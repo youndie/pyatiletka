@@ -19,8 +19,9 @@ publishes:
 
 Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md): окно appframe и страница рисуют
 оба скина рядом (`BothSkins`). Источники снимка, кэш, таймер, токен и настройки —
-[B-08](../backlog/B-08-app-snapshot-sources.md); они ещё не подключены к окну и странице. Состояние
-экранов и навигация — *целевые*, [B-09](../backlog/B-09-app-screen-state-and-navigation.md).
+[B-08](../backlog/B-08-app-snapshot-sources.md); состояние экранов и навигация —
+[B-09](../backlog/B-09-app-screen-state-and-navigation.md). Страница уже читает `snapshot.json` и пишет
+смену экрана доски в консоль; окно десктопа — ещё нет, его подключение придёт с экранами скина.
 
 ## 1. Ответственность
 
@@ -48,6 +49,8 @@ publishes:
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/` | `BothSkins`; состояние экранов, навигация, выбор скина — *целевые* |
 | `app/src/desktopMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — окно `AppFrame` 1280×800; таймер, кэш, токен — *целевые* |
 | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/` | `Main.kt` — `ComposeViewport`; чтение `snapshot.json`, разбор адреса — *целевые* |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/BoardModel.kt` | `BoardModel`: данные + `BoardFlags` → `BoardUiState`, карточка; `boardUiState` — чистая функция |
+| `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/Navigation.kt` | `Route` (`Board`, `Settings`), `Navigator`; карточка — не маршрут, а `BoardFlags.selected` |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotStore.kt` | `SnapshotStore`: кэш → источник → таймер; `Data` (`Loading`, `Ready` с `Staleness`, `Failed`) |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/SnapshotSource.kt` | `SnapshotSource`, `RefreshFailure`, `SnapshotCache` |
 | `app/src/commonMain/kotlin/io/github/youndie/pyatiletka/app/data/PageSnapshotSource.kt` | ответ `snapshot.json` → данные (веб) |

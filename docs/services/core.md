@@ -12,7 +12,7 @@ publishes: []
 # core
 
 Модуль заведён в [B-01](../backlog/B-01-skeleton-five-modules.md); модель, схема снимка, разбор индекса и
-правила доски — [B-06](../backlog/B-06-core-model-and-rules.md). Типы состояний экранов — *целевые*,
+правила доски — [B-06](../backlog/B-06-core-model-and-rules.md); типы состояний экранов —
 [B-09](../backlog/B-09-app-screen-state-and-navigation.md).
 
 ## 1. Ответственность
@@ -49,6 +49,7 @@ publishes: []
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Completion.kt` | план, выполнение, «ждут» |
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Board.kt` | `summarize`, `boardOrder`, `BoardFilter`, `boardRows` |
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/RepoCard.kt` | `cardPullRequests`, `cardItems`, `isQuiet` |
+| `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/` | типы состояний экранов: `BoardUiState`, `RepoUiState` и `repoUiState`, `SettingsUiState`, `Problem`, `TokenSource` |
 | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/sample/SampleSnapshot.kt` | примерные данные экранов — источник тестов состояний и эталонов |
 | `core/src/commonTest/` | тесты на обоих таргетах; `RealIndexes.kt` — настоящие индексы, генерирует `scripts/index-fixtures.py` |
 | `core/build.gradle.kts` | таргеты `jvm("desktop")` и `wasmJs` |
