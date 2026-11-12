@@ -36,7 +36,7 @@ publishes: []
 | `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonSkin.kt` | тема кита по теме доски |
 | `skin-toon/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и toon-core, больше ни от чего |
 | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/BoardFixtures.kt` | фикстуры `Board_*_Toon` |
-| `skin-toon/src/desktopTest/snapshots/` | голдены — запись (а их нет холста) |
+| `skin-toon/src/desktopTest/snapshots/` | голдены — запись (холста нет); записаны на раннере CI |
 
 ## 3. Как устроено
 
@@ -65,3 +65,9 @@ publishes: []
 | Модуль | [core](core.md) | типы состояний |
 | Библиотека | toon-core `0.1.0.13` из `reposilite.kotlin.website/snapshots` | компоненты и темы |
 | Плагин | viddik `0.7.0` | голдены |
+- **Голдены toon записываются на раннере CI, а не на WSL.** Текстура `ToonStage` рисуется на двух
+  x86-машинах с разницей в 1–4 ступени канала на 0,5 % пикселей
+  ([toon-ui#35](https://github.com/youndie/toon-ui/issues/35)). Когда проверка голденов падает, джоба
+  `gradle` записывает их на том же раннере и выкладывает артефактом `recorded-goldens`; закоммитить —
+  оттуда. Локально на WSL `:skin-toon:viddikVerify` поэтому может не совпасть — допуск не поднимается.
+
