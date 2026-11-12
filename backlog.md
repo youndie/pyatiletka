@@ -33,11 +33,10 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (17)
+## Open (16)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-03](docs/backlog/B-03-measure-workflow-token-scope.md) `[~]` | Замер: токен workflow читает чужие публичные репозитории | P1 | S | B-02 |
 | [B-05](docs/backlog/B-05-kit-findings-and-renovate.md) `[ ]` | Учёт находок по китам и Renovate на снапшоты китов | P1 | S | B-01 |
 | [B-06](docs/backlog/B-06-core-model-and-rules.md) `[ ]` | core: модель, схема snapshot.json, разбор индекса, выполнение и порядок | P1 | M | B-01 |
 | [B-07](docs/backlog/B-07-collector-query-and-cli.md) `[ ]` | collector: запрос → Snapshot, публичный режим, CLI | P1 | M | B-02, B-06 |
@@ -55,12 +54,13 @@
 | [B-18](docs/backlog/B-18-desktop-installed-app.md) `[ ]` | Десктоп: установленное приложение на машине владельца | P2 | S | B-12, B-13 |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
-## Closed (3)
+## Closed (4)
 
 **Риски**
 
 - [B-01](docs/backlog/B-01-skeleton-five-modules.md) `[x]` - Каркас: пять модулей, конвенции sborka, оба кита и appframe в одной сборке
 - [B-02](docs/backlog/B-02-measure-full-graphql-query.md) `[x]` - Замер: полный запрос GraphQL на живом портфеле
+- [B-03](docs/backlog/B-03-measure-workflow-token-scope.md) `[x]` - Замер: токен workflow читает чужие публичные репозитории
 
 **Скин plakat**
 
