@@ -1,7 +1,7 @@
 ---
 id: B-20
 title: "Итог обкатки: две недели ежедневного использования"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-4-daily-use
