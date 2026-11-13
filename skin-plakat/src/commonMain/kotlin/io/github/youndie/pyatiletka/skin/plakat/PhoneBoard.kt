@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -223,22 +223,23 @@ private fun PhoneSummary(summary: Summary) {
         Modifier
             .padding(top = 8.dp)
             .fillMaxWidth()
-            .heightIn(min = 96.dp)
+            .height(96.dp)
             .drawBehind { drawRect(colors.ink, topLeft = Offset(1f, 1f)) }
             .background(colors.red)
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.Bottom,
     ) {
-        // The column is taller than the canvas plate's 64 dp of content (Compose's display line box is
-        // taller than the browser's), so the plate grows to hold it: a fixed 96 let the cream label rise
-        // past the plate's top onto the cream paper, where it could not be read (B-25).
-        Column(
-            Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            BasicText(type.label.text("План выполнен на"), style = onRed)
-            BasicText("${summary.percent ?: 0}\u00A0%", style = type.displayM.style.copy(color = colors.onRed))
+        // The label on top, the share on the bottom, as the canvas lays them out. Stacked in a column they
+        // need more than the plate's 64 dp (Compose's display line box is taller than the browser's), and
+        // the label rose past the plate onto the cream paper, where it could not be read (B-25).
+        Box(Modifier.weight(1f).fillMaxHeight()) {
+            BasicText(type.label.text("План выполнен на"), style = onRed, modifier = Modifier.align(Alignment.TopStart))
+            BasicText(
+                "${summary.percent ?: 0}\u00A0%",
+                style = type.displayM.style.copy(color = colors.onRed),
+                modifier = Modifier.align(Alignment.BottomStart),
+            )
         }
 
         BasicText(type.label.text("${summary.done} из ${summary.plan}"), style = onRed)
