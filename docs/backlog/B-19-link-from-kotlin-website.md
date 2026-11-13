@@ -1,7 +1,7 @@
 ---
 id: B-19
 title: "Ссылка на страницу с kotlin.website"
-status: question
+status: done
 priority: P3
 size: S
 stage: stage-4-daily-use
@@ -40,3 +40,13 @@ plakat-ui и toon-ui и на их карточках в `/ui`, рядом с «e
    и `/toon-ui`; тогда приёмка выполнена.
 2. **Поправить подачу** (слово на чипе, место, ссылка на `/ui` вместо страниц китов) — скажите как.
 3. **Не ссылаться с сайта** — пункт `dropped`.
+
+## Итог (13.11.2026)
+
+Владелец: «влей как есть». Pull request сайта влит, Publish и Deploy прошли.
+
+| Факт | Где проверено |
+|---|---|
+| `https://kotlin.website/plakat-ui` ведёт чипом «in a real app» на `https://youndie.github.io/pyatiletka/?skin=plakat`, `/toon-ui` — на `?skin=toon`, `/ui` — на обе; у `/oldge-ui` чипа нет | `curl` экспортированных страниц после Deploy |
+| На `/toon-ui` чип стоит в ряду «every component · in a real app · github · all kits», в стиле кита | встроенный браузер |
+| Доска по `?skin=toon` и `?skin=plakat` открывается в своём ките | встроенный браузер, проверка [B-23](B-23-scroll-whole-board.md) |
