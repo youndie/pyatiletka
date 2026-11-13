@@ -5,8 +5,10 @@
 name: snapshot
 
 on:
-  # Hourly at :23. The first version (:17) was active on main for four hours and never ran on schedule,
-  # while a manual run of the same file succeeded (B-17): this edit is what makes GitHub read it again.
+  # GitHub's schedule on this account never fired in six hourly slots (:17, then :23), and other
+  # repositories' weekly crons ran 9.5 hours late (B-17, research risk 2). The hourly run comes from
+  # scripts/snapshot-alarm.sh on the owner's Linux box, a workflow_dispatch at :07; the schedule stays
+  # as a fallback for when that box is off.
   schedule:
     - cron: "23 * * * *"
   workflow_dispatch:

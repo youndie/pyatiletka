@@ -78,9 +78,11 @@ publishes:
 
 ## 5. Инфраструктура и выкладка
 
-- Workflow `snapshot` (`.github/workflows/snapshot.yaml`) раз в час, в :23, запускает CLI с
+- Workflow `snapshot` (`.github/workflows/snapshot.yaml`) раз в час запускает CLI с
   `--public-only` под `GITHUB_TOKEN` репозитория и кладёт `snapshot.json` в `gh-pages`
-  ([B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)). Ветка — один коммит без истории:
+  ([B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)). Запускает его будильник на WSL-машине
+  (`scripts/snapshot-alarm.sh`: cron в :07 вызывает `gh workflow run`), потому что расписание GitHub
+  на этом аккаунте не срабатывает; строка `schedule` в :23 оставлена запасной. Ветка — один коммит без истории:
   каждый прогон берёт её дерево и заменяет только своё. С workflow страницы у него общая группа
   `concurrency: gh-pages`; запущенные одним push оба отработали по очереди, и ни один файл не
   потерялся (прогоны 43313517100 и 43313517076).

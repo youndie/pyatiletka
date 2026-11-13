@@ -38,7 +38,7 @@ GitHub Pages для неё — шаг владельца (пункт в `questio
 | запись `snapshot.json` | `collector/src/main/kotlin/io/github/youndie/pyatiletka/collector/Main.kt` — CLI `collector --public-only` |
 | чтение `snapshot.json` | `app/src/wasmJsMain/kotlin/io/github/youndie/pyatiletka/app/BrowserSnapshot.kt` |
 | схема | `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/Snapshot.kt`, `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/SnapshotJson.kt` — `readSnapshot`, `SCHEMA_VERSION` |
-| публикация | `.github/workflows/snapshot.yaml` — раз в час, в :23; `.github/workflows/page.yaml` — страница на push в `main`; оба через `.github/scripts/publish-to-pages.sh` |
+| публикация | `.github/workflows/snapshot.yaml` — по `workflow_dispatch` из будильника `scripts/snapshot-alarm.sh` на WSL-машине раз в час, в :07, и по расписанию GitHub в :23 как запасной путь; `.github/workflows/page.yaml` — страница на push в `main`; оба через `.github/scripts/publish-to-pages.sh` |
 
 ## Тела запроса и ответа
 
