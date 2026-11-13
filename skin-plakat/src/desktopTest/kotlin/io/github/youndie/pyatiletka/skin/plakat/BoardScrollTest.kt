@@ -7,9 +7,8 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.hasScrollToIndexAction
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.plakat.theme.PlakatPrintSwitches
@@ -22,7 +21,8 @@ import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class BoardScrollTest {
-    // B-23: on the wide board the summary and the controls scroll away with the rows; the header stays.
+    // B-23, at the test window's 1024 dp: on the wide board the summary and the controls scroll
+    // away with the rows; the header stays.
     @Test
     fun theSummaryScrollsAwayWithTheRows() =
         runComposeUiTest {
@@ -33,14 +33,14 @@ class BoardScrollTest {
                     print = PlakatPrintSwitches(texture = false),
                     strings = RussianStrings,
                 ) {
-                    Box(Modifier.size(1280.dp, 600.dp)) {
+                    Box(Modifier.size(1024.dp, 600.dp)) {
                         PlakatBoard(SampleBoardStates.content, UtcOffset(hours = 3).asTimeZone())
                     }
                 }
             }
             onNodeWithText("ВЫПОЛНЕН", substring = true).assertIsDisplayed()
 
-            onNode(hasScrollToIndexAction()).performScrollToNode(hasText("youndie/plakat-ui"))
+            onNode(hasScrollToIndexAction()).performScrollToIndex(SampleBoardStates.content.rows.size)
 
             onNodeWithText("ВЫПОЛНЕН", substring = true).assertIsNotDisplayed()
             onNodeWithText("ПЯТИЛЕТКА").assertIsDisplayed()
