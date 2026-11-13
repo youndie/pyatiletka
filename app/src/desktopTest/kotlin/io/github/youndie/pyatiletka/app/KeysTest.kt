@@ -18,14 +18,16 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.pyatiletka.app.data.Data
 import io.github.youndie.pyatiletka.core.sample.SampleSnapshot
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 // B-27: the window hands its keys to BoardModel.onKey; only Esc, and only while something is open, is taken.
-@OptIn(ExperimentalTestApi::class)
+@OptIn(ExperimentalTestApi::class, ExperimentalCoroutinesApi::class)
 class KeysTest {
     @Test
     fun escapeClosesTheCardAndOtherKeysDoNot() =
@@ -33,7 +35,7 @@ class KeysTest {
             val board =
                 BoardModel(
                     MutableStateFlow<Data>(Data.Ready(SampleSnapshot.snapshot, stale = null, refreshing = false)),
-                    TestScope(),
+                    TestScope(UnconfinedTestDispatcher()),
                 ) {}
             val taken = mutableListOf<Boolean>()
             setContent {
@@ -48,16 +50,21 @@ class KeysTest {
                 LaunchedEffect(Unit) { focus.requestFocus() }
             }
             board.open("youndie/kachok")
+            board.openAppearance()
 
             onRoot().performKeyInput { pressKey(Key.Enter) }
             assertEquals(emptyList(), taken)
 
+            // One Esc closes one layer, on the press: the release must not close the card under the dialog.
             onRoot().performKeyInput { pressKey(Key.Escape) }
-            // Taken once, on the press: the release that follows is not.
             assertEquals(listOf(true), taken)
-            assertFalse(board.escape(), "the Esc should have closed the card")
+            assertEquals("youndie/kachok", board.state.value.selected)
 
             onRoot().performKeyInput { pressKey(Key.Escape) }
-            assertEquals(listOf(true), taken)
+            assertEquals(listOf(true, true), taken)
+            assertFalse(board.escape(), "two Esc should have closed the dialog and the card")
+
+            onRoot().performKeyInput { pressKey(Key.Escape) }
+            assertEquals(listOf(true, true), taken)
         }
 }
