@@ -182,23 +182,27 @@ private fun ColumnScope.BoardBody(
             }
         }
 
-        else -> {
+        BoardScreenState.NoMatches -> {
             state.stale?.let { StaleBar(it, zone, actions.refresh) }
-            state.summary?.let {
-                val at = Modifier.padding(start = 32.dp, end = 32.dp, top = 24.dp)
-                if (compact || !roomy) CompactSummary(it, at) else Summary(it, at)
-            }
-            Controls(state, actions, compact)
-            if (state.screen == BoardScreenState.NoMatches) {
-                Message(
-                    Modifier.weight(1f),
-                    title = Texts.NOTHING_FOUND,
-                    body = Texts.nothingFound(state.query, state.summary?.repos ?: 0),
-                ) { PlakatTextButton(Texts.RESET_SEARCH, actions.resetSearch) }
-            } else {
-                TableHeaderRow(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp), columns)
-                LazyColumn(Modifier.padding(horizontal = 24.dp).fillMaxWidth().weight(1f)) {
-                    items(state.rows, key = { it.fullName }) { repo ->
+            BoardTop(state, actions, compact, roomy)
+            Message(
+                Modifier.weight(1f),
+                title = Texts.NOTHING_FOUND,
+                body = Texts.nothingFound(state.query, state.summary?.repos ?: 0),
+            ) { PlakatTextButton(Texts.RESET_SEARCH, actions.resetSearch) }
+        }
+
+        else -> {
+            // One scroll under the header: the summary and the controls go up with the rows; the stale bar
+            // stays in view, as a warning should (B-23).
+            state.stale?.let { StaleBar(it, zone, actions.refresh) }
+            LazyColumn(Modifier.fillMaxWidth().weight(1f)) {
+                item(key = TOP_KEY) { BoardTop(state, actions, compact, roomy) }
+                item(key = TABLE_HEADER_KEY) {
+                    TableHeaderRow(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp), columns)
+                }
+                items(state.rows, key = { it.fullName }) { repo ->
+                    Box(Modifier.padding(horizontal = 24.dp)) {
                         TableRow(
                             repo,
                             selected = repo.fullName == state.selected,
@@ -209,6 +213,25 @@ private fun ColumnScope.BoardBody(
             }
         }
     }
+}
+
+// Not a repository's full name, which always has a slash.
+private const val TOP_KEY = "board:top"
+private const val TABLE_HEADER_KEY = "board:table-header"
+
+/** Above the table, scrolling with it: the summary, the filter and the search. */
+@Composable
+private fun BoardTop(
+    state: BoardUiState,
+    actions: BoardActions,
+    compact: Boolean,
+    roomy: Boolean,
+) = Column {
+    state.summary?.let {
+        val at = Modifier.padding(start = 32.dp, end = 32.dp, top = 24.dp)
+        if (compact || !roomy) CompactSummary(it, at) else Summary(it, at)
+    }
+    Controls(state, actions, compact)
 }
 
 /** The filter and the search: the search 360 wide at the right, or filling what is left when [compact]. */
