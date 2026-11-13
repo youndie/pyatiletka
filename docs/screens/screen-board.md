@@ -173,6 +173,8 @@ design:
 - меню «Настройки» ──▶ [screen-settings](screen-settings.md) (desktop)
 - `NoToken` «Настройки» ──▶ [screen-settings](screen-settings.md)
 - `Empty` ссылка ──▶ [screen-settings](screen-settings.md) (desktop)
+- Esc при открытом диалоге «Вид» ──▶ диалог закрывается, доска остаётся (B-27; desktop и веб). Без открытого
+  слоя Esc не перехватывается и достаётся полю поиска.
 
 ## 6. Примерные данные
 
