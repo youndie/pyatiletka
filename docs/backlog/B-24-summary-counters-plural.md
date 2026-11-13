@@ -1,7 +1,7 @@
 ---
 id: B-24
 title: "Счётчики сводки не согласуются с числом: «0 красный main»"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-4-daily-use
