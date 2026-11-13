@@ -145,10 +145,15 @@ object Texts {
             "${summary.openPullRequests} ${pullRequestsOpen(summary.openPullRequests)} · " +
             "${summary.waiting} ${waitingMe(summary.waiting)}"
 
-    /** The counters for a narrow card: `698 из 728 · 1 красный · 12 PR · 7 ждут`. */
+    /**
+     * The counters for a narrow card: `1 красный · 12 PR · 7 ждут`. The share is the card's title, and
+     * `done из plan` is what did not fit beside the kit's fixed time badge at 360 with the live
+     * portfolio's four-digit numbers (B-26).
+     */
     fun summaryLineShort(summary: io.github.youndie.pyatiletka.core.Summary): String =
-        "${summary.done} из ${summary.plan} · ${summary.red} ${red(summary.red)} · " +
-            "${summary.openPullRequests} PR · ${summary.waiting} ${waiting(summary.waiting)}"
+        "${summary.red} ${red(
+            summary.red,
+        )} · ${summary.openPullRequests} PR · ${summary.waiting} ${waiting(summary.waiting)}"
 
     // The counters' captions agree with the number before them (B-24): `0 красных main`, `1 ждёт меня`.
 

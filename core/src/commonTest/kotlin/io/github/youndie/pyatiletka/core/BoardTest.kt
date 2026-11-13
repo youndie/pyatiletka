@@ -143,9 +143,9 @@ class TextsTest {
             "2 из 2 · 2 красных main · 2 PR открыто · 2 ждут меня",
             t.summaryLine(summary(2)),
         )
-        assertEquals("5 из 5 · 5 красных · 5 PR · 5 ждут", t.summaryLineShort(summary(5)))
-        assertEquals("11 из 11 · 11 красных · 11 PR · 11 ждут", t.summaryLineShort(summary(11)))
-        assertEquals("21 из 21 · 21 красный · 21 PR · 21 ждёт", t.summaryLineShort(summary(21)))
+        assertEquals("5 красных · 5 PR · 5 ждут", t.summaryLineShort(summary(5)))
+        assertEquals("11 красных · 11 PR · 11 ждут", t.summaryLineShort(summary(11)))
+        assertEquals("21 красный · 21 PR · 21 ждёт", t.summaryLineShort(summary(21)))
         assertEquals(listOf("пункта", "пунктов", "пунктов"), listOf(21, 1225, 728).map(t::itemsOf))
     }
 

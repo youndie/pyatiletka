@@ -296,7 +296,7 @@ private fun PhoneContent(
 }
 
 // kit: https://github.com/youndie/toon-ui/issues/32 — the card's time badge has a fixed width and its meta line
-// is not ellipsized: the time is the hour alone, and a narrow card gets the short counters.
+// is not ellipsized: the time is the hour alone, and a narrow card gets the counters without done/plan (B-26).
 
 /** The summary as the kit's card: the plan's share as the title, the counters as the meta line, the snapshot's hour as the time. */
 @Composable
