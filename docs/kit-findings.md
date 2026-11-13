@@ -23,6 +23,7 @@ issue в репозитории кита и комментарием `// kit: <�
 | 14 | toon-ui | `ToonListItem` и `ToonCard`: заголовок — одна строка в фиксированном месте без ширины, не переносится и не обрезается | [toon-ui#36](https://github.com/youndie/toon-ui/issues/36) | `skin-toon/…/ToonRepo.kt` — `Entry`: заголовок PR и пункта абзацем под строкой | [B-15](backlog/B-15-toon-repo-card-and-settings.md) | открыта |
 | 15 | toon-ui | У `ToonListItem` нет выбранного состояния для «список слева, подробности справа» | [toon-ui#37](https://github.com/youndie/toon-ui/issues/37) | нет — строка открытого репозитория не отмечена | [B-15](backlog/B-15-toon-repo-card-and-settings.md) | открыта |
 | 16 | plakat-ui | Нет трафарета «открыть снаружи» (↗) для строк, ведущих на GitHub; свой трафарет потребитель сделать не может | [plakat-ui#21](https://github.com/youndie/plakat-ui/issues/21) (комментарий) | `skin-plakat/…/PlakatRepo.kt` — `ExternalGlyph` по пути холста | [B-12](backlog/B-12-plakat-repo-card.md) | открыта |
+| 17 | toon-ui | `ToonSegmented`: сегменты равной ширины, подпись не измеряется — на 360 dp «Ждут меня» шире своих 82 dp и заходит на рамку | [toon-ui#42](https://github.com/youndie/toon-ui/issues/42) | нет — видно на `Board_Content_Width360_Toon` | [B-26](backlog/B-26-toon-narrow-meta-under-badge.md) | открыта |
 
 Статусы: `открыта` — issue открыт; `закрыта` — исправлено в ките, обход снят; `отклонена` — кит
 решил иначе, и это записано в issue.
