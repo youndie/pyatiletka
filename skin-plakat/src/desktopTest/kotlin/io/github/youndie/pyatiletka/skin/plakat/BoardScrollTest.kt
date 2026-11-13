@@ -40,7 +40,7 @@ class BoardScrollTest {
             }
             onNodeWithText("ВЫПОЛНЕН", substring = true).assertIsDisplayed()
 
-            onNode(hasScrollToIndexAction()).performScrollToIndex(SampleBoardStates.content.rows.size)
+            onNode(hasScrollToIndexAction()).performScrollToIndex(SampleBoardStates.content.rows.lastIndex)
 
             onNodeWithText("ВЫПОЛНЕН", substring = true).assertIsNotDisplayed()
             onNodeWithText("ПЯТИЛЕТКА").assertIsDisplayed()
