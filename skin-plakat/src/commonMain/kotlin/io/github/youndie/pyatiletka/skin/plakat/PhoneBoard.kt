@@ -5,13 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicText
@@ -195,7 +196,13 @@ private fun PhoneTop(
             )
         }
         state.summary?.let { PhoneSummary(it) }
-        Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        // Four chips need about 350 dp; below that the last one goes to a second line instead of being
+        // cut to "ЖДУТ МЕ…" (B-25: phones of 360 and 375 dp are common, the canvas is 390).
+        FlowRow(
+            Modifier.padding(top = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
             BoardFilter.entries.forEach { f -> PlakatChip(Texts.filter(f), f == state.filter, { actions.filter(f) }) }
         }
         PlakatTextField(
@@ -216,17 +223,18 @@ private fun PhoneSummary(summary: Summary) {
         Modifier
             .padding(top = 8.dp)
             .fillMaxWidth()
-            .height(96.dp)
+            .heightIn(min = 96.dp)
             .drawBehind { drawRect(colors.ink, topLeft = Offset(1f, 1f)) }
             .background(colors.red)
             .padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.Bottom,
     ) {
-        // The column is taller than the plate's 64 dp of content: as in CSS's `align-items: flex-end`, it
-        // stands on the bottom and rises past the top padding rather than being cut.
+        // The column is taller than the canvas plate's 64 dp of content (Compose's display line box is
+        // taller than the browser's), so the plate grows to hold it: a fixed 96 let the cream label rise
+        // past the plate's top onto the cream paper, where it could not be read (B-25).
         Column(
-            Modifier.weight(1f).wrapContentHeight(Alignment.Bottom, unbounded = true),
+            Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             BasicText(type.label.text("План выполнен на"), style = onRed)
