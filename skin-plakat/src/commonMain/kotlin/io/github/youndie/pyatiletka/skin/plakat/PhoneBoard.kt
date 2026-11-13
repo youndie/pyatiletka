@@ -5,13 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicText
@@ -195,7 +196,13 @@ private fun PhoneTop(
             )
         }
         state.summary?.let { PhoneSummary(it) }
-        Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        // Four chips need about 350 dp; below that the last one goes to a second line instead of being
+        // cut to "ЖДУТ МЕ…" (B-25: phones of 360 and 375 dp are common, the canvas is 390).
+        FlowRow(
+            Modifier.padding(top = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
             BoardFilter.entries.forEach { f -> PlakatChip(Texts.filter(f), f == state.filter, { actions.filter(f) }) }
         }
         PlakatTextField(
@@ -223,14 +230,16 @@ private fun PhoneSummary(summary: Summary) {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.Bottom,
     ) {
-        // The column is taller than the plate's 64 dp of content: as in CSS's `align-items: flex-end`, it
-        // stands on the bottom and rises past the top padding rather than being cut.
-        Column(
-            Modifier.weight(1f).wrapContentHeight(Alignment.Bottom, unbounded = true),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            BasicText(type.label.text("План выполнен на"), style = onRed)
-            BasicText("${summary.percent ?: 0}\u00A0%", style = type.displayM.style.copy(color = colors.onRed))
+        // The label on top, the share on the bottom, as the canvas lays them out. Stacked in a column they
+        // need more than the plate's 64 dp (Compose's display line box is taller than the browser's), and
+        // the label rose past the plate onto the cream paper, where it could not be read (B-25).
+        Box(Modifier.weight(1f).fillMaxHeight()) {
+            BasicText(type.label.text("План выполнен на"), style = onRed, modifier = Modifier.align(Alignment.TopStart))
+            BasicText(
+                "${summary.percent ?: 0}\u00A0%",
+                style = type.displayM.style.copy(color = colors.onRed),
+                modifier = Modifier.align(Alignment.BottomStart),
+            )
         }
 
         BasicText(type.label.text("${summary.done} из ${summary.plan}"), style = onRed)

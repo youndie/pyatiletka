@@ -117,3 +117,9 @@ fun BoardContentWidth800() = Screen(state = bigCounters)
 @ViddikScreenshot(group = "Board", name = "Content_Width1024", width = 1024, height = 800)
 @Composable
 fun BoardContentWidth1024() = Screen(state = bigCounters)
+
+// B-25: a common phone narrower than the 390 artboard. The filter goes to two lines rather than cutting
+// its last chip, and the red plate holds its label whole.
+@ViddikScreenshot(group = "Board", name = "Content_Width360", width = 360, height = 800)
+@Composable
+fun BoardContentWidth360() = Screen(state = bigCounters)
