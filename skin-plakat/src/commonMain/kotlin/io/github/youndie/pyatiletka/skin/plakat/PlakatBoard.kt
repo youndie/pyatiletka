@@ -332,10 +332,10 @@ private fun Summary(
         }
         Column(Modifier.weight(1f).height(136.dp), verticalArrangement = Arrangement.SpaceBetween) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Stat(summary.done.toString(), "из ${summary.plan} ${Texts.ITEMS_OF}")
-                Stat(summary.red.toString(), Texts.RED_MAIN)
-                Stat(summary.openPullRequests.toString(), Texts.PRS_OPEN)
-                Stat(summary.waiting.toString(), Texts.WAITING_ME)
+                Stat(summary.done.toString(), "из ${summary.plan} ${Texts.itemsOf(summary.plan)}")
+                Stat(summary.red.toString(), Texts.redMain(summary.red))
+                Stat(summary.openPullRequests.toString(), Texts.pullRequestsOpen(summary.openPullRequests))
+                Stat(summary.waiting.toString(), Texts.waitingMe(summary.waiting))
             }
             Bar(if (summary.plan == 0) 0f else summary.done.toFloat() / summary.plan)
         }
@@ -369,9 +369,9 @@ private fun CompactSummary(
         }
         Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Stat(summary.done.toString(), "из ${summary.plan}")
-            Stat(summary.red.toString(), Texts.RED_MAIN)
-            Stat(summary.openPullRequests.toString(), Texts.PRS_OPEN)
-            Stat(summary.waiting.toString(), Texts.WAITING_ME)
+            Stat(summary.red.toString(), Texts.redMain(summary.red))
+            Stat(summary.openPullRequests.toString(), Texts.pullRequestsOpen(summary.openPullRequests))
+            Stat(summary.waiting.toString(), Texts.waitingMe(summary.waiting))
         }
     }
 }

@@ -33,17 +33,16 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (5)
+## Open (4)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
-| [B-24](docs/backlog/B-24-summary-counters-plural.md) `[ ]` | Счётчики сводки не согласуются с числом: «0 красный main» | P2 | S | - |
 | [B-25](docs/backlog/B-25-plakat-phone-summary-clipped.md) `[ ]` | plakat, узкий: подпись «План выполнен на» срезана сверху, фильтр «Ждут меня» обрезан на 375 | P2 | S | - |
 | [B-26](docs/backlog/B-26-toon-narrow-meta-under-badge.md) `[ ]` | toon, узкий: на живых числах строка сводки уходит под бейдж времени | P2 | S | - |
 | [B-27](docs/backlog/B-27-escape-and-back-close-overlays.md) `[?]` | Esc и «Назад» не закрывают карточку и диалог вида | P3 | M | - |
 
-## Closed (22)
+## Closed (23)
 
 **Риски**
 
@@ -81,6 +80,7 @@
 - [B-18](docs/backlog/B-18-desktop-installed-app.md) `[x]` - Десктоп: установленное приложение на машине владельца
 - [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[x]` - Ссылка на страницу с kotlin.website
 - [B-23](docs/backlog/B-23-scroll-whole-board.md) `[x]` - Широкая доска: прокручивается всё под шапкой, а не только список
+- [B-24](docs/backlog/B-24-summary-counters-plural.md) `[x]` - Счётчики сводки не согласуются с числом: «0 красный main»
 
 <!-- END INDEX -->
 

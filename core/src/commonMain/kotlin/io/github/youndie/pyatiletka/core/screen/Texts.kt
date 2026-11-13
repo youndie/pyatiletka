@@ -26,10 +26,6 @@ object Texts {
     const val COLUMN_WAITING: String = "Ждут"
     const val PLAN_FLAT: String = "план одним файлом"
     const val PLAN_NONE: String = "бэклога нет"
-    const val ITEMS_OF: String = "пунктов"
-    const val RED_MAIN: String = "красный main"
-    const val PRS_OPEN: String = "PR открыто"
-    const val WAITING_ME: String = "ждут меня"
     const val REFRESH: String = "Обновить"
     const val LOADING: String = "Загрузка"
     const val MENU: String = "Меню"
@@ -145,11 +141,29 @@ object Texts {
 
     /** The summary's counters in one line: `698 из 728 · 1 красный main · 12 PR открыто · 7 ждут меня`. */
     fun summaryLine(summary: io.github.youndie.pyatiletka.core.Summary): String =
-        "${summary.done} из ${summary.plan} · ${summary.red} $RED_MAIN · ${summary.openPullRequests} $PRS_OPEN · ${summary.waiting} $WAITING_ME"
+        "${summary.done} из ${summary.plan} · ${summary.red} ${redMain(summary.red)} · " +
+            "${summary.openPullRequests} ${pullRequestsOpen(summary.openPullRequests)} · " +
+            "${summary.waiting} ${waitingMe(summary.waiting)}"
 
     /** The counters for a narrow card: `698 из 728 · 1 красный · 12 PR · 7 ждут`. */
     fun summaryLineShort(summary: io.github.youndie.pyatiletka.core.Summary): String =
-        "${summary.done} из ${summary.plan} · ${summary.red} красный · ${summary.openPullRequests} PR · ${summary.waiting} ждут"
+        "${summary.done} из ${summary.plan} · ${summary.red} ${red(summary.red)} · " +
+            "${summary.openPullRequests} PR · ${summary.waiting} ${waiting(summary.waiting)}"
+
+    // The counters' captions agree with the number before them (B-24): `0 красных main`, `1 ждёт меня`.
+
+    /** After `из N`: `из 1 пункта`, `из 21 пункта`, `из 728 пунктов`. */
+    fun itemsOf(plan: Int): String = plural(plan, "пункта", "пунктов", "пунктов")
+
+    fun redMain(count: Int): String = "${red(count)} main"
+
+    fun red(count: Int): String = plural(count, "красный", "красных", "красных")
+
+    fun pullRequestsOpen(count: Int): String = plural(count, "PR открыт", "PR открыто", "PR открыто")
+
+    fun waitingMe(count: Int): String = "${waiting(count)} меня"
+
+    fun waiting(count: Int): String = plural(count, "ждёт", "ждут", "ждут")
 
     /** `09:17`. */
     fun time(

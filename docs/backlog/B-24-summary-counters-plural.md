@@ -1,7 +1,7 @@
 ---
 id: B-24
 title: "Счётчики сводки не согласуются с числом: «0 красный main»"
-status: open
+status: done
 priority: P2
 size: S
 stage: stage-4-daily-use
@@ -29,3 +29,17 @@ QA-сессия 13.11.2026, опубликованная страница. На 
   `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PhoneBoard.kt`,
   `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatBoard.kt` (`Stat`),
   `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonBoard.kt`.
+
+## Итог (13.11.2026)
+
+- Подписи счётчиков — функции от числа в `Texts`: `redMain`/`red`, `pullRequestsOpen`, `waitingMe`/
+  `waiting`, `itemsOf`. Константы `RED_MAIN`, `PRS_OPEN`, `WAITING_ME`, `ITEMS_OF` удалены — ими
+  больше никто не пользуется. Строки toon (`summaryLine`, `summaryLineShort`) и подписи под числами
+  plakat (широкая, сжатая и узкая сводки) берут подписи оттуда.
+- Сверх пункта, того же рода: «PR открыто» стало «1 PR открыт», а «из N пунктов» под первым
+  счётчиком plakat — «из 21 пункта». Это те же подписи счётчиков сводки, только с другим словом.
+- Тест `TextsTest.theSummaryCountersAgreeWithTheirNumbers` — 0, 1, 2, 5, 11, 21 и `itemsOf` для 21,
+  728 и 1225. Мутация: `red` и `waiting` без склонения — тест падает на «0 красный main» против «0 красных main».
+- Голдены не изменились: у фикстуры 1 красный, 12 PR, 7 ждут и 728 пунктов, а у фикстур промежуточной
+  ширины 1288 — формы совпадают. `viddikVerify` зелёный.
+- `./gradlew check` прогнан на WSL, браузерные тесты wasm — с `CHROME_BIN`.
