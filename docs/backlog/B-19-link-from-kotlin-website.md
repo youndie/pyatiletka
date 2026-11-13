@@ -1,7 +1,7 @@
 ---
 id: B-19
 title: "Ссылка на страницу с kotlin.website"
-status: open
+status: wip
 priority: P3
 size: S
 stage: stage-4-daily-use

@@ -38,7 +38,7 @@
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
-| [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
+| [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[~]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
 ## Closed (21)
 
