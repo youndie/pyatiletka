@@ -1,7 +1,7 @@
 ---
 id: B-17
 title: "Страница: сборка в gh-pages, снимок раз в час"
-status: question
+status: wip
 priority: P1
 size: M
 stage: stage-4-daily-use
