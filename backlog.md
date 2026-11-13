@@ -33,15 +33,14 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (3)
+## Open (2)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[?]` | Страница: сборка в gh-pages, снимок раз в час | P1 | M | B-03, B-07, B-11 |
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
 | [B-19](docs/backlog/B-19-link-from-kotlin-website.md) `[ ]` | Ссылка на страницу с kotlin.website | P3 | S | B-17 |
 
-## Closed (20)
+## Closed (21)
 
 **Риски**
 
@@ -75,6 +74,7 @@
 
 **Ежедневное использование**
 
+- [B-17](docs/backlog/B-17-publish-page-and-hourly-snapshot.md) `[x]` - Страница: сборка в gh-pages, снимок раз в час
 - [B-18](docs/backlog/B-18-desktop-installed-app.md) `[x]` - Десктоп: установленное приложение на машине владельца
 - [B-23](docs/backlog/B-23-scroll-whole-board.md) `[x]` - Широкая доска: прокручивается всё под шапкой, а не только список
 
