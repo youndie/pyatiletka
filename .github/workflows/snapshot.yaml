@@ -5,8 +5,10 @@
 name: snapshot
 
 on:
+  # Hourly at :23. The first version (:17) was active on main for four hours and never ran on schedule,
+  # while a manual run of the same file succeeded (B-17): this edit is what makes GitHub read it again.
   schedule:
-    - cron: "17 * * * *"
+    - cron: "23 * * * *"
   workflow_dispatch:
 
 concurrency:
