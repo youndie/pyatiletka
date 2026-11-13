@@ -1,7 +1,7 @@
 ---
 id: B-26
 title: "toon, узкий: на живых числах строка сводки уходит под бейдж времени"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-4-daily-use
