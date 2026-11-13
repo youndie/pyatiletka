@@ -1,7 +1,7 @@
 ---
 id: B-25
 title: "plakat, узкий: подпись «План выполнен на» срезана сверху, фильтр «Ждут меня» обрезан на 375"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-4-daily-use
