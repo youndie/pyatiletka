@@ -1,7 +1,7 @@
 ---
 id: B-26
 title: "toon, узкий: на живых числах строка сводки уходит под бейдж времени"
-status: open
+status: done
 priority: P2
 size: S
 stage: stage-4-daily-use
@@ -30,3 +30,19 @@ QA-сессия 13.11.2026, опубликованная страница, ок�
 - Якоря: `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/ToonBoard.kt`,
   `core/src/commonMain/kotlin/io/github/youndie/pyatiletka/core/screen/Texts.kt` —
   `summaryLineShort`.
+
+## Итог (13.11.2026)
+
+- На узком в строке сводки только три счётчика: «1 красный · 29 PR · 14 ждут». Доля плана — заголовок
+  карточки, а `done из plan` было той частью, которой не хватало места рядом с бейджем.
+  `Texts.summaryLineShort` другим не пользуется: у plakat на узком свои ячейки счётчиков.
+- Голден `Board_Content_Width360_Toon` с четырёхзначными счётчиками: строка заканчивается до бейджа.
+  Перезаписаны и просмотрены `Board_Content_Phone_Toon`, `Board_Stale_Phone_Toon`,
+  `Board_NoMatches_Phone_Toon`, `Board_AppearanceSheet_Phone_Toon`. Остальные голдены toon не изменились.
+- Мутация: прежняя короткая строка при новых голденах — `viddikVerify` падает на всех пяти. Тест
+  `TextsTest.theSummaryCountersAgreeWithTheirNumbers` проверяет новую строку.
+- Находка по ходу: на 360 dp подпись «Ждут меня» в `ToonSegmented` шире своего сегмента (82 dp) и
+  заходит на рамку — кит не измеряет подписи ([toon-ui#42](https://github.com/youndie/toon-ui/issues/42),
+  строка 17 в [kit-findings](../kit-findings.md)). Обхода в доске нет; голден `Board_Content_Width360_Toon`
+  держит это как есть.
+- `./gradlew check` прогнан на WSL с `CHROME_BIN`.

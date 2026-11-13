@@ -83,3 +83,20 @@ fun BoardErrorPhoneToon() = Screen(SampleBoardStates.error)
 @ViddikScreenshot(group = "Board", name = "AppearanceSheet_Phone_Toon", width = 390, height = 844)
 @Composable
 fun BoardAppearanceSheetPhoneToon() = Screen(ToonAppearance)
+
+// B-26: a common phone narrower than the 390 artboards, with four-digit counters as the live portfolio
+// has them. The summary's meta line has to stay clear of the kit's fixed time badge.
+@ViddikScreenshot(group = "Board", name = "Content_Width360_Toon", width = 360, height = 800)
+@Composable
+fun BoardContentWidth360Toon() =
+    Screen(
+        SampleBoardStates.content.copy(
+            summary =
+                SampleBoardStates.content.summary?.copy(
+                    done = 1231,
+                    plan = 1288,
+                    openPullRequests = 29,
+                    waiting = 14,
+                ),
+        ),
+    )
