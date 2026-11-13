@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -177,15 +179,61 @@ private fun WideContent(
     modifier: Modifier,
 ) {
     val column = (width - 72.dp) / 2
-    Column(modifier.padding(horizontal = 24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        // The stale snackbar stays in view, and out of the scroll, whose clip would cut the cord it hangs by (B-23).
         state.stale?.let {
-            ToonSnackbar(
-                Texts.stale(it, zone),
-                action = Texts.RETRY,
-                width = column * 2 + 24.dp,
-                onAction = actions.refresh,
-            )
+            Box(Modifier.padding(horizontal = 24.dp)) {
+                ToonSnackbar(
+                    Texts.stale(it, zone),
+                    action = Texts.RETRY,
+                    width = column * 2 + 24.dp,
+                    onAction = actions.refresh,
+                )
+            }
         }
+        if (state.screen == BoardScreenState.NoMatches) {
+            Column(Modifier.padding(horizontal = 24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                WideTop(state, zone, actions, column)
+                NothingFound(state, actions)
+            }
+        } else {
+            // One scroll under the app bar: the summary and the controls go up with the rows (B-23).
+            LazyVerticalGrid(
+                GridCells.Fixed(2),
+                Modifier.weight(1f),
+                contentPadding = PaddingValues(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
+            ) {
+                item(key = TOP_KEY, span = { GridItemSpan(maxLineSpan) }) {
+                    Box(Modifier.padding(bottom = 16.dp)) { WideTop(state, zone, actions, column) }
+                }
+                itemsIndexed(state.rows, key = { _, r -> r.fullName }) { i, repo ->
+                    Row(
+                        repo,
+                        i,
+                        last = i >= state.rows.size - 2,
+                        width = column,
+                        // Beside the card's panel a column is too narrow for the long line.
+                        narrow = column < 420.dp,
+                    ) { actions.open(repo.fullName) }
+                }
+            }
+        }
+    }
+}
+
+// Not a repository's full name, which always has a slash.
+private const val TOP_KEY = "board:top"
+
+/** Above the rows, scrolling with them: the summary, the filter and the field, 16 apart. */
+@Composable
+private fun WideTop(
+    state: BoardUiState,
+    zone: TimeZone,
+    actions: ToonBoardActions,
+    column: Dp,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         state.summary?.let { SummaryCard(it, state, zone, column * 2 + 24.dp, narrow = false) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             ToonSegmented(
@@ -198,22 +246,6 @@ private fun WideContent(
             // Next to the card's panel the board is 800 wide: the field gives up what the filter leaves.
             val field = minOf(360.dp, column * 2 - 480.dp)
             ToonTextField(state.query, actions.search, label = Texts.SEARCH, width = field)
-        }
-        if (state.screen == BoardScreenState.NoMatches) {
-            NothingFound(state, actions)
-        } else {
-            LazyVerticalGrid(GridCells.Fixed(2), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                itemsIndexed(state.rows, key = { _, r -> r.fullName }) { i, repo ->
-                    Row(
-                        repo,
-                        i,
-                        last = i >= state.rows.size - 2,
-                        width = column,
-                        // Beside the card's panel a column is too narrow for the long line.
-                        narrow = column < 420.dp,
-                    ) { actions.open(repo.fullName) }
-                }
-            }
         }
     }
 }
