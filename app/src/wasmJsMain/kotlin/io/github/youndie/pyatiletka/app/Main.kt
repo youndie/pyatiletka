@@ -43,6 +43,7 @@ fun main() {
             .drop(1)
             .collect(::keepAppearance)
     }
+    closeOnEscape(window, board)
     ComposeViewport(document.body!!) { Shell(board, browserZone()) }
 }
 

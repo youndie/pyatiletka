@@ -59,6 +59,8 @@ fun main() =
                 onCloseRequest = ::exitApplication,
                 state = rememberWindowState(size = DpSize(1280.dp, 800.dp)),
                 title = "Пятилетка",
+                // B-27: Esc closes the appearance dialog, then the card; the settings keep their own ←.
+                onPreviewKeyEvent = { navigator.current.value == Route.Board && board.onKey(it) },
             ) {
                 val route by navigator.current.collectAsState()
                 when (route) {

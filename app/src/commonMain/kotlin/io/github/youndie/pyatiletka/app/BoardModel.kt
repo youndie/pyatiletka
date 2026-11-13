@@ -75,6 +75,19 @@ class BoardModel(
 
     fun closeCard() = flags.update { it.copy(selected = null) }
 
+    /**
+     * Esc (B-27): closes the top layer — the appearance dialog, which is drawn over the card, then the
+     * card. False when neither is open, so the key goes on to whatever has focus (the search field).
+     */
+    fun escape(): Boolean {
+        val now = flags.value
+        return when {
+            now.appearanceOpen -> true.also { closeAppearance() }
+            now.selected != null -> true.also { closeCard() }
+            else -> false
+        }
+    }
+
     /** A skin is chosen with its first theme; the window and the page keep it, and the page reads it from the address (B-16). */
     fun chooseSkin(skin: Skin) =
         flags.update {
