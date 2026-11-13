@@ -236,9 +236,9 @@ private fun PhoneSummary(summary: Summary) {
         BasicText(type.label.text("${summary.done} из ${summary.plan}"), style = onRed)
     }
     Row(Modifier.padding(top = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        PhoneStat(summary.red.toString(), "красный")
+        PhoneStat(summary.red.toString(), Texts.red(summary.red))
         PhoneStat(summary.openPullRequests.toString(), Texts.COLUMN_PR)
-        PhoneStat(summary.waiting.toString(), Texts.WAITING_ME)
+        PhoneStat(summary.waiting.toString(), Texts.waitingMe(summary.waiting))
     }
 }
 
