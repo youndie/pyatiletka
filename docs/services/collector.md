@@ -78,7 +78,7 @@ publishes:
 
 ## 5. Инфраструктура и выкладка
 
-- Workflow `snapshot` (`.github/workflows/snapshot.yaml`) раз в час, в :17, запускает CLI с
+- Workflow `snapshot` (`.github/workflows/snapshot.yaml`) раз в час, в :23, запускает CLI с
   `--public-only` под `GITHUB_TOKEN` репозитория и кладёт `snapshot.json` в `gh-pages`
   ([B-17](../backlog/B-17-publish-page-and-hourly-snapshot.md)). Ветка — один коммит без истории:
   каждый прогон берёт её дерево и заменяет только своё. С workflow страницы у него общая группа
