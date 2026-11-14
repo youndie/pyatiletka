@@ -96,7 +96,7 @@ design:
 - раздел — название и пояснение слева (320), управление справа (560), линия 1 dp под разделом;
 - способ получить токен — `PlakatRadioButton`, команда или переменная — на бетонной плашке; «Проверить
   снова» — `PlakatButton` в `TokenMissing` и `PlakatOutlinedButton` в `TokenRejected`; полоса
-  «Внимание» в `TokenMissing` нарисована сама ([plakat-ui#25](https://github.com/youndie/plakat-ui/issues/25));
+  «Внимание» в `TokenMissing` — `PlakatBanner` кита, 40 dp, а не полоса холста в 48 ([B-28](../backlog/B-28-plakat-kit-0-1-0-23.md));
 - владелец — строка с ✕ (`PlakatIconButton`), поле — `PlakatTextField` с ошибкой кита под ним,
   «Добавить» — `PlakatOutlinedButton`; период — `PlakatSegmentedButton`; в `TokenMissing` всё это
   недоступно;

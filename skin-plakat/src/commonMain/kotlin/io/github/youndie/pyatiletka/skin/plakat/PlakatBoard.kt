@@ -43,7 +43,10 @@ import io.github.youndie.plakat.components.PlakatButton
 import io.github.youndie.plakat.components.PlakatEmptyState
 import io.github.youndie.plakat.components.PlakatIconButton
 import io.github.youndie.plakat.components.PlakatLinearProgress
+import io.github.youndie.plakat.components.PlakatParagraph
 import io.github.youndie.plakat.components.PlakatSegmentedButton
+import io.github.youndie.plakat.components.PlakatStatus
+import io.github.youndie.plakat.components.PlakatStatusKind
 import io.github.youndie.plakat.components.PlakatTextButton
 import io.github.youndie.plakat.components.PlakatTextField
 import io.github.youndie.plakat.icons.PlakatIcons
@@ -136,7 +139,7 @@ private fun WideBoard(
                 }
             }
         }
-        if (state.screen == BoardScreenState.AppearanceSheet) AppearanceDialog(state.appearance, actions)
+        AppearanceDialog(state.screen == BoardScreenState.AppearanceSheet, state.appearance, actions)
     }
 }
 
@@ -295,9 +298,7 @@ private fun Header(
         if (full) state.takenAt?.let { BasicText(type.label.text(Texts.takenAt(it, zone)), style = label) }
         Row {
             if (full) PlakatIconButton(PlakatIcons.Refresh, Texts.REFRESH, actions.refresh)
-            Box(Modifier.size(48.dp).clickable(onClick = actions.openMenu), contentAlignment = Alignment.Center) {
-                MoreGlyph(colors.ink)
-            }
+            PlakatIconButton(PlakatIcons.More, Texts.MENU, actions.openMenu)
         }
     }
 }
@@ -325,10 +326,7 @@ private fun Summary(
                 .padding(horizontal = 24.dp, vertical = 20.dp),
             contentAlignment = Alignment.CenterStart,
         ) {
-            BasicText(
-                type.displayM.text(Texts.planDone(summary.percent ?: 0)),
-                style = type.displayM.style.copy(color = colors.onRed),
-            )
+            PlakatParagraph(Texts.planDone(summary.percent ?: 0), type.displayM, color = colors.onRed)
         }
         Column(Modifier.weight(1f).height(136.dp), verticalArrangement = Arrangement.SpaceBetween) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -361,11 +359,7 @@ private fun CompactSummary(
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
             BasicText(type.label.text(Texts.PLAN_DONE_ON), style = type.label.style.copy(color = colors.onRed))
-            BasicText(
-                type.displayM.text(Texts.percent(summary.percent ?: 0)),
-                style = type.displayM.style.copy(color = colors.onRed),
-                maxLines = 1,
-            )
+            PlakatParagraph(Texts.percent(summary.percent ?: 0), type.displayM, color = colors.onRed, maxLines = 1)
         }
         Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Stat(summary.done.toString(), "из ${summary.plan}")
@@ -432,7 +426,8 @@ private fun Bar(
     )
 }
 
-// kit: https://github.com/youndie/plakat-ui/issues/20 — no table: the columns are laid out here with the kit's styles.
+// kit: https://github.com/youndie/plakat-ui/issues/34 — PlakatTable (since #20) has no selected row and no row under 48 dp:
+// the board's own table stays, with the kit's styles, for the open card's row and the canvas's 36 dp rows.
 private val Columns: List<Dp> = listOf(152.dp, 160.dp, 320.dp, 88.dp)
 
 /** Beside the card the canvas narrows the columns and the plan's bar to 64. */
@@ -509,12 +504,7 @@ private fun TableRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Hatch(12.dp, colors.red)
-                    BasicText(
-                        type.label.text(Texts.failingPullRequests(failing)),
-                        style = type.label.style.copy(color = colors.ink),
-                        maxLines = 1,
-                    )
+                    PlakatStatus(PlakatStatusKind.Danger, Texts.failingPullRequests(failing))
                 }
             }
         }

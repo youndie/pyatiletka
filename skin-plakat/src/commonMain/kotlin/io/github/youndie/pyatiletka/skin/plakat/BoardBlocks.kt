@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -28,8 +29,11 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.youndie.plakat.agit.PlakatSkeleton
+import io.github.youndie.plakat.components.PlakatBanner
 import io.github.youndie.plakat.components.PlakatButton
 import io.github.youndie.plakat.components.PlakatRadioButton
+import io.github.youndie.plakat.components.PlakatScrim
+import io.github.youndie.plakat.components.PlakatStatusKind
 import io.github.youndie.plakat.components.PlakatTextButton
 import io.github.youndie.plakat.theme.PlakatTheme
 import io.github.youndie.pyatiletka.core.screen.Appearance
@@ -75,46 +79,13 @@ internal fun Message(
     }
 }
 
-/** «ОШИБКА» with its 24 dp hatch, over the error's headline. */
-@Composable
-internal fun ErrorMark() {
-    val colors = PlakatTheme.colors
-    val label = PlakatTheme.typography.label
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Hatch(24.dp, colors.red)
-        BasicText(label.text(Texts.ERROR), style = label.style.copy(color = colors.ink))
-    }
-}
-
-// kit: https://github.com/youndie/plakat-ui/issues/25 — no in-screen banner: the warning plate is drawn here.
-
-/** The stale bar under the header: ocher, «ВНИМАНИЕ», the moment and the reason, «ПОВТОРИТЬ». */
+/** The stale bar under the header: the kit's warning banner, the moment and the reason, «ПОВТОРИТЬ» (plakat-ui#25, B-28). */
 @Composable
 internal fun StaleBar(
     notice: StaleNotice,
     zone: TimeZone,
     retry: () -> Unit,
-) {
-    val colors = PlakatTheme.colors
-    val type = PlakatTheme.typography
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(colors.ocher)
-            .padding(start = 32.dp, end = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        BasicText(type.label.text(Texts.ATTENTION), style = type.label.style.copy(color = colors.ink))
-        BasicText(
-            Texts.stale(notice, zone),
-            style = type.bodyS.style.copy(color = colors.ink),
-            modifier = Modifier.weight(1f),
-        )
-        PlakatTextButton(Texts.RETRY, retry)
-    }
-}
+) = PlakatBanner(PlakatStatusKind.Warning, Texts.stale(notice, zone), action = Texts.RETRY, onAction = retry)
 
 /** Loading: the summary, the controls and eight rows in the kit's skeleton, the column heads in place (canvas note). */
 @Composable
@@ -147,55 +118,57 @@ internal fun ColumnScope.LoadingBoard() {
     }
 }
 
-// kit: https://github.com/youndie/plakat-ui/issues/23 — PlakatDialog has no content slot; and
-// https://github.com/youndie/plakat-ui/issues/24 — no scrim of the kit's own to put under it.
+// kit: https://github.com/youndie/plakat-ui/issues/35 — PlakatDialog (with its content slot since #23) takes a wide
+// window's width; the canvas's 480 dp sheet stays the board's own, over the kit's scrim (#24).
 
-/** «ВИД» over the board: the skin and its themes as radio rows, «ГОТОВО» — 480 wide in a 3 dp frame (canvas). */
+/** «ВИД» over the board: the kit's scrim, then the skin and its themes as radio rows, «ГОТОВО», 480 wide in a 3 dp frame. */
 @Composable
-internal fun AppearanceDialog(
+internal fun BoxScope.AppearanceDialog(
+    visible: Boolean,
     appearance: Appearance,
     actions: BoardActions,
 ) {
     val colors = PlakatTheme.colors
     val type = PlakatTheme.typography
-    Box(
+    PlakatScrim(visible, actions.closeAppearance)
+    if (!visible) return
+    Column(
         Modifier
-            .fillMaxSize()
-            .drawBehind {
-                halftone(colors.ink)
-            }.clickable(MutableInteractionSource(), indication = null, onClick = actions.closeAppearance),
-        contentAlignment = Alignment.Center,
+            .align(Alignment.Center)
+            .width(480.dp)
+            .background(colors.paper)
+            .border(3.dp, colors.ink)
+            .clickable(MutableInteractionSource(), indication = null) {}
+            .padding(27.dp),
     ) {
-        Column(
-            Modifier
-                .width(480.dp)
-                .background(colors.paper)
-                .border(3.dp, colors.ink)
-                .clickable(MutableInteractionSource(), indication = null) {}
-                .padding(27.dp),
-        ) {
-            BasicText(
-                type.headline.text(Texts.APPEARANCE),
-                style = type.headline.style.copy(color = colors.ink, shadow = Shadow(colors.red, Offset(1f, 1f), 0f)),
-                modifier = Modifier.padding(bottom = 16.dp),
-            )
-            Box(Modifier.fillMaxWidth().height(3.dp).background(colors.ink))
-            Group(Texts.SKIN, top = 8.dp) {
-                Skin.entries.forEach { Choice(Texts.skin(it), it == appearance.skin) { actions.chooseSkin(it) } }
-            }
-            Group(Texts.THEME, top = 16.dp) {
-                Theme.of(appearance.skin).forEach {
-                    Choice(
-                        Texts.theme(it),
-                        it == appearance.theme,
-                    ) { actions.chooseTheme(it) }
-                }
-            }
-            Row(Modifier.fillMaxWidth().padding(top = 16.dp)) {
-                Spacer(Modifier.weight(1f))
-                PlakatButton(Texts.DONE, actions.closeAppearance)
-            }
+        BasicText(
+            type.headline.text(Texts.APPEARANCE),
+            style = type.headline.style.copy(color = colors.ink, shadow = Shadow(colors.red, Offset(1f, 1f), 0f)),
+            modifier = Modifier.padding(bottom = 16.dp),
+        )
+        Box(Modifier.fillMaxWidth().height(3.dp).background(colors.ink))
+        Column(Modifier.padding(top = 8.dp)) { AppearanceGroups(appearance, actions) }
+        Row(Modifier.fillMaxWidth().padding(top = 16.dp)) {
+            Spacer(Modifier.weight(1f))
+            PlakatButton(Texts.DONE, actions.closeAppearance)
         }
+    }
+}
+
+/** The skin and the theme as radio rows: the dialog's content, and the phone's sheet over its «ГОТОВО». */
+@Composable
+internal fun AppearanceGroups(
+    appearance: Appearance,
+    actions: BoardActions,
+) {
+    Group(Texts.SKIN, top = 0.dp) {
+        Skin.entries.forEach { Choice(Texts.skin(it), it == appearance.skin) { actions.chooseSkin(it) } }
+    }
+    Group(Texts.THEME, top = 16.dp) {
+        Theme
+            .of(
+                appearance.skin,
+            ).forEach { Choice(Texts.theme(it), it == appearance.theme) { actions.chooseTheme(it) } }
     }
 }
 
@@ -205,15 +178,7 @@ internal fun AppearanceChoices(
     appearance: Appearance,
     actions: BoardActions,
 ) {
-    Group(Texts.SKIN, top = 8.dp) {
-        Skin.entries.forEach { Choice(Texts.skin(it), it == appearance.skin) { actions.chooseSkin(it) } }
-    }
-    Group(Texts.THEME, top = 16.dp) {
-        Theme
-            .of(
-                appearance.skin,
-            ).forEach { Choice(Texts.theme(it), it == appearance.theme) { actions.chooseTheme(it) } }
-    }
+    Column(Modifier.padding(top = 8.dp)) { AppearanceGroups(appearance, actions) }
     Row(Modifier.fillMaxWidth().padding(top = 16.dp)) {
         Spacer(Modifier.weight(1f))
         PlakatButton(Texts.DONE, actions.closeAppearance)
@@ -247,26 +212,5 @@ private fun Choice(
     ) {
         PlakatRadioButton(selected, onClick = null)
         BasicText(text, style = type.bodyM.style.copy(color = PlakatTheme.colors.ink))
-    }
-}
-
-/** The canvas's scrim: one ink in dots of r 1.25 on a 4 dp grid turned 45°. */
-private fun androidx.compose.ui.graphics.drawscope.DrawScope.halftone(ink: androidx.compose.ui.graphics.Color) {
-    val pitch = 4.dp.toPx()
-    val r = 1.25.dp.toPx()
-    val c = 0.70710677f
-    val reach = (size.width + size.height) / pitch + 2
-    var i = -reach
-    while (i <= reach) {
-        var j = -reach
-        while (j <= reach) {
-            val u = (i + 0.5f) * pitch
-            val v = (j + 0.5f) * pitch
-            val x = u * c - v * c
-            val y = u * c + v * c
-            if (x > -r && y > -r && x < size.width + r && y < size.height + r) drawCircle(ink, r, Offset(x, y))
-            j += 1f
-        }
-        i += 1f
     }
 }

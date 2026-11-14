@@ -18,8 +18,9 @@ fun PlakatSkin(
     strings = RussianStrings,
 ) { content() }
 
-/** The kit's own words in the board's language: its defaults are English (the field's error prefix, the loading control). */
-val RussianStrings: PlakatStrings = PlakatStrings(refresh = Texts.REFRESH, loading = Texts.LOADING, error = Texts.ERROR)
+/** The kit's own words in the board's language: its defaults are English (the error prefix, the loading control, the warning banner). */
+val RussianStrings: PlakatStrings =
+    PlakatStrings(refresh = Texts.REFRESH, loading = Texts.LOADING, error = Texts.ERROR, warning = Texts.ATTENTION)
 
 private fun plakatColors(theme: Theme) =
     if (theme ==

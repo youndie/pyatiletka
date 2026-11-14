@@ -39,7 +39,7 @@
 |---|---|---|---|---|
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
 
-## Closed (26)
+## Closed (27)
 
 **Риски**
 
@@ -81,6 +81,7 @@
 - [B-25](docs/backlog/B-25-plakat-phone-summary-clipped.md) `[x]` - plakat, узкий: подпись «План выполнен на» срезана сверху, фильтр «Ждут меня» обрезан на 375
 - [B-26](docs/backlog/B-26-toon-narrow-meta-under-badge.md) `[x]` - toon, узкий: на живых числах строка сводки уходит под бейдж времени
 - [B-27](docs/backlog/B-27-escape-and-back-close-overlays.md) `[x]` - Esc и «Назад» не закрывают карточку и диалог вида
+- [B-28](docs/backlog/B-28-plakat-kit-0-1-0-23.md) `[x]` - plakat-core 0.1.0.23: обходы plakat-ui#19–#25 заменены компонентами кита
 
 <!-- END INDEX -->
 

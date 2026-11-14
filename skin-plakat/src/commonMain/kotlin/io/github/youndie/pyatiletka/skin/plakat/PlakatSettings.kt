@@ -23,11 +23,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.unit.dp
+import io.github.youndie.plakat.components.PlakatBanner
 import io.github.youndie.plakat.components.PlakatButton
 import io.github.youndie.plakat.components.PlakatIconButton
 import io.github.youndie.plakat.components.PlakatOutlinedButton
 import io.github.youndie.plakat.components.PlakatRadioButton
 import io.github.youndie.plakat.components.PlakatSegmentedButton
+import io.github.youndie.plakat.components.PlakatStatus
+import io.github.youndie.plakat.components.PlakatStatusKind
 import io.github.youndie.plakat.components.PlakatTextField
 import io.github.youndie.plakat.icons.PlakatIcons
 import io.github.youndie.plakat.print.plakatPaper
@@ -133,23 +136,16 @@ private fun ColumnScope.Token(
     val missing = state.token == TokenView.Missing
     when (val token = state.token) {
         is TokenView.Found -> {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                Check(24.dp, colors.ink)
-                BasicText(
-                    type.label.text(Texts.tokenFoundLine(token.source)),
-                    style = type.label.style.copy(color = colors.ink),
-                )
-            }
+            PlakatStatus(PlakatStatusKind.Success, Texts.tokenFoundLine(token.source))
         }
 
         TokenView.Missing -> {
-            MissingBanner()
+            PlakatBanner(PlakatStatusKind.Warning, Texts.TOKEN_MISSING_LINE)
         }
 
         TokenView.Rejected -> {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                Hatch(24.dp, colors.red)
-                BasicText(type.label.text(Texts.ERROR), style = type.label.style.copy(color = colors.ink))
+                ErrorMark()
                 BasicText(Texts.TOKEN_REJECTED, style = type.title.style.copy(color = colors.ink))
             }
         }
@@ -171,28 +167,6 @@ private fun ColumnScope.Token(
         TokenView.Missing -> PlakatButton(Texts.RECHECK, actions.recheckToken, Modifier.padding(top = 24.dp))
         TokenView.Rejected -> PlakatOutlinedButton(Texts.RECHECK, actions.recheckToken, Modifier.padding(top = 24.dp))
         is TokenView.Found -> Unit
-    }
-}
-
-// kit: https://github.com/youndie/plakat-ui/issues/25 — no in-screen warning that stays; drawn as the
-// board's stale bar is, from the kit's ocher.
-
-/** «ВНИМАНИЕ» and why there is no token, on an ocher bar the controls' width. */
-@Composable
-private fun MissingBanner() {
-    val colors = PlakatTheme.colors
-    val type = PlakatTheme.typography
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .background(colors.ocher)
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        BasicText(type.label.text(Texts.ATTENTION), style = type.label.style.copy(color = colors.ink))
-        BasicText(Texts.TOKEN_MISSING_LINE, style = type.bodyS.style.copy(color = colors.ink))
     }
 }
 
