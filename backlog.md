@@ -33,11 +33,12 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (1)
+## Open (2)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
+| [B-28](docs/backlog/B-28-plakat-kit-0-1-0-23.md) `[~]` | plakat-core 0.1.0.23: обходы plakat-ui#19–#25 заменены компонентами кита | P2 | M | - |
 
 ## Closed (26)
 
