@@ -38,6 +38,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import io.github.youndie.plakat.components.PlakatIconButton
+import io.github.youndie.plakat.components.PlakatParagraph
+import io.github.youndie.plakat.components.PlakatStatus
+import io.github.youndie.plakat.components.PlakatStatusKind
+import io.github.youndie.plakat.icons.PlakatIcon
 import io.github.youndie.plakat.icons.PlakatIcons
 import io.github.youndie.plakat.theme.PlakatTheme
 import io.github.youndie.pyatiletka.core.BacklogItem
@@ -200,7 +204,6 @@ private fun CheckRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Hatch(16.dp, colors.red)
         BasicText(
             check.name,
             Modifier.weight(1f),
@@ -208,8 +211,8 @@ private fun CheckRow(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        BasicText(type.label.text(Texts.ERROR), style = type.label.style.copy(color = colors.ink))
-        ExternalGlyph(colors.inkMuted)
+        ErrorMark()
+        PlakatIcon(PlakatIcons.OpensElsewhere, null, Modifier.size(16.dp), tint = colors.inkMuted)
     }
 }
 
@@ -288,10 +291,7 @@ private fun Quiet(state: RepoUiState) {
                 // padding breaks the word.
                 .padding(start = 24.dp, end = 4.dp, top = 20.dp, bottom = 20.dp),
         ) {
-            BasicText(
-                type.displayM.text(Texts.PLAN_COMPLETE),
-                style = type.displayM.style.copy(color = colors.onRed),
-            )
+            PlakatParagraph(Texts.PLAN_COMPLETE, type.displayM, color = colors.onRed)
         }
         if (counts != null) {
             Row(
@@ -394,84 +394,21 @@ private fun Entry(
     horizontalArrangement = Arrangement.spacedBy(12.dp),
 ) {
     Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) { content() }
-    ExternalGlyph(PlakatTheme.colors.inkMuted)
+    PlakatIcon(PlakatIcons.OpensElsewhere, null, Modifier.size(16.dp), tint = PlakatTheme.colors.inkMuted)
 }
 
-@Composable
-private fun Muted(text: String) {
-    val label = PlakatTheme.typography.label
-    BasicText(label.text(text), style = label.style.copy(color = PlakatTheme.colors.inkMuted), maxLines = 1)
-}
-
-/** A pull request's checks: hatching for failed, the wedge-check for ready, a slate plate while running. */
-@Composable
-private fun ChecksMark(checks: PrChecks) {
-    val colors = PlakatTheme.colors
-    val label = PlakatTheme.typography.label
-    val word = Texts.checksLong(checks)
-    when (checks) {
-        PrChecks.Running -> {
-            Plate(word, colors.slate, colors.onRed)
-        }
-
-        else -> {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                when (checks) {
-                    PrChecks.Failing -> Hatch(16.dp, colors.red)
-                    PrChecks.Ready -> Check(16.dp, colors.ink)
-                    else -> Unit
-                }
-                BasicText(label.text(word), style = label.style.copy(color = colors.ink), maxLines = 1)
-            }
-        }
-    }
-}
-
-/** An item's status on a plate: ocher for a question, slate for work in progress, a 1 dp frame for open. */
+/** An item's status: a question the kit's warning, work in progress its info, open a word in a 1 dp frame. */
 @Composable
 private fun StatusPlate(item: BacklogItem) {
     val colors = PlakatTheme.colors
     val word = Texts.itemStatusLong(item.status)
     when (item.status) {
-        ItemStatus.Question -> {
-            Plate(word, colors.ocher, colors.ink)
-        }
-
-        ItemStatus.Wip -> {
-            Plate(word, colors.slate, colors.onRed)
-        }
-
-        ItemStatus.Open -> {
-            Plate(word, Color.Transparent, colors.ink, Modifier.border(1.dp, colors.ink))
-        }
+        ItemStatus.Question -> PlakatStatus(PlakatStatusKind.Warning, word)
+        ItemStatus.Wip -> PlakatStatus(PlakatStatusKind.Info, word)
+        ItemStatus.Open -> Plate(word, Color.Transparent, colors.ink, Modifier.border(1.dp, colors.ink))
     }
 }
 
 /** A row's 1 dp concrete rule under it. */
 private fun Modifier.rule(color: Color): Modifier =
     drawBehind { drawRect(color, Offset(0f, size.height - 1.dp.toPx())) }
-
-// kit: https://github.com/youndie/plakat-ui/issues/21 — no stencil for "opens elsewhere", and a consumer cannot
-// make one; drawn here from the canvas's own path.
-
-/** ↗: a box open at its top right with an arrow out of it, 16 dp, as the canvas draws it. */
-@Composable
-private fun ExternalGlyph(color: Color) =
-    Canvas(Modifier.size(16.dp)) {
-        val s = size.width / 24f
-        val stroke = Stroke(width = 3 * s, cap = StrokeCap.Butt, join = StrokeJoin.Miter)
-        val p =
-            Path().apply {
-                moveTo(13 * s, 4 * s)
-                lineTo(20 * s, 4 * s)
-                lineTo(20 * s, 11 * s)
-                moveTo(20 * s, 4 * s)
-                lineTo(10 * s, 14 * s)
-                moveTo(17 * s, 15 * s)
-                lineTo(17 * s, 20 * s)
-                lineTo(4 * s, 20 * s)
-                lineTo(4 * s, 7 * s)
-                lineTo(9 * s, 7 * s)
-            }
-        drawPath(p, color, style = stroke)
-    }

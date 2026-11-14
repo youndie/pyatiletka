@@ -77,7 +77,7 @@ publishes: []
 | Вид | Имя | Зачем |
 |---|---|---|
 | Модуль | [core](core.md) | типы состояний |
-| Библиотека | plakat-core `0.1.0.15` из `reposilite.kotlin.website/snapshots` | компоненты и токены |
+| Библиотека | plakat-core `0.1.0.23` из `reposilite.kotlin.website/snapshots` ([B-28](../backlog/B-28-plakat-kit-0-1-0-23.md)) | компоненты и токены |
 | Плагин | viddik `0.7.0` | голдены и паритет |
 
 ## 8. Причуды

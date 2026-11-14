@@ -1,60 +1,62 @@
 package io.github.youndie.pyatiletka.skin.plakat
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.clipRect
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import io.github.youndie.plakat.components.PlakatParagraph
+import io.github.youndie.plakat.components.PlakatStatus
+import io.github.youndie.plakat.components.PlakatStatusKind
 import io.github.youndie.plakat.theme.PlakatTheme
 import io.github.youndie.pyatiletka.core.MainStatus
+import io.github.youndie.pyatiletka.core.PrChecks
 import io.github.youndie.pyatiletka.core.screen.Texts
 
-// kit: https://github.com/youndie/plakat-ui/issues/19 — the kit has no status mark (a word with
-// its sign); these are drawn from the kit's tokens as the canvas draws them: a wedge-check for green,
-// 45° hatching at a 6 dp step for an error (`plakat/semantic/danger`), a slate plate for running.
+// The marks are the kit's status since 0.1.0.23 (plakat-ui#19, B-28): the sign of the semantic kind beside the word.
 
-/** The default branch's mark in a row: sign and word. */
+/** The default branch's mark in a row: green the wedge-check, red the hatch, running a slate plate; none, the word. */
 @Composable
 internal fun MainMark(
     status: MainStatus,
     modifier: Modifier = Modifier,
 ) {
-    val colors = PlakatTheme.colors
-    val label = PlakatTheme.typography.label
     when (status) {
-        MainStatus.Running -> {
-            Plate(Texts.main(status), colors.slate, colors.onRed, modifier)
-        }
-
-        else -> {
-            Row(
-                modifier,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                when (status) {
-                    MainStatus.Red -> Hatch(16.dp, colors.red)
-                    MainStatus.Green -> Check(16.dp, colors.ink)
-                    else -> Box(Modifier.size(16.dp))
-                }
-                BasicText(label.text(Texts.main(status)), style = label.style.copy(color = colors.ink), maxLines = 1)
-            }
-        }
+        MainStatus.Green -> PlakatStatus(PlakatStatusKind.Success, Texts.main(status), modifier)
+        MainStatus.Red -> PlakatStatus(PlakatStatusKind.Danger, Texts.main(status), modifier)
+        MainStatus.Running -> PlakatStatus(PlakatStatusKind.Info, Texts.main(status), modifier)
+        MainStatus.None -> Muted(Texts.main(status), modifier)
     }
 }
 
-/** A word on a filled plate: `ИДЁТ` on slate. */
+/** A pull request's checks: failing the hatch, ready the wedge-check, running a slate plate; none, the word. */
+@Composable
+internal fun ChecksMark(
+    checks: PrChecks,
+    modifier: Modifier = Modifier,
+) {
+    val word = Texts.checksLong(checks)
+    when (checks) {
+        PrChecks.Failing -> PlakatStatus(PlakatStatusKind.Danger, word, modifier)
+        PrChecks.Ready -> PlakatStatus(PlakatStatusKind.Success, word, modifier)
+        PrChecks.Running -> PlakatStatus(PlakatStatusKind.Info, word, modifier)
+        PrChecks.NoChecks -> Muted(word, modifier)
+    }
+}
+
+/** The board's error: the kit's danger with its word. */
+@Composable
+internal fun ErrorMark(modifier: Modifier = Modifier) = PlakatStatus(PlakatStatusKind.Danger, Texts.ERROR, modifier)
+
+/** A word with no sign, in `label`, muted. */
+@Composable
+internal fun Muted(
+    text: String,
+    modifier: Modifier = Modifier,
+) = PlakatParagraph(text, PlakatTheme.typography.label, modifier, color = PlakatTheme.colors.inkMuted, maxLines = 1)
+
+/** A word on a plate: an open item's word in a 1 dp frame, the board's own (no semantic kind is "open"). */
 @Composable
 internal fun Plate(
     word: String,
@@ -62,77 +64,7 @@ internal fun Plate(
     ink: Color,
     modifier: Modifier = Modifier,
 ) {
-    val label = PlakatTheme.typography.label
     Box(modifier.plateBackground(fill), contentAlignment = Alignment.Center) {
-        BasicText(
-            label.text(word),
-            style = label.style.copy(color = ink),
-            maxLines = 1,
-            modifier = Modifier.platePadding(),
-        )
+        PlakatParagraph(word, PlakatTheme.typography.label, Modifier.platePadding(), color = ink, maxLines = 1)
     }
 }
-
-/** 45° hatching, a stripe of 3 dp every 6 dp: the error's sign. */
-@Composable
-internal fun Hatch(
-    size: Dp,
-    color: Color,
-) = Canvas(Modifier.size(size)) { hatch(color) }
-
-internal fun DrawScope.hatch(color: Color) {
-    clipRect {
-        val step = 6.dp.toPx()
-        val band = 3.dp.toPx()
-        var x = -size.height
-        while (x < size.width) {
-            val p =
-                Path().apply {
-                    moveTo(x, size.height)
-                    lineTo(x + size.height, 0f)
-                    lineTo(x + size.height + band * 1.4142f, 0f)
-                    lineTo(x + band * 1.4142f, size.height)
-                    close()
-                }
-            drawPath(p, color)
-            x += step * 1.4142f
-        }
-    }
-}
-
-/** The wedge-check: the kit's `Done` stencil drawn at the mark's size. */
-@Composable
-internal fun Check(
-    size: Dp,
-    color: Color,
-) = Canvas(Modifier.size(size)) {
-    val s = this.size.width / 24f
-    val p =
-        Path().apply {
-            moveTo(3 * s, 12 * s)
-            lineTo(6 * s, 9 * s)
-            lineTo(10 * s, 13 * s)
-            lineTo(18 * s, 5 * s)
-            lineTo(21 * s, 8 * s)
-            lineTo(10 * s, 19 * s)
-            close()
-        }
-    drawPath(p, color)
-}
-
-// kit: https://github.com/youndie/plakat-ui/issues/21 — no More stencil, and a consumer cannot make one.
-
-/** The header's "more": three squares, as the canvas draws it. */
-@Composable
-internal fun MoreGlyph(color: Color) =
-    Canvas(Modifier.size(24.dp)) {
-        val s = size.width / 24f
-        listOf(3f, 10f, 17f).forEach { y ->
-            drawRect(
-                color,
-                Offset(10 * s, y * s),
-                androidx.compose.ui.geometry
-                    .Size(4 * s, 4 * s),
-            )
-        }
-    }

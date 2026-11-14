@@ -26,12 +26,15 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.youndie.plakat.agit.PlakatSkeleton
+import io.github.youndie.plakat.components.PlakatBanner
 import io.github.youndie.plakat.components.PlakatBottomSheet
 import io.github.youndie.plakat.components.PlakatButton
 import io.github.youndie.plakat.components.PlakatChip
 import io.github.youndie.plakat.components.PlakatEmptyState
 import io.github.youndie.plakat.components.PlakatIconButton
+import io.github.youndie.plakat.components.PlakatParagraph
 import io.github.youndie.plakat.components.PlakatPullToRefreshBox
+import io.github.youndie.plakat.components.PlakatStatusKind
 import io.github.youndie.plakat.components.PlakatTextButton
 import io.github.youndie.plakat.components.PlakatTextField
 import io.github.youndie.plakat.icons.PlakatIcons
@@ -76,9 +79,7 @@ internal fun PhoneBoard(
                         ),
                     modifier = Modifier.weight(1f),
                 )
-                Box(Modifier.size(48.dp).clickable(onClick = actions.openMenu), contentAlignment = Alignment.Center) {
-                    MoreGlyph(colors.ink)
-                }
+                PlakatIconButton(PlakatIcons.More, Texts.MENU, actions.openMenu)
             }
             Box(Modifier.fillMaxWidth().height(8.dp).background(colors.ink))
             when (state.screen) {
@@ -235,10 +236,11 @@ private fun PhoneSummary(summary: Summary) {
         // the label rose past the plate onto the cream paper, where it could not be read (B-25).
         Box(Modifier.weight(1f).fillMaxHeight()) {
             BasicText(type.label.text("План выполнен на"), style = onRed, modifier = Modifier.align(Alignment.TopStart))
-            BasicText(
+            PlakatParagraph(
                 "${summary.percent ?: 0}\u00A0%",
-                style = type.displayM.style.copy(color = colors.onRed),
-                modifier = Modifier.align(Alignment.BottomStart),
+                type.displayM,
+                Modifier.align(Alignment.BottomStart),
+                color = colors.onRed,
             )
         }
 
@@ -346,26 +348,13 @@ private fun PhoneRow(
     }
 }
 
-// kit: https://github.com/youndie/plakat-ui/issues/25 — the stale bar, at 390 with the retry as ↻ (canvas note).
+/** The stale bar at 390: the kit's warning banner with «ПОВТОРИТЬ» as a text action (plakat-ui#25, B-28). */
 @Composable
 private fun PhoneStaleBar(
     notice: StaleNotice,
     zone: TimeZone,
     retry: () -> Unit,
-) {
-    val colors = PlakatTheme.colors
-    val type = PlakatTheme.typography
-    Row(
-        Modifier.fillMaxWidth().background(colors.ocher).padding(start = 16.dp, end = 4.dp, top = 8.dp, bottom = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            BasicText(type.label.text(Texts.ATTENTION), style = type.label.style.copy(color = colors.ink))
-            BasicText(Texts.stale(notice, zone), style = type.bodyS.style.copy(color = colors.ink))
-        }
-        PlakatIconButton(PlakatIcons.Refresh, Texts.RETRY, retry)
-    }
-}
+) = PlakatBanner(PlakatStatusKind.Warning, Texts.stale(notice, zone), action = Texts.RETRY, onAction = retry)
 
 @Composable
 private fun PhoneLoading() {
