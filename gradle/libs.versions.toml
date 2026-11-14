@@ -6,7 +6,7 @@ sborka = "0.5.0.135"
 # is for (research §1.1). Renovate moves them the day they are published, from the registry
 # renovate.json names for them (B-05).
 plakat = "0.1.0.23"
-toon = "0.1.0.13"
+toon = "0.1.0.39"
 # The desktop window frame, from Maven Central.
 appframe = "0.3.0"
 # Screenshots and design parity, the kits' own version (research §1.2).
