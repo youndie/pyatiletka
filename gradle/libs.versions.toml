@@ -10,7 +10,7 @@ toon = "0.1.0.13"
 # The desktop window frame, from Maven Central.
 appframe = "0.3.0"
 # Screenshots and design parity, the kits' own version (research §1.2).
-viddik = "0.7.0"
+viddik = "0.8.1.69"
 
 [libraries]
 plakat-core = { module = "io.github.youndie:plakat-core", version.ref = "plakat" }
