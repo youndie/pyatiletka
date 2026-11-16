@@ -1,7 +1,7 @@
 # The compiler, AGP and Compose Multiplatform are NOT here: they come from `wip`, the catalog a sborka
 # release publishes, so the board compiles with what the kits compile with (research §1.2).
 [versions]
-sborka = "0.5.0.135"
+sborka = "0.5.0.136"
 # The kits, from reposilite's snapshots until they reach Maven Central — which is what this product
 # is for (research §1.1). Renovate moves them the day they are published, from the registry
 # renovate.json names for them (B-05).
