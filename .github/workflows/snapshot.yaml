@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.135
+      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.136
 
       - run: ./gradlew :collector:installDist --no-daemon
 
