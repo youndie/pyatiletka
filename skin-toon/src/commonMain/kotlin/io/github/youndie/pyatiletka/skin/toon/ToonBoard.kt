@@ -1,8 +1,5 @@
 package io.github.youndie.pyatiletka.skin.toon
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -13,18 +10,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.youndie.pyatiletka.core.BoardFilter
@@ -41,8 +37,10 @@ import io.github.youndie.pyatiletka.core.screen.Skin
 import io.github.youndie.pyatiletka.core.screen.Texts
 import io.github.youndie.pyatiletka.core.screen.Theme
 import io.github.youndie.pyatiletka.core.waiting
+import io.github.youndie.toon.component.ToonBottomSheetBox
 import io.github.youndie.toon.component.ToonButton
 import io.github.youndie.toon.component.ToonCard
+import io.github.youndie.toon.component.ToonDialog
 import io.github.youndie.toon.component.ToonListItem
 import io.github.youndie.toon.component.ToonListTrailing
 import io.github.youndie.toon.component.ToonProgress
@@ -58,7 +56,7 @@ import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.theme.Toon
-import io.github.youndie.toon.theme.textStyle
+import io.github.youndie.toon.theme.ToonText
 import io.github.youndie.toon.tokens.ToonTypeScale
 import kotlinx.datetime.TimeZone
 
@@ -155,16 +153,7 @@ fun ToonBoard(
             if (state.screen ==
                 BoardScreenState.AppearanceSheet
             ) {
-                AppearancePanel(
-                    state.appearance,
-                    actions,
-                    if (wide) {
-                        420.dp
-                    } else {
-                        width -
-                            32.dp
-                    },
-                )
+                AppearancePanel(state.appearance, actions, wide)
             }
         }
     }
@@ -213,8 +202,9 @@ private fun WideContent(
                         i,
                         last = i >= state.rows.size - 2,
                         width = column,
-                        // Beside the card's panel a column is too narrow for the long line.
+                        // Beside the card's panel a column is too narrow for the long line in one line.
                         narrow = column < 420.dp,
+                        selected = repo.fullName == state.selected,
                     ) { actions.open(repo.fullName) }
                 }
             }
@@ -289,16 +279,19 @@ private fun PhoneContent(
                     last = i == state.rows.lastIndex,
                     width = inner,
                     narrow = true,
+                    selected = repo.fullName == state.selected,
                 ) { actions.open(repo.fullName) }
             }
         }
     }
 }
 
-// kit: https://github.com/youndie/toon-ui/issues/32 — the card's time badge has a fixed width and its meta line
-// is not ellipsized: the time is the hour alone, and a narrow card gets the counters without done/plan (B-26).
-
-/** The summary as the kit's card: the plan's share as the title, the counters as the meta line, the snapshot's hour as the time. */
+/**
+ * The summary as the kit's card: the plan's share as the title, the counters as the meta line, the snapshot's
+ * moment as the time — the day and the hour on a wide card, the hour alone on a narrow one. The kit's time
+ * sticker grows to hold the day and cuts the meta line short of it (toon-ui#32, B-29); a narrow card still
+ * gets the three counters without `done из plan`, which is what fits one line at 360 dp (B-26).
+ */
 @Composable
 private fun SummaryCard(
     summary: Summary,
@@ -310,16 +303,18 @@ private fun SummaryCard(
     ToonCard(
         title = Texts.planDoneLine(summary.percent ?: 0),
         meta = if (narrow) Texts.summaryLineShort(summary) else Texts.summaryLine(summary),
-        time = state.takenAt?.let { Texts.time(it, zone) }.orEmpty(),
+        time = state.takenAt?.let { if (narrow) Texts.time(it, zone) else Texts.momentShort(it, zone) }.orEmpty(),
         tilt = false,
         width = width,
     )
 }
 
-// kit: https://github.com/youndie/toon-ui/issues/33 — the sub line is not ellipsized: a narrow row drops the
-// default branch's word (its icon says it) and the plan's counts, keeping the percentage.
-
-/** A repository as the kit's list item: its default branch's state as the icon, the rest in the line under the name. */
+/**
+ * A repository as the kit's list item: its default branch's state as the icon, the rest in the line under the
+ * name — the same words at every width; a [narrow] row lets them wrap onto a second line, and the kit cuts
+ * what still does not fit short of the chevron (toon-ui#33, B-29). The name stays one line (screen-board).
+ * [selected] marks the row of the card open beside the board (toon-ui#37).
+ */
 @Composable
 private fun Row(
     repo: Repo,
@@ -327,6 +322,7 @@ private fun Row(
     last: Boolean,
     width: Dp,
     narrow: Boolean,
+    selected: Boolean,
     onClick: () -> Unit,
 ) {
     val counts = repo.plan.counts
@@ -334,7 +330,7 @@ private fun Row(
     val failing = repo.pullRequests.count { it.checks == PrChecks.Failing }
     val sub =
         buildList {
-            if (!narrow) add(Texts.main(repo.main))
+            add(Texts.main(repo.main))
             add(
                 if (failing >
                     0
@@ -346,7 +342,7 @@ private fun Row(
             )
             when {
                 repo.plan.form == PlanForm.Items && counts != null && percent != null -> {
-                    add(if (narrow) "$percent\u00A0%" else Texts.planCell(counts, percent))
+                    add(Texts.planCell(counts, percent))
                 }
 
                 repo.plan.form == PlanForm.Flat -> {
@@ -357,7 +353,7 @@ private fun Row(
                     add(Texts.PLAN_NONE)
                 }
             }
-            if (repo.plan.form == PlanForm.Items) add("ждут ${repo.waiting}")
+            if (repo.plan.form == PlanForm.Items) add("ждут ${repo.waiting}")
         }.joinToString(" · ")
     ToonListItem(
         title = repo.fullName,
@@ -367,6 +363,9 @@ private fun Row(
         index = index,
         last = last,
         width = width,
+        titleMaxLines = 1,
+        subMaxLines = if (narrow) 2 else 1,
+        selected = selected,
         onClick = onClick,
     )
 }
@@ -380,7 +379,10 @@ private val MainStatus.glyph: ToonIconGlyph
             MainStatus.None -> ToonIcons.Info
         }
 
-/** A screen with nothing to list: the kit's empty title card and one action under it. */
+// kit: https://github.com/youndie/toon-ui/issues/72 — the title card scales a sub line wider than its plaque down
+// with no floor (a sentence comes out at about 7 sp) and does not wrap it: the sentence goes under the card.
+
+/** A screen with nothing to list: the kit's empty title card, the sentence that says why, and one action. */
 @Composable
 private fun Card(
     modifier: Modifier,
@@ -393,7 +395,14 @@ private fun Card(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
 ) {
-    ToonTitleCard(variant = ToonTitleCardVariant.Empty, title = title, sub = sub, width = 340.dp, height = 300.dp)
+    ToonTitleCard(variant = ToonTitleCardVariant.Empty, title = title, sub = "", width = 340.dp, height = 300.dp)
+    ToonText(
+        sub,
+        ToonTypeScale.Body,
+        Modifier.widthIn(max = 340.dp),
+        color = Toon.colors.textMuted,
+        textAlign = TextAlign.Center,
+    )
     ToonButton(action, onAction)
 }
 
@@ -409,45 +418,55 @@ private fun NothingFound(
     actions.resetSearch,
 )
 
-// kit: https://github.com/youndie/toon-ui/issues/34 — neither ToonDialog nor ToonBottomSheet takes content: the
-// appearance's two radio groups go on a surface of the kit's colours instead; and
-// https://github.com/youndie/toon-ui/issues/31 — its own words ("Вид", "Скин", "Тема") have no Cyrillic backing.
+/**
+ * The appearance choice as the kit lays an overlay out: a dialog on a wide window, a bottom sheet on a narrow
+ * one, each with the two radio groups in its content slot (toon-ui#34). The choice applies at once
+ * (screen-board), so there is nothing to cancel.
+ */
 @Composable
 private fun AppearancePanel(
     appearance: Appearance,
     actions: ToonBoardActions,
-    width: Dp,
+    wide: Boolean,
 ) {
-    val colors = Toon.colors
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(colors.ink.copy(alpha = 0.45f))
-            .clickable(MutableInteractionSource(), indication = null, onClick = actions.closeAppearance),
-        contentAlignment = Alignment.Center,
-    ) {
-        Column(
-            Modifier
-                .width(width)
-                .background(colors.surface, RoundedCornerShape(16.dp))
-                .clickable(MutableInteractionSource(), indication = null) {}
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            BasicText(Texts.APPEARANCE, style = ToonTypeScale.Headline.textStyle)
-            BasicText(Texts.SKIN, style = ToonTypeScale.Label.textStyle.copy(color = colors.textMuted))
-            ToonRadioGroup(Skin.entries.map(Texts::skin), Skin.entries.indexOf(appearance.skin), {
-                actions.chooseSkin(Skin.entries[it])
-            })
-            BasicText(Texts.THEME, style = ToonTypeScale.Label.textStyle.copy(color = colors.textMuted))
-            val themes = Theme.of(appearance.skin)
-            ToonRadioGroup(themes.map(Texts::theme), themes.indexOf(appearance.theme).coerceAtLeast(0), {
-                actions.chooseTheme(themes[it])
-            })
-            Row {
-                Spacer(Modifier.weight(1f))
-                ToonButton(Texts.DONE, actions.closeAppearance)
+    if (wide) {
+        // kit: https://github.com/youndie/toon-ui/issues/70 — the dialog always draws a cancel button, and a choice
+        // that applies at once has nothing to cancel: both buttons close it.
+        ToonDialog(
+            title = Texts.APPEARANCE,
+            confirm = Texts.DONE,
+            cancel = Texts.CLOSE,
+            destructive = false,
+            onConfirm = actions.closeAppearance,
+            onCancel = actions.closeAppearance,
+        ) { AppearanceChoice(appearance, actions) }
+    } else {
+        ToonBottomSheetBox(title = Texts.APPEARANCE, onClose = actions.closeAppearance) {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                AppearanceChoice(appearance, actions)
+                Row {
+                    Spacer(Modifier.weight(1f))
+                    ToonButton(Texts.DONE, actions.closeAppearance)
+                }
             }
         }
     }
+}
+
+/** The skin and the theme, each a radio group under its label in the kit's Cyrillic backing (toon-ui#31). */
+@Composable
+private fun AppearanceChoice(
+    appearance: Appearance,
+    actions: ToonBoardActions,
+) = Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    val muted = Toon.colors.textMuted
+    ToonText(Texts.SKIN, ToonTypeScale.Label, color = muted)
+    ToonRadioGroup(Skin.entries.map(Texts::skin), Skin.entries.indexOf(appearance.skin), {
+        actions.chooseSkin(Skin.entries[it])
+    })
+    ToonText(Texts.THEME, ToonTypeScale.Label, color = muted)
+    val themes = Theme.of(appearance.skin)
+    ToonRadioGroup(themes.map(Texts::theme), themes.indexOf(appearance.theme).coerceAtLeast(0), {
+        actions.chooseTheme(themes[it])
+    })
 }

@@ -10,7 +10,8 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
 import io.github.youndie.toon.theme.ToonStage
 
-// kit: https://github.com/youndie/toon-ui/issues/35
+// kit: https://github.com/youndie/toon-ui/issues/71 — #35 was closed with `ToonTheme(stageTexture = false)`, which
+// leaves the texture out of the goldens; the tile is still sampled on texel boundaries (B-29).
 
 /**
  * The kit's [ToonStage] behind [content], drawn 3/4 px up and to the left.
@@ -21,7 +22,7 @@ import io.github.youndie.toon.theme.ToonStage
  * matrix carries a 1e-9 perspective term, and Intel and AMD runners divide by it differently: the
  * same goldens failed on every Intel runner in rows 30–88 (B-21). Shifted by 3/4 px, every sample
  * sits in a texel's middle, and the stage draws the same on both; the texture looks the same, one
- * texel over. Drop this once the kit samples its tile off the boundary.
+ * texel over. Drop this once the kit samples its tile off the boundary (toon-ui#71).
  */
 @Composable
 internal fun Stage(
