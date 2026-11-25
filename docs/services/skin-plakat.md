@@ -38,7 +38,8 @@ publishes: []
 
 | Файл | Что там |
 |---|---|
-| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatBoard.kt` | `PlakatBoard`, `BoardActions`; широкая раскладка |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatBoard.kt` | `PlakatBoard`, `BoardActions`; широкая раскладка; таблица — `PlakatTable` кита с плотностью `Pointer` и выбранной строкой ([B-30](../backlog/B-30-kits-release-candidates.md)) |
+| `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/BoardBlocks.kt` | загрузка, полоса устаревшего снимка, «ВИД» — `PlakatDialog` кита |
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PhoneBoard.kt` | узкая раскладка |
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/PlakatRepo.kt` | карточка: `RepoPanel` рядом с доской, `PhoneRepo` отдельным экраном, `RepoActions`; ↗ своим глифом (`// kit:`) |
 | `skin-plakat/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/plakat/Marks.kt` | обходы кита: метки статуса, «⋮» (`// kit:`) |
@@ -77,8 +78,8 @@ publishes: []
 | Вид | Имя | Зачем |
 |---|---|---|
 | Модуль | [core](core.md) | типы состояний |
-| Библиотека | plakat-core `0.1.0.23` из `reposilite.kotlin.website/snapshots` ([B-28](../backlog/B-28-plakat-kit-0-1-0-23.md)) | компоненты и токены |
-| Плагин | viddik `0.7.0` | голдены и паритет |
+| Библиотека | plakat-core `0.1.0.26` из `reposilite.kotlin.website/snapshots` ([B-28](../backlog/B-28-plakat-kit-0-1-0-23.md), [B-30](../backlog/B-30-kits-release-candidates.md)) | компоненты и токены |
+| Плагин | viddik `0.8.1.75` | голдены и паритет |
 
 ## 8. Причуды
 

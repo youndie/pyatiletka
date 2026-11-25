@@ -427,11 +427,13 @@ private fun Bar(
     )
 }
 
-// The canvas's columns; the repository's name takes what they leave.
-internal val BoardColumns: List<Dp> = listOf(152.dp, 160.dp, 320.dp, 88.dp)
+// The canvas's columns, each but the last 8 dp wider than it draws them: the canvas leaves 16 between two columns,
+// the kit's table 8, so a column that takes the other 8 itself starts where the canvas starts it; the last one is
+// set flush right. The name takes the rest.
+internal val BoardColumns: List<Dp> = listOf(160.dp, 168.dp, 328.dp, 88.dp)
 
 /** Beside the card the canvas narrows the columns and the plan's bar to 64. */
-private val CompactColumns: List<Dp> = listOf(112.dp, 120.dp, 208.dp, 48.dp)
+private val CompactColumns: List<Dp> = listOf(120.dp, 128.dp, 216.dp, 48.dp)
 
 private fun tableColumns(columns: List<Dp>): List<PlakatColumn> =
     listOf(

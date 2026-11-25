@@ -73,8 +73,8 @@ jobs:
 
       # When verification fails, this runner records the goldens and offers them as an artifact, to see
       # what it drew. They are the same on the WSL box and on any runner, Intel or AMD, since the toon
-      # stage is drawn off its texel boundaries (B-21). Nothing is committed from here, and no tolerance
-      # is raised.
+      # stage is sampled off its texel boundaries (B-21; by the kit itself since toon-ui#71, B-30).
+      # Nothing is committed from here, and no tolerance is raised.
       - if: failure()
         run: ./gradlew viddikRecord --no-daemon --continue || true
 
