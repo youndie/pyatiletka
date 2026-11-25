@@ -37,7 +37,7 @@
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[~]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
+| [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[?]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
 
 ## Closed (28)
 
