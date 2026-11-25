@@ -33,11 +33,12 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (1)
+## Open (2)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
+| [B-29](docs/backlog/B-29-toon-kit-0-1-0-43.md) `[~]` | toon-core 0.1.0.43: обходы toon-ui#30–#37 и #42 заменены API кита | P2 | M | - |
 
 ## Closed (27)
 
