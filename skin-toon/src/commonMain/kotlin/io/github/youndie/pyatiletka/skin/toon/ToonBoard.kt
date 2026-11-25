@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.youndie.pyatiletka.core.BoardFilter
@@ -351,7 +353,7 @@ private fun Row(
                     add(Texts.PLAN_NONE)
                 }
             }
-            if (repo.plan.form == PlanForm.Items) add("ждут ${repo.waiting}")
+            if (repo.plan.form == PlanForm.Items) add("ждут ${repo.waiting}")
         }.joinToString(" · ")
     ToonListItem(
         title = repo.fullName,
@@ -377,7 +379,10 @@ private val MainStatus.glyph: ToonIconGlyph
             MainStatus.None -> ToonIcons.Info
         }
 
-/** A screen with nothing to list: the kit's empty title card and one action under it. */
+// kit: https://github.com/youndie/toon-ui/issues/72 — the title card scales a sub line wider than its plaque down
+// with no floor (a sentence comes out at about 7 sp) and does not wrap it: the sentence goes under the card.
+
+/** A screen with nothing to list: the kit's empty title card, the sentence that says why, and one action. */
 @Composable
 private fun Card(
     modifier: Modifier,
@@ -390,7 +395,14 @@ private fun Card(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
 ) {
-    ToonTitleCard(variant = ToonTitleCardVariant.Empty, title = title, sub = sub, width = 340.dp, height = 300.dp)
+    ToonTitleCard(variant = ToonTitleCardVariant.Empty, title = title, sub = "", width = 340.dp, height = 300.dp)
+    ToonText(
+        sub,
+        ToonTypeScale.Body,
+        Modifier.widthIn(max = 340.dp),
+        color = Toon.colors.textMuted,
+        textAlign = TextAlign.Center,
+    )
     ToonButton(action, onAction)
 }
 
