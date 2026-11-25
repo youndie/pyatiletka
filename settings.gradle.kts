@@ -22,7 +22,7 @@ plugins {
     // Repositories with their filters (the snapshot server for `io.github.youndie.*`, where both kits
     // live until Maven Central), and the `wip` catalog: the compiler, AGP and Compose Multiplatform
     // come from it. The same sborka the kits are built with (research §1.2).
-    id("io.github.youndie.sborka.settings") version "0.5.0.135"
+    id("io.github.youndie.sborka.settings") version "0.5.0.136"
 }
 
 rootProject.name = "pyatiletka"
