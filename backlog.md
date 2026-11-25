@@ -33,14 +33,13 @@
 
 <!-- BEGIN INDEX -->
 
-## Open (2)
+## Open (1)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-20](docs/backlog/B-20-two-week-trial-verdict.md) `[ ]` | Итог обкатки: две недели ежедневного использования | P1 | S | B-15, B-17, B-18 |
-| [B-29](docs/backlog/B-29-toon-kit-0-1-0-43.md) `[~]` | toon-core 0.1.0.43: обходы toon-ui#30–#37 и #42 заменены API кита | P2 | M | - |
 
-## Closed (27)
+## Closed (28)
 
 **Риски**
 
@@ -83,6 +82,7 @@
 - [B-26](docs/backlog/B-26-toon-narrow-meta-under-badge.md) `[x]` - toon, узкий: на живых числах строка сводки уходит под бейдж времени
 - [B-27](docs/backlog/B-27-escape-and-back-close-overlays.md) `[x]` - Esc и «Назад» не закрывают карточку и диалог вида
 - [B-28](docs/backlog/B-28-plakat-kit-0-1-0-23.md) `[x]` - plakat-core 0.1.0.23: обходы plakat-ui#19–#25 заменены компонентами кита
+- [B-29](docs/backlog/B-29-toon-kit-0-1-0-43.md) `[x]` - toon-core 0.1.0.43: обходы toon-ui#30–#37 и #42 заменены API кита
 
 <!-- END INDEX -->
 
