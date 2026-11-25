@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,7 +36,7 @@ import io.github.youndie.toon.component.ToonTextField
 import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.theme.Toon
-import io.github.youndie.toon.theme.textStyle
+import io.github.youndie.toon.theme.ToonText
 import io.github.youndie.toon.tokens.ToonTypeScale
 
 /** What the settings can ask of the desktop's settings model. */
@@ -141,10 +140,10 @@ private fun TokenBlock(
     }
 }
 
-// kit: https://github.com/youndie/toon-ui/issues/31 — the kit has no monospace face and its Cyrillic backing is
-// internal: the command goes in the kit's label style on a plate of the kit's colours.
-
-/** The command or the variable that gives the token, on a plate. */
+/**
+ * The command or the variable that gives the token, on a plate of the kit's colours, in its title step: the
+ * kit has no monospace face, and the words around the command are Russian, in its backing (toon-ui#31).
+ */
 @Composable
 private fun Command(text: String) =
     Box(
@@ -152,7 +151,7 @@ private fun Command(text: String) =
             .background(Toon.colors.surface, RoundedCornerShape(8.dp))
             .padding(horizontal = 12.dp, vertical = 8.dp),
     ) {
-        BasicText(text, style = ToonTypeScale.Title.textStyle.copy(color = Toon.colors.text))
+        ToonText(text, ToonTypeScale.Title, color = Toon.colors.text)
     }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -190,8 +189,4 @@ private fun Owners(
 
 @Composable
 private fun Heading(text: String) =
-    BasicText(
-        text,
-        Modifier.padding(top = 12.dp),
-        style = ToonTypeScale.Label.textStyle.copy(color = Toon.colors.textMuted),
-    )
+    ToonText(text, ToonTypeScale.Label, Modifier.padding(top = 12.dp), color = Toon.colors.textMuted)

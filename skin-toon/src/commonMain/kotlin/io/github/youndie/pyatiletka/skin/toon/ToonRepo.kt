@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +27,6 @@ import io.github.youndie.pyatiletka.core.screen.RepoScreenState
 import io.github.youndie.pyatiletka.core.screen.RepoUiState
 import io.github.youndie.pyatiletka.core.screen.Texts
 import io.github.youndie.toon.component.ToonCard
-import io.github.youndie.toon.component.ToonDivider
 import io.github.youndie.toon.component.ToonListItem
 import io.github.youndie.toon.component.ToonListTrailing
 import io.github.youndie.toon.component.ToonTitleCard
@@ -37,7 +35,7 @@ import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.theme.Toon
-import io.github.youndie.toon.theme.textStyle
+import io.github.youndie.toon.theme.ToonText
 import io.github.youndie.toon.tokens.ToonTypeScale
 import kotlinx.datetime.TimeZone
 import kotlin.time.Instant
@@ -68,8 +66,7 @@ fun ToonRepoScreen(
     BoxWithConstraints(modifier.fillMaxSize()) {
         if (maxWidth >= WideFrom) {
             Row(Modifier.fillMaxSize()) {
-                // kit: https://github.com/youndie/toon-ui/issues/37 — a list item has no selected state: the
-                // board's row of the open repository is left unmarked.
+                // The board marks the row of the open repository (`selected`, toon-ui#37).
                 ToonBoard(board, zone, Modifier.weight(1f), boardActions)
                 ToonRepo(card, takenAt, wide = true, Modifier.width(PanelWidth).fillMaxHeight(), actions)
             }
@@ -124,8 +121,6 @@ fun ToonRepo(
     }
 }
 
-// kit: https://github.com/youndie/toon-ui/issues/32 — the time badge is fixed-width: it carries the share only.
-
 /** The default branch, the counters and the plan's share, as the kit's card. */
 @Composable
 private fun SummaryCard(
@@ -169,9 +164,8 @@ private fun LazyListScope.failedChecks(
     }
 }
 
-// kit: https://github.com/youndie/toon-ui/issues/36 — a list item is one 72 dp line of title and one of sub,
-// drawn at fixed places with no width: a pull request's or an item's own title (which screen-repo says is
-// never cut) goes as a wrapped paragraph under its row, and the row carries the number and the short words.
+// A pull request's or an item's own title, which screen-repo says is never cut, is the row's title: the kit
+// wraps it and grows the row (toon-ui#36, B-29); the number and the short words go in the sub line.
 
 private fun LazyListScope.pullRequests(
     state: RepoUiState,
@@ -184,9 +178,10 @@ private fun LazyListScope.pullRequests(
     item { Heading("${Texts.OPEN_PULL_REQUESTS} · ${prs.size}") }
     itemsIndexed(prs, key = { _, pr -> "pr:${pr.number}" }) { i, pr ->
         Entry(
-            title = "#${pr.number} · ${Texts.checks(pr.checks)}",
-            sub = "${Texts.author(pr.author)} · ${Texts.age(now - pr.createdAt)}",
-            text = pr.title,
+            title = pr.title,
+            sub = "#${pr.number} · ${Texts.checks(
+                pr.checks,
+            )} · ${Texts.author(pr.author)} · ${Texts.age(now - pr.createdAt)}",
             icon = pr.checks.glyph,
             index = i,
             last = i == prs.lastIndex,
@@ -207,9 +202,8 @@ private fun LazyListScope.plan(
             item { Heading("${Texts.UNCLOSED_ITEMS} · ${items.size}") }
             itemsIndexed(items, key = { _, it -> "item:${it.id}" }) { i, item ->
                 Entry(
-                    title = listOfNotNull(item.id, item.priority).joinToString(" · "),
-                    sub = Texts.itemStatus(item.status),
-                    text = item.title,
+                    title = item.title,
+                    sub = (listOfNotNull(item.id, item.priority) + Texts.itemStatus(item.status)).joinToString(" · "),
                     icon = item.glyph,
                     index = i,
                     last = i == items.lastIndex,
@@ -228,47 +222,33 @@ private fun LazyListScope.plan(
     }
 }
 
-/** A section's name, in the kit's label style. */
+/** A section's name, in the kit's label style and its Cyrillic backing (toon-ui#31). */
 @Composable
 private fun Heading(text: String) =
-    BasicText(
-        text,
-        Modifier.padding(top = 8.dp),
-        style = ToonTypeScale.Label.textStyle.copy(color = Toon.colors.textMuted),
-    )
+    ToonText(text, ToonTypeScale.Label, Modifier.padding(top = 8.dp), color = Toon.colors.textMuted)
 
-/**
- * A row of the kit with the entry's own title wrapped under it, aligned with the row's text. The row's
- * own rule would cut the title off its row, so the rule goes under the title instead.
- */
+/** A pull request or an item: its whole title, wrapped by the kit, over the sub line of short words. */
 @Composable
 private fun Entry(
     title: String,
     sub: String,
-    text: String,
     icon: ToonIconGlyph,
     index: Int,
     last: Boolean,
     width: Dp,
     onClick: () -> Unit,
-) = Column(Modifier.width(width)) {
-    ToonListItem(
-        title = title,
-        sub = sub,
-        icon = icon,
-        trailing = ToonListTrailing.Chevron,
-        index = index,
-        last = true,
-        width = width,
-        onClick = onClick,
-    )
-    BasicText(
-        text,
-        Modifier.padding(start = 56.dp, end = 16.dp, bottom = 8.dp),
-        style = ToonTypeScale.Body.textStyle.copy(color = Toon.colors.text),
-    )
-    if (!last) ToonDivider(width = width, inset = true, seed = index)
-}
+) = ToonListItem(
+    title = title,
+    sub = sub,
+    icon = icon,
+    trailing = ToonListTrailing.Chevron,
+    index = index,
+    last = last,
+    width = width,
+    titleMaxLines = Int.MAX_VALUE,
+    subMaxLines = 2,
+    onClick = onClick,
+)
 
 @Composable
 private fun Note(

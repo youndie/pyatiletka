@@ -113,8 +113,9 @@ design:
 `ToonButton` `Outlined` (в `TokenMissing` и `TokenRejected`), владельцы — `ToonTextField` с ошибкой
 под полем, `ToonButton` «Добавить» и `ToonChip` `Input` с ✕ на каждого, период — `ToonSegmented`.
 В `TokenMissing` поле, кнопка, чипы и период недоступны. Команда или переменная — на плашке
-цветов кита стилем `Title`: моноширинного шрифта нет и в toon. Заголовки разделов идут мимо
-кириллического резерва кита ([toon-ui#31](https://github.com/youndie/toon-ui/issues/31)).
+цветов кита стилем `Title`: моноширинного шрифта нет и в toon. Заголовки разделов и команда — `ToonText`
+кита с его кириллическим резервом ([toon-ui#31](https://github.com/youndie/toon-ui/issues/31),
+[B-29](../backlog/B-29-toon-kit-0-1-0-43.md)).
 
 ## 5. Навигация
 
