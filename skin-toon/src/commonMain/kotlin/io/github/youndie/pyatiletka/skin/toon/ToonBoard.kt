@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -20,7 +19,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.youndie.pyatiletka.core.BoardFilter
@@ -379,10 +377,7 @@ private val MainStatus.glyph: ToonIconGlyph
             MainStatus.None -> ToonIcons.Info
         }
 
-// kit: https://github.com/youndie/toon-ui/issues/72 — the title card scales a sub line wider than its plaque down
-// with no floor (a sentence comes out at about 7 sp) and does not wrap it: the sentence goes under the card.
-
-/** A screen with nothing to list: the kit's empty title card, the sentence that says why, and one action. */
+/** A screen with nothing to list: the kit's empty title card, its sub the sentence that says why (toon-ui#72), one action. */
 @Composable
 private fun Card(
     modifier: Modifier,
@@ -395,14 +390,7 @@ private fun Card(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
 ) {
-    ToonTitleCard(variant = ToonTitleCardVariant.Empty, title = title, sub = "", width = 340.dp, height = 300.dp)
-    ToonText(
-        sub,
-        ToonTypeScale.Body,
-        Modifier.widthIn(max = 340.dp),
-        color = Toon.colors.textMuted,
-        textAlign = TextAlign.Center,
-    )
+    ToonTitleCard(variant = ToonTitleCardVariant.Empty, title = title, sub = sub, width = 340.dp, height = 300.dp)
     ToonButton(action, onAction)
 }
 
@@ -430,15 +418,13 @@ private fun AppearancePanel(
     wide: Boolean,
 ) {
     if (wide) {
-        // kit: https://github.com/youndie/toon-ui/issues/70 — the dialog always draws a cancel button, and a choice
-        // that applies at once has nothing to cancel: both buttons close it.
+        // One button: the kit's dialog draws no cancel when there is none (toon-ui#70).
         ToonDialog(
             title = Texts.APPEARANCE,
             confirm = Texts.DONE,
-            cancel = Texts.CLOSE,
+            cancel = null,
             destructive = false,
             onConfirm = actions.closeAppearance,
-            onCancel = actions.closeAppearance,
         ) { AppearanceChoice(appearance, actions) }
     } else {
         ToonBottomSheetBox(title = Texts.APPEARANCE, onClose = actions.closeAppearance) {

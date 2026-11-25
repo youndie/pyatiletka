@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.runtime.Composable
@@ -40,6 +39,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.youndie.plakat.components.PlakatButton
+import io.github.youndie.plakat.components.PlakatColumn
 import io.github.youndie.plakat.components.PlakatEmptyState
 import io.github.youndie.plakat.components.PlakatIconButton
 import io.github.youndie.plakat.components.PlakatLinearProgress
@@ -47,10 +47,12 @@ import io.github.youndie.plakat.components.PlakatParagraph
 import io.github.youndie.plakat.components.PlakatSegmentedButton
 import io.github.youndie.plakat.components.PlakatStatus
 import io.github.youndie.plakat.components.PlakatStatusKind
+import io.github.youndie.plakat.components.PlakatTable
 import io.github.youndie.plakat.components.PlakatTextButton
 import io.github.youndie.plakat.components.PlakatTextField
 import io.github.youndie.plakat.icons.PlakatIcons
 import io.github.youndie.plakat.print.plakatPaper
+import io.github.youndie.plakat.theme.PlakatDensity
 import io.github.youndie.plakat.theme.PlakatTheme
 import io.github.youndie.pyatiletka.core.BoardFilter
 import io.github.youndie.pyatiletka.core.PlanForm
@@ -152,7 +154,7 @@ private fun ColumnScope.BoardBody(
     compact: Boolean,
     roomy: Boolean,
 ) {
-    val columns = if (compact || !roomy) CompactColumns else Columns
+    val columns = if (compact || !roomy) CompactColumns else BoardColumns
     when (state.screen) {
         BoardScreenState.Loading -> {
             LoadingBoard()
@@ -201,17 +203,16 @@ private fun ColumnScope.BoardBody(
             state.stale?.let { StaleBar(it, zone, actions.refresh) }
             LazyColumn(Modifier.fillMaxWidth().weight(1f)) {
                 item(key = TOP_KEY) { BoardTop(state, actions, compact, roomy) }
-                item(key = TABLE_HEADER_KEY) {
-                    TableHeaderRow(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp), columns)
-                }
-                items(state.rows, key = { it.fullName }) { repo ->
-                    Box(Modifier.padding(horizontal = 24.dp)) {
-                        TableRow(
-                            repo,
-                            selected = repo.fullName == state.selected,
-                            columns = columns,
-                        ) { actions.open(repo.fullName) }
-                    }
+                // The kit's table, at its pointer density and with the open card's row marked (plakat-ui#34, B-30).
+                // It is one item: the kit lays its rows itself, which a portfolio's few dozen rows afford.
+                item(key = TABLE_KEY) {
+                    BoardTable(
+                        state.rows,
+                        state.selected,
+                        columns,
+                        Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
+                        actions.open,
+                    )
                 }
             }
         }
@@ -220,7 +221,7 @@ private fun ColumnScope.BoardBody(
 
 // Not a repository's full name, which always has a slash.
 private const val TOP_KEY = "board:top"
-private const val TABLE_HEADER_KEY = "board:table-header"
+private const val TABLE_KEY = "board:table"
 
 /** Above the table, scrolling with it: the summary, the filter and the search. */
 @Composable
@@ -426,94 +427,64 @@ private fun Bar(
     )
 }
 
-// kit: https://github.com/youndie/plakat-ui/issues/34 — PlakatTable (since #20) has no selected row and no row under 48 dp:
-// the board's own table stays, with the kit's styles, for the open card's row and the canvas's 36 dp rows.
-private val Columns: List<Dp> = listOf(152.dp, 160.dp, 320.dp, 88.dp)
+// The canvas's columns, each but the last 8 dp wider than it draws them: the canvas leaves 16 between two columns,
+// the kit's table 8, so a column that takes the other 8 itself starts where the canvas starts it; the last one is
+// set flush right. The name takes the rest.
+internal val BoardColumns: List<Dp> = listOf(160.dp, 168.dp, 328.dp, 88.dp)
 
 /** Beside the card the canvas narrows the columns and the plan's bar to 64. */
-private val CompactColumns: List<Dp> = listOf(112.dp, 120.dp, 208.dp, 48.dp)
-private val ColumnGap = 16.dp
+private val CompactColumns: List<Dp> = listOf(120.dp, 128.dp, 216.dp, 48.dp)
 
-@Composable
-internal fun TableHeaderRow(
-    modifier: Modifier,
-    columns: List<Dp> = Columns,
-) {
-    val colors = PlakatTheme.colors
-    val type = PlakatTheme.typography
-    val style = type.label.style.copy(color = colors.inkMuted)
-    Row(
-        modifier
-            .fillMaxWidth()
-            .height(32.dp)
-            .drawBehind { drawRect(colors.ink, topLeft = Offset(0f, size.height - 3.dp.toPx())) }
-            .padding(start = 8.dp, end = 8.dp, bottom = 11.dp),
-        horizontalArrangement = Arrangement.spacedBy(ColumnGap),
-        verticalAlignment = Alignment.Bottom,
-    ) {
-        BasicText(type.label.text(Texts.COLUMN_REPO), style = style, modifier = Modifier.weight(1f))
-        BasicText(Texts.COLUMN_MAIN.uppercase(), style = style, modifier = Modifier.width(columns[0]))
-        BasicText(type.label.text(Texts.COLUMN_PR), style = style, modifier = Modifier.width(columns[1]))
-        BasicText(type.label.text(Texts.COLUMN_PLAN), style = style, modifier = Modifier.width(columns[2]))
-        BasicText(
-            type.label.text(Texts.COLUMN_WAITING),
-            style = style.copy(textAlign = TextAlign.End),
-            modifier = Modifier.width(columns[3]),
-        )
-    }
-}
+private fun tableColumns(columns: List<Dp>): List<PlakatColumn> =
+    listOf(
+        PlakatColumn(Texts.COLUMN_REPO),
+        PlakatColumn(Texts.COLUMN_MAIN.uppercase(), width = columns[0]),
+        PlakatColumn(Texts.COLUMN_PR, width = columns[1]),
+        PlakatColumn(Texts.COLUMN_PLAN, width = columns[2]),
+        PlakatColumn(Texts.COLUMN_WAITING, width = columns[3], align = Alignment.End),
+    )
 
+/** The board's rows in the kit's table; [rows] empty leaves the header alone, as the loading board shows it. */
 @Composable
-private fun TableRow(
-    repo: Repo,
-    selected: Boolean,
+internal fun BoardTable(
+    rows: List<Repo>,
+    selected: String?,
     columns: List<Dp>,
-    onClick: () -> Unit,
+    modifier: Modifier,
+    open: (String) -> Unit = {},
 ) {
     val colors = PlakatTheme.colors
     val type = PlakatTheme.typography
     val body = type.bodyS.style.copy(color = colors.ink)
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .height(36.dp)
-            .background(if (selected) colors.concrete else androidx.compose.ui.graphics.Color.Transparent)
-            .drawBehind { drawRect(colors.concrete, topLeft = Offset(0f, size.height - 1.dp.toPx())) }
-            .clickable(onClick = onClick)
-            .padding(horizontal = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(ColumnGap),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        BasicText(
-            repoName(repo.fullName, colors.inkMuted),
-            style = type.bodyM.style.copy(color = colors.ink),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f),
-        )
-        Box(Modifier.width(columns[0])) { MainMark(repo.main) }
-        Row(
-            Modifier.width(columns[1]),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            BasicText(repo.pullRequests.size.toString(), style = body)
-            val failing = repo.pullRequests.count { it.checks == PrChecks.Failing }
-            if (failing > 0) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    PlakatStatus(PlakatStatusKind.Danger, Texts.failingPullRequests(failing))
+    val bar = if (columns === CompactColumns) 64.dp else 96.dp
+    PlakatTable(tableColumns(columns), modifier.fillMaxWidth(), density = PlakatDensity.Pointer) {
+        rows.forEach { repo ->
+            row(onClick = { open(repo.fullName) }, selected = repo.fullName == selected) {
+                cell {
+                    BasicText(
+                        repoName(repo.fullName, colors.inkMuted),
+                        style = type.bodyM.style.copy(color = colors.ink),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+                cell { MainMark(repo.main) }
+                cell {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        BasicText(repo.pullRequests.size.toString(), style = body)
+                        val failing = repo.pullRequests.count { it.checks == PrChecks.Failing }
+                        if (failing > 0) PlakatStatus(PlakatStatusKind.Danger, Texts.failingPullRequests(failing))
+                    }
+                }
+                cell { PlanCell(repo, Modifier, bar) }
+                cell {
+                    BasicText(if (repo.plan.form == PlanForm.Items) repo.waiting.toString() else "—", style = body)
                 }
             }
         }
-        PlanCell(repo, Modifier.width(columns[2]), bar = if (columns === CompactColumns) 64.dp else 96.dp)
-        BasicText(
-            if (repo.plan.form == PlanForm.Items) repo.waiting.toString() else "—",
-            style = body.copy(textAlign = TextAlign.End),
-            modifier = Modifier.width(columns[3]),
-        )
     }
 }
 

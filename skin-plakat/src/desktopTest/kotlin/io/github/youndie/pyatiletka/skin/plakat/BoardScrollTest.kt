@@ -40,7 +40,8 @@ class BoardScrollTest {
             }
             onNodeWithText("ВЫПОЛНЕН", substring = true).assertIsDisplayed()
 
-            onNode(hasScrollToIndexAction()).performScrollToIndex(SampleBoardStates.content.rows.lastIndex)
+            // The summary and the controls are item 0, the kit's table item 1 (B-30).
+            onNode(hasScrollToIndexAction()).performScrollToIndex(1)
 
             onNodeWithText("ВЫПОЛНЕН", substring = true).assertIsNotDisplayed()
             onNodeWithText("ПЯТИЛЕТКА").assertIsDisplayed()

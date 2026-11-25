@@ -31,8 +31,9 @@ import androidx.compose.ui.unit.dp
 import io.github.youndie.plakat.agit.PlakatSkeleton
 import io.github.youndie.plakat.components.PlakatBanner
 import io.github.youndie.plakat.components.PlakatButton
+import io.github.youndie.plakat.components.PlakatDialog
+import io.github.youndie.plakat.components.PlakatDialogAction
 import io.github.youndie.plakat.components.PlakatRadioButton
-import io.github.youndie.plakat.components.PlakatScrim
 import io.github.youndie.plakat.components.PlakatStatusKind
 import io.github.youndie.plakat.components.PlakatTextButton
 import io.github.youndie.plakat.theme.PlakatTheme
@@ -108,7 +109,7 @@ internal fun ColumnScope.LoadingBoard() {
         Spacer(Modifier.weight(1f))
         PlakatSkeleton(seed = 5, modifier = Modifier.width(360.dp).height(56.dp))
     }
-    TableHeaderRow(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp))
+    BoardTable(emptyList(), null, BoardColumns, Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp))
     Column(Modifier.padding(horizontal = 24.dp)) {
         repeat(8) { i ->
             Box(Modifier.fillMaxWidth().height(36.dp).padding(horizontal = 8.dp, vertical = 12.dp)) {
@@ -118,42 +119,18 @@ internal fun ColumnScope.LoadingBoard() {
     }
 }
 
-// kit: https://github.com/youndie/plakat-ui/issues/35 — PlakatDialog (with its content slot since #23) takes a wide
-// window's width; the canvas's 480 dp sheet stays the board's own, over the kit's scrim (#24).
-
-/** «ВИД» over the board: the kit's scrim, then the skin and its themes as radio rows, «ГОТОВО», 480 wide in a 3 dp frame. */
+/** «ВИД» over the board: the kit's dialog, 480 at its widest (plakat-ui#35, B-30), the skin and its themes as radio rows. */
 @Composable
-internal fun BoxScope.AppearanceDialog(
+internal fun AppearanceDialog(
     visible: Boolean,
     appearance: Appearance,
     actions: BoardActions,
-) {
-    val colors = PlakatTheme.colors
-    val type = PlakatTheme.typography
-    PlakatScrim(visible, actions.closeAppearance)
-    if (!visible) return
-    Column(
-        Modifier
-            .align(Alignment.Center)
-            .width(480.dp)
-            .background(colors.paper)
-            .border(3.dp, colors.ink)
-            .clickable(MutableInteractionSource(), indication = null) {}
-            .padding(27.dp),
-    ) {
-        BasicText(
-            type.headline.text(Texts.APPEARANCE),
-            style = type.headline.style.copy(color = colors.ink, shadow = Shadow(colors.red, Offset(1f, 1f), 0f)),
-            modifier = Modifier.padding(bottom = 16.dp),
-        )
-        Box(Modifier.fillMaxWidth().height(3.dp).background(colors.ink))
-        Column(Modifier.padding(top = 8.dp)) { AppearanceGroups(appearance, actions) }
-        Row(Modifier.fillMaxWidth().padding(top = 16.dp)) {
-            Spacer(Modifier.weight(1f))
-            PlakatButton(Texts.DONE, actions.closeAppearance)
-        }
-    }
-}
+) = PlakatDialog(
+    visible = visible,
+    title = Texts.APPEARANCE.uppercase(),
+    onDismissRequest = actions.closeAppearance,
+    content = { AppearanceGroups(appearance, actions) },
+) { PlakatDialogAction(Texts.DONE, actions.closeAppearance) }
 
 /** The skin and the theme as radio rows: the dialog's content, and the phone's sheet over its «ГОТОВО». */
 @Composable

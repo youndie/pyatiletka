@@ -39,7 +39,7 @@ publishes: []
 | `skin-toon/build.gradle.kts` | `desktop` и `wasmJs`; зависит от `core` и toon-core, больше ни от чего |
 | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/BoardFixtures.kt` | фикстуры `Board_*_Toon` |
 | `skin-toon/src/desktopTest/kotlin/io/github/youndie/pyatiletka/skin/toon/RepoFixtures.kt`, `SettingsFixtures.kt` | фикстуры `Repo_*_Toon`, `Settings_*_Toon` |
-| `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/Stage.kt` | `Stage` — сцена кита со сдвигом на ¾ px (обход [toon-ui#71](https://github.com/youndie/toon-ui/issues/71), продолжение #35) |
+| `skin-toon/src/commonMain/kotlin/io/github/youndie/pyatiletka/skin/toon/Stage.kt` | `Stage` — сцена кита за содержимым; с toon-core `0.1.0.49` без своего сдвига ([toon-ui#71](https://github.com/youndie/toon-ui/issues/71), [B-30](../backlog/B-30-kits-release-candidates.md)) |
 | `skin-toon/src/desktopTest/snapshots/` | голдены — запись (холста нет) |
 
 ## 3. Как устроено
@@ -52,7 +52,7 @@ publishes: []
   ([исследование §1.7](../research/research-architecture.md)). Свой текст через публичный
   `ToonTypeSpec.textStyle` резерва не получает ([toon-ui#31](https://github.com/youndie/toon-ui/issues/31)).
   С toon-core `0.1.0.43` свой русский текст идёт через `ToonText` кита — заголовки разделов, «Вид»,
-  «Скин», «Тема», предложение пустого экрана ([B-29](../backlog/B-29-toon-kit-0-1-0-43.md)); `BasicText`
+  «Скин», «Тема» ([B-29](../backlog/B-29-toon-kit-0-1-0-43.md)); `BasicText`
   со стилем кита в скине не остаётся.
 - **Длинный текст — забота кита** (с `0.1.0.43`, [B-29](../backlog/B-29-toon-kit-0-1-0-43.md)): бейдж
   времени `ToonCard` растёт под время, `meta` обрезается многоточием; строка `ToonListItem` переносит
@@ -60,27 +60,26 @@ publishes: []
   строки: имя репозитория — одна, подстрока на узком — две; заголовок PR и пункта — без предела.
 - **Выбранная строка** — `ToonListItem(selected)`: на широком доска рядом с карточкой отмечает
   открытый репозиторий (`BoardUiState.selected`).
-- **«Вид»** — `ToonDialog` на широком и `ToonBottomSheetBox` на узком, радиогруппы в слоте. Кнопка
-  отмены у диалога обязательна, поэтому «Закрыть» и «Готово» обе закрывают
-  ([toon-ui#70](https://github.com/youndie/toon-ui/issues/70)).
+- **«Вид»** — `ToonDialog` на широком и `ToonBottomSheetBox` на узком, радиогруппы в слоте. Выбор
+  применяется сразу, отменять нечего: у диалога одна «Готово», `cancel = null`
+  ([toon-ui#70](https://github.com/youndie/toon-ui/issues/70), [B-30](../backlog/B-30-kits-release-candidates.md)).
 - **`ToonTitleCard`**: пустой `sub` — подзаголовка нет, `null` — демонстрационная строка кита;
-  плашка растёт под заголовок, но подстроку шире себя уменьшает без предела, поэтому доска передаёт
-  `sub = ""` и ставит предложение под карточкой ([toon-ui#72](https://github.com/youndie/toon-ui/issues/72),
-  [учёт находок](../kit-findings.md)).
+  плашка растёт под заголовок, а подстроку шире себя переносит до трёх строк и только потом
+  уменьшает, не ниже 12 sp. Предложение пустого экрана — `sub` карточки
+  ([toon-ui#72](https://github.com/youndie/toon-ui/issues/72), [B-30](../backlog/B-30-kits-release-candidates.md)).
 
 ## 4. Зависимости
 
 | Вид | Имя | Зачем |
 |---|---|---|
 | Модуль | [core](core.md) | типы состояний |
-| Библиотека | toon-core `0.1.0.43` из `reposilite.kotlin.website/snapshots` | компоненты и темы |
-| Плагин | viddik `0.7.0` | голдены |
-- **Сцена — через `Stage`, не через `ToonStage` напрямую.** Кит выбирает текстуру ближайшим текселом
-  ровно на границе двух текселов, и под перспективой viddik Intel и AMD рисовали её по-разному:
-  голдены падали на раннерах Intel ([B-21](../backlog/B-21-toon-goldens-depend-on-runner-cpu.md),
-  [toon-ui#35](https://github.com/youndie/toon-ui/issues/35)). `Stage` сдвигает сцену на ¾ px, и
-  голдены одинаковы на WSL и на любом раннере. Новый экран toon берёт `Stage`. Кит закрыл #35
-  выключателем `ToonTheme(stageTexture = false)`: он убирает текстуру из голденов, а не делает её
-  выборку одинаковой, — сдвиг остаётся до [toon-ui#71](https://github.com/youndie/toon-ui/issues/71)
-  ([B-29](../backlog/B-29-toon-kit-0-1-0-43.md)).
+| Библиотека | toon-core `0.1.0.50` из `reposilite.kotlin.website/snapshots` ([B-30](../backlog/B-30-kits-release-candidates.md)) | компоненты и темы |
+| Плагин | viddik `0.8.1.75` | голдены |
+- **Сцена — через `Stage`.** Кит выбирал текстуру ближайшим текселом ровно на границе двух текселов, и
+  под перспективой viddik Intel и AMD рисовали её по-разному: голдены падали на раннерах Intel
+  ([B-21](../backlog/B-21-toon-goldens-depend-on-runner-cpu.md), [toon-ui#35](https://github.com/youndie/toon-ui/issues/35)).
+  Доска сдвигала сцену на ¾ px; с toon-core `0.1.0.49` плитку на ⅛ текселя сдвигает сам кит
+  ([toon-ui#71](https://github.com/youndie/toon-ui/issues/71)), и сдвиг доски снят: без него
+  `:skin-toon:viddikVerify` зелёный на 20 раннерах из 20, из них 5 Intel ([B-30](../backlog/B-30-kits-release-candidates.md)).
+  `Stage` остаётся одной точкой, где скин ставит сцену.
 
